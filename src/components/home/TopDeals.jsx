@@ -26,7 +26,7 @@ const TopDeals = () => {
           <RiArrowRightLine color='#EF233C' size='24' />
         </Center>
       </Flex>
-      <SimpleGrid columns='4' columnGap={'26px'} rowGap={'56px'}>
+      <SimpleGrid  columns={{base: '1',  md: '4'}}  columnGap={'26px'} rowGap={'56px'}>
         {Array(8).fill(sampleProduct).map((product, i) => (
           <ProductCard
             key={i}

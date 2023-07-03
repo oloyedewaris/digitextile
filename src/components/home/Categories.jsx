@@ -20,7 +20,7 @@ const Categories = () => {
           <RiArrowRightLine color='#EF233C' size='24' />
         </Center>
       </Flex>
-      <SimpleGrid columns='4' columnGap={'21px'} rowGap={'24px'}>
+      <SimpleGrid columns={{base: '2', md: '4'}} columnGap={'21px'} rowGap={'24px'}>
         {Array(8).fill(sampleProduct).map((product, i) => (
           <CategoryCard
             key={i}

@@ -20,7 +20,7 @@ const HotDrops = () => {
           <RiArrowRightLine color='#EF233C' size='24' />
         </Center>
       </Flex>
-      <SimpleGrid columns='3' gap={'33px'}>
+      <SimpleGrid columns={{base: '1', md: '3'}} gap={'33px'}>
         {Array(3).fill(sampleCard).map((card, i) => (
           <HotDropsCard
             key={i}

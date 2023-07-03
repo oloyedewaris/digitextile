@@ -1,6 +1,7 @@
 import { Box, Flex, HStack, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import arrow from '@/assets/svgs/arrow-bottom-right.svg';
+import group from  '@/assets/images/group.png';
 
 const Header = () => {
   return (
@@ -25,6 +26,7 @@ const Header = () => {
         </HStack>
       </Box>
       <Box w='50%'>
+        <Image src={group.src}/>
       </Box>
     </Flex>
   )

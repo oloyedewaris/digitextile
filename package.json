@@ -30,7 +30,6 @@
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-elastic-carousel": "^0.11.5",
     "react-icons": "^4.9.0",
     "react-image-gallery": "^1.2.12",
     "react-table": "^7.8.0",

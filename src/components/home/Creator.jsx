@@ -13,7 +13,7 @@ const Creator = () => {
   return (
     <Box px='48px' mt='100px'>
       <Text fontWeight={700} fontSize='48px' mb='52px'>How to become a Creator</Text>
-      <SimpleGrid columns='3' gap={'33px'}>
+      <SimpleGrid columns={{base: '1', md: '3'}} gap={'33px'}>
         {Array(3).fill(sampleCard).map((card, i) => (
           <CreatorCard
             key={i}
