@@ -9,6 +9,8 @@ import TopDeals from '@/components/home/TopDeals';
 import Categories from '@/components/home/Categories';
 import HotDrops from '@/components/home/HotDrops';
 import Creator from '@/components/home/Creator';
+import BottomBanner from '@/components/home/BottomBanner';
+import Ecosystem from '@/components/home/Ecosystem';
 
 function Index() {
   const router = useRouter()
@@ -22,8 +24,10 @@ function Index() {
       <HorizontalScroll />
       <TopDeals />
       <Categories />
+      <Ecosystem />
       <HotDrops />
       <Creator />
+      <BottomBanner/>
     </LayoutView>
   );
 }
