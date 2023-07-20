@@ -11,6 +11,7 @@ import { RiArrowRightLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import { BiHeart } from "react-icons/bi";
+import Link from "next/link";
 
 const ProductCard = ({
   title,
@@ -18,7 +19,8 @@ const ProductCard = ({
   subTitle,
   onClickCard,
   persons,
-  price
+  price,
+  id
 }) => {
   const imagesToUse = images.map(image => ({
     original: image,
@@ -29,10 +31,10 @@ const ProductCard = ({
   return (
     <Box
       bg='white'
-      p='16px'
+      p={{ base: '8px', md: '16px' }}
       mx={'auto'}
       w='100%'
-      borderRadius='16px'
+      borderRadius={{ base: '8px', md: '16px' }}
       overflow='hidden'
       as={motion.div}
       maxWidth={"322px"}
@@ -50,7 +52,7 @@ const ProductCard = ({
       <ImageGallery
         renderItem={(image) => (
           <Image
-            borderRadius='xl'
+            borderRadius={{ base: 'md', md: 'xl' }}
             bgPosition={'center'}
             bgSize={"cover"}
             w='full'
@@ -69,16 +71,18 @@ const ProductCard = ({
 
       <VStack mt={"8px"} align={"start"}>
         <HStack justify={"space-between"} alignItems={'center'} w={"100%"}>
-          <Text fontSize='20px' fontWeight='500'>{title}</Text>
+          <Text fontSize={{ base: '13px', md: '20px' }} fontWeight='500' noOfLines={1}>{title}</Text>
           <BiHeart size={20} />
         </HStack>
-        <Text fontSize='12px'>{subTitle}</Text>
-        <HStack justify={"space-between"} w={"100%"} mt='12px' fontSize='14px' fontWeight={500}>
-          <Text><span style={{ color: '#C4C4C4' }}>Price:</span> {price}</Text>
-          <Center gap='8px'>
-            <Text fontWeight='500'>More like this</Text>
-            <RiArrowRightLine size='24' />
-          </Center>
+        <Text fontSize={{ base: '10px', md: '12px' }}>{subTitle}</Text>
+        <HStack justify={"space-between"} w={"100%"} mt='12px' fontSize={{ base: '10px', md: '14px' }} fontWeight={500}>
+          <Text fontSize={{ base: '8px', md: '14px' }}><span style={{ color: '#C4C4C4' }}>Price:</span> {price}</Text>
+          <Link href={`/product/${id}`}>
+            <Center gap='8px'>
+              <Text fontSize={{ base: '8px', md: '14px' }} fontWeight='500'>View product</Text>
+              <RiArrowRightLine size='18' />
+            </Center>
+          </Link>
         </HStack>
       </VStack>
     </Box>

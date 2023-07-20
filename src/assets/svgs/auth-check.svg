@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="circle check full" clip-path="url(#clip0_848_6848)">
+<g id="Group">
+<path id="Vector (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M0.638672 7.9999C0.638672 4.11401 3.78881 0.963867 7.67471 0.963867C11.5606 0.963867 14.7107 4.11401 14.7107 7.9999C14.7107 11.8858 11.5606 15.0359 7.67471 15.0359C3.78881 15.0359 0.638672 11.8858 0.638672 7.9999Z" fill="#EF233C"/>
+<path id="Vector (Stroke)_2" fill-rule="evenodd" clip-rule="evenodd" d="M11.071 5.46889C11.3208 5.71868 11.3208 6.12368 11.071 6.37348L7.1007 10.5311C6.8509 10.7809 6.4459 10.7809 6.19611 10.5311L4.27719 8.61222C4.0274 8.36242 4.0274 7.95742 4.27719 7.70763C4.52698 7.45783 4.93198 7.45783 5.18178 7.70763L6.6484 9.17425L10.1664 5.46889C10.4162 5.21909 10.8212 5.21909 11.071 5.46889Z" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_848_6848">
+<rect width="15.3513" height="15.3513" fill="white" transform="translate(0 0.324341)"/>
+</clipPath>
+</defs>
+</svg>

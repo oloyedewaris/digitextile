@@ -5,7 +5,6 @@ const LayoutView = ({ children, noPadding, activePage, ...rest }) => (
   <Box
     maxW='100vw'
     overflowX={'hidden'}
-    pb={"50px"}
     bg="#F5F5F5"
     h={"100%"}
     minH="100vh"

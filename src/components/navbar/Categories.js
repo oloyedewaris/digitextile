@@ -1,25 +1,10 @@
-import React, { useContext } from 'react'
-import { Flex, Image, Text, MenuList, Menu, MenuButton, MenuItem } from '@chakra-ui/react';
+import React from 'react'
+import { Flex, Text, MenuList, Menu, MenuButton, MenuItem } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FaSignOutAlt, FaCaretDown, FaUser, FaArrowDown } from 'react-icons/fa';
-import { RiArrowDownLine, RiArrowDownSLine, RiSettings4Fill } from 'react-icons/ri';
-import { BiCaretDown, BiMessageDetail } from 'react-icons/bi';
+import { RiArrowDownSLine } from 'react-icons/ri';
 import { motion } from 'framer-motion';
-import { GlobalContext } from '@/context/Provider';
-import { logout } from '@/context/actions/auth';
 
 const Categories = () => {
-  const { authState, authDispatch } = useContext(GlobalContext)
-  const router = useRouter();
-
-  const handleSettings = () => {
-    router.push('/settings');
-  };
-  const handleLogout = () => {
-    logout()(authDispatch)
-    router.push('/');
-  };
 
   return (
     <Menu h="fit-content">
@@ -31,38 +16,41 @@ const Categories = () => {
           <RiArrowDownSLine color='#2B2D42' size={25} />
         </Flex>
       </MenuButton>
-      <MenuList style={{ height: 'fit-content' }}>
+      <MenuList style={{ height: 'fit-content' }} w='280px'>
         <MenuItem>
-          <Link href='/settings'>
-            <Flex gap={3} align='center' mb='15px' onClick={handleSettings}>
-              <RiSettings4Fill size={'26px'} color='#919191' />
-              <Text style={{ color: '#919191', fontWeight: '400' }}>Settings</Text>
-            </Flex>
-          </Link>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            At morbi
+          </Text>
         </MenuItem>
         <MenuItem>
-          <Flex gap={3} align='center' mb='15px'>
-            <BiMessageDetail size={'26px'} color='#919191' />
-            <Text color='#919191' fontWeight='400'>
-              Feedback
-            </Text>
-          </Flex>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Malesuada nisl
+          </Text>
         </MenuItem>
         <MenuItem>
-          <Flex gap={3} align='center' mb='15px'>
-            <BiMessageDetail size={'26px'} color='#919191' />
-            <Text color='#919191' fontWeight='400'>
-              Terms & Conditions
-            </Text>
-          </Flex>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Rhoncus turpis
+          </Text>
         </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <Flex gap={3} align='center'>
-            <FaSignOutAlt size={'26px'} color='#919191' />
-            <Text color='#919191' fontWeight='400'>
-              Sign Out
-            </Text>
-          </Flex>
+        <MenuItem>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Proin nulla
+          </Text>
+        </MenuItem>
+        <MenuItem>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Sem vitae
+          </Text>
+        </MenuItem>
+        <MenuItem>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Curabitur ipsum
+          </Text>
+        </MenuItem>
+        <MenuItem>
+          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+            Luctus interdum
+          </Text>
         </MenuItem>
       </MenuList>
     </Menu>

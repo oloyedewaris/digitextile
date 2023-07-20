@@ -7,6 +7,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const CreatorCard = ({
   title,
@@ -19,28 +20,31 @@ const CreatorCard = ({
 
   return (
     <Flex
-      p='25px'
+      p={{ base: "12px", md: '24px' }}
       mx={'auto'}
       w='100%'
-      h='455px'
+      h={{ base: '300px', md: '455px' }}
       bg={'#8D99AE'}
-      borderRadius='16px'
+      borderRadius={{ base: '8px', md: '16px' }}
       overflow='hidden'
       as={motion.div}
       maxWidth={"428px"}
+      minWidth={'250px'}
       onClick={onClickCard}
       direction='column'
       align='stretch'
       justify='space-between'
     >
       <Box>
-        <Center h='63px' w='63px' borderRadius={'full'} bg='white'>
+        <Center h={{ base: '40px', md: '63px' }} w={{ base: '40px', md: '63px' }} borderRadius={'full'} bg='white'>
           <Text>{index}</Text>
         </Center>
-        <Text fontSize='28px' mt='32px' fontWeight='700' color='white'>{title}</Text>
-        <Text fontSize='20px' mt='12px' color='white'>{subTitle}</Text>
+        <Text fontSize={{ base: '22px', md: '28px' }} mt='32px' fontWeight='700' color='white'>{title}</Text>
+        <Text fontSize={{ base: '15px', md: '20px' }} mt={{ base: '10px', md: '12px' }} color='white'>{subTitle}</Text>
       </Box>
-      <Box justifySelf={'flex-end'} alignSelf={'flex-end'}>{icon}</Box>
+      <Box justifySelf={'flex-end'} alignSelf={'flex-end'}>
+        <Link href={'/auth'}>{icon}</Link>
+      </Box>
     </Flex>
   );
 };
