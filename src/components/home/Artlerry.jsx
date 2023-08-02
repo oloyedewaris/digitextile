@@ -38,15 +38,15 @@ const Artlerry = () => {
       >
         <Story
           topic={'Tejumade Olomola, Chief Executive Officer'}
-          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and immersed in the world of fashion. Find or Request a fashion need.”'}
+          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and be immersed in the world of fashion. Find or Request a fashion need.”'}
         />
         <Story
           topic={'Tejumade Olomola, Chief Executive Officer'}
-          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and immersed in the world of fashion. Find or Request a fashion need.”'}
+          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and be immersed in the world of fashion. Find or Request a fashion need.”'}
         />
         <Story
           topic={'Tejumade Olomola, Chief Executive Officer'}
-          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and immersed in the world of fashion. Find or Request a fashion need.”'}
+          details={'“Explore the massive collections of textile and fashion designs. Stay in trend and be immersed in the world of fashion. Find or Request a fashion need.”'}
         />
       </Carousel>
     </Box>

@@ -14,22 +14,19 @@ function Auth(Component) {
     useEffect(() => {
       let accessToken = localStorage.getItem('accessToken')
       if (!authState?.isAuthenticated && accessToken) {
-        axiosInstance.get("/auth/authenticate")
+        axiosInstance.get("/auth")
           .then(res => {
             authenticateUser(res.data)(authDispatch)
             setChecked(true)
           })
           .catch(err => {
             localStorage.removeItem('accessToken')
-            router.push('/auth/login')
+            localStorage.removeItem('refreshToken')
+            router.push('/auth')
           })
       } else {
         if (!authState.isAuthenticated) {
           router.push('/auth/login')
-        } else if (authState.isAuthenticated && authState.user.isPatient && !authState.user?.bioData) {
-          router.push('/auth/biodata')
-        } else if (authState.isAuthenticated && authState.user.isPatient && !authState.user?.nextOfKin) {
-          router.push('/auth/next-of-kin')
         } else {
           setChecked(true)
         }

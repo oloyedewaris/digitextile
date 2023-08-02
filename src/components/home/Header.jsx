@@ -3,6 +3,9 @@ import React from 'react'
 import arrow from '@/assets/svgs/arrow-bottom-right.svg';
 import group from '@/assets/images/landing-page/group.png';
 import Link from 'next/link';
+import woman from '@/assets/images/landing-page/dashboard-woman.png'
+import people from '@/assets/images/landing-page/dashboard-people.png'
+import con from '@/assets/images/landing-page/dashboard-con.png'
 
 const Header = () => {
   return (
@@ -32,6 +35,21 @@ const Header = () => {
       </Box>
       <Box w='50%'>
         <Image src={group.src} />
+        {/* <Box position={'relative'} h='499px' w='auto'>
+          <Box w='full' h='full' position={'absolute'} left='0' right='0'>
+            <Image w='auto' h='full' src={woman.src} />
+          </Box>
+          <Box w='full' h='full' position={'absolute'} left='0' right='0'>
+            <Image w='auto' h='full' src={con.src} />
+          </Box>
+        </Box> */}
+        {/* <HStack p='8px' position='relative'>
+          {persons.map((person, i) => (
+            <Box key={i} position='relative' left={`-${i * 15}px`}>
+              <Image w={{ base: '28px', md: '48px' }} h={{ base: '28px', md: '48px' }} src={person} />
+            </Box>
+          ))}
+        </HStack> */}
       </Box>
     </Flex>
   )

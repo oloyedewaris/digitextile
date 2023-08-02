@@ -32,7 +32,7 @@ const ProductCard = ({
       h={{ base: '80px', md: '120px' }}
       onClick={onClickCard}
       direction='row'
-      justify={'space-between'}
+      justify={'space-around'}
       align={'center'}
       gap={{ base: '8px', md: '12px' }}
     >

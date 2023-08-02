@@ -3,7 +3,7 @@ import React from 'react'
 
 const FormSelect = ({ isRequired, onChange, value, error, label, placeholder, options, ...rest }) => {
   return (
-    <FormControl isRequired={isRequired} {...rest}>
+    <FormControl isRequired={isRequired}>
       <FormLabel>{label}</FormLabel>
       <Text color='red' fontSize='12px'>{error}</Text>
       <Select
@@ -11,6 +11,7 @@ const FormSelect = ({ isRequired, onChange, value, error, label, placeholder, op
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        {...rest}
       >
         {options.map(option => (
           <option value={option} key={option}>{option}</option>

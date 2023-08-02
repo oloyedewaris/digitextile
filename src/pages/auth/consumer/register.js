@@ -6,21 +6,20 @@ import Link from 'next/link';
 import Button from '@/components/button';
 import { FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import axiosInstance from '@/utils/axiosInstance';
 import { useMutation } from 'react-query';
 import { useFormik } from 'formik';
 import FormInputPassword from '@/components/form/FormInputPassword';
 import * as Yup from 'yup';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { registerUserApi } from '@/apis/auth';
 
 const RegisterConsumer = () => {
   const toast = useToast()
   const router = useRouter()
 
-  const { isLoading, isError, error, mutate } = useMutation(registerUser, {
+  const { isLoading, isError, error, mutate } = useMutation(registerUserApi, {
     onSuccess: (res) => {
-      console.log('res.data', res.data)
-      localStorage.setItem('userId', res.data?._doc?._id)
+      localStorage.setItem('userId', res.data?.data?._id)
       router.push('/auth/consumer/complete')
       return toast({
         title: "Account created",
@@ -41,14 +40,7 @@ const RegisterConsumer = () => {
         position: "top-right",
       });
     },
-    // retry: 2
   })
-
-  async function registerUser(values) {
-    const valuesToUse = { ...values, role: "consumer" }
-    const res = await axiosInstance.post('/auth/register', valuesToUse)
-    return (res)
-  }
 
   const formSchema = Yup.object().shape({
     fullname: Yup.string()
@@ -158,7 +150,7 @@ const RegisterConsumer = () => {
           </Button>
           <Divider my='30px' />
           <Button
-            onClick={() => router.push('/auth/consumer/complete')}
+            // onClick={() => router.push('/auth/consumer/complete')}
             borderRadius='full' bg='transparent'
             w='full' h='55px' color='black' shadow='md'
           >

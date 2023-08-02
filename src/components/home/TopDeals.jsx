@@ -1,11 +1,14 @@
-import { Box, Center, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { RiArrowRightLine } from 'react-icons/ri';
 import ProductCard from '../card/ProductCard';
 import Link from 'next/link';
 import products from '@/constant/product'
+import { useQuery } from 'react-query';
+import { getProductsApi } from '@/apis/product';
 
 const TopDeals = () => {
+  const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
 
 
   return (
@@ -19,18 +22,21 @@ const TopDeals = () => {
           <RiArrowRightLine color='#EF233C' size='18' />
         </Center>
       </Flex>
-      <SimpleGrid columns={{ base: '2', md: '4' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
-        {products.map((product, i) => (
-          <ProductCard
-            key={i}
-            images={product.images}
-            title={product.title}
-            subTitle={product.subTitle}
-            price={product.price}
-            persons={product.persons}
-          />
-        ))}
-      </SimpleGrid>
+      <Skeleton isLoaded={data?.data?.data?.map}>
+        <SimpleGrid columns={{ base: '2', md: '4' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
+          {data?.data?.data?.map((product, i) => (
+            <ProductCard
+              key={i}
+              id={product._id}
+              images={product.images}
+              title={product.title}
+              subTitle={product.description}
+              price={product.price}
+              persons={product.persons || []}
+            />
+          ))}
+        </SimpleGrid>
+      </Skeleton>
     </Box>
   )
 }

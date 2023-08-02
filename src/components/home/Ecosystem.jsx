@@ -18,7 +18,7 @@ const Ecosystem = () => {
         <Text fontSize={{ base: '18px', md: '28px' }} fontWeight={700} mt={{ base: '10px', md: '40px' }}>Connecting the fashion industry</Text>
         <Text fontSize={{ base: '18px', md: '28px' }} fontWeight={400}>
           Bringing various possibilities into existence.
-          Buy, sell, collaborate and stay up to date wit latest trends.
+          Buy, sell, collaborate and stay up to date with latest trends.
         </Text>
         <VStack spacing={'38px'} align={'stretch'} mt='40px'>
           <Flex gap='16px'>

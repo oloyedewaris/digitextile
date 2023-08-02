@@ -2,7 +2,6 @@ import LayoutView from '@/components/layout';
 import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import React from 'react';
 import HotDropsCard from '@/components/card/HotDropsCard';
-import Footer from '@/components/home/Footer';
 import { extended } from '@/constant/hot-drop';
 
 const HotDrops = () => {
@@ -22,7 +21,6 @@ const HotDrops = () => {
           ))}
         </SimpleGrid>
       </Box>
-      <Footer />
     </LayoutView>
   )
 }

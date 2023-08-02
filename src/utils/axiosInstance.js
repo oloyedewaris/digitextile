@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BACKEND_URL = 'https://silly-fox-snaps.cyclic.app';
+// const BACKEND_URL = 'https://41c0-196-27-128-5.ngrok-free.app/';
+const BACKEND_URL = 'https://dark-teal-scorpion-ring.cyclic.app/';
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
@@ -13,7 +14,7 @@ axiosInstance.interceptors.request.use(
     let accessToken = localStorage.getItem('accessToken');
 
     if (accessToken)
-      config.headers['x-auth-token'] = accessToken
+      config.headers['Authorization'] = `Bearer ${accessToken}`
 
     return config;
   },

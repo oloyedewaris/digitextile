@@ -3,6 +3,7 @@ import { Flex, Text, MenuList, Menu, MenuButton, MenuItem } from '@chakra-ui/rea
 import Link from 'next/link';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { motion } from 'framer-motion';
+import categoriesData from '@/utils/categories.json'
 
 const Categories = () => {
 
@@ -17,41 +18,13 @@ const Categories = () => {
         </Flex>
       </MenuButton>
       <MenuList style={{ height: 'fit-content' }} w='280px'>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            At morbi
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Malesuada nisl
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Rhoncus turpis
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Proin nulla
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Sem vitae
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Curabitur ipsum
-          </Text>
-        </MenuItem>
-        <MenuItem>
-          <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-            Luctus interdum
-          </Text>
-        </MenuItem>
+        {categoriesData.map(category => (
+          <MenuItem>
+            <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+              {category}
+            </Text>
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   )

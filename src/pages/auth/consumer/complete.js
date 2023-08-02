@@ -1,28 +1,28 @@
 import { Box, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
-import React from 'react'
+import React, { useContext } from 'react'
 import AuthContainer from '../sections/authCon'
 import FormInput from '@/components/form/FormInput';
 import Button from '@/components/button';
 import { useRouter } from 'next/router';
-import axiosInstance from '@/utils/axiosInstance';
 import { useMutation } from 'react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { BiLock } from 'react-icons/bi';
+import FormSelect from '@/components/form/FromSelect';
+import countries from '@/utils/countries.json'
+import { completeRegApi, registerUserApi } from '@/apis/auth';
 
 const CompleteRegistration = () => {
   const toast = useToast()
   const router = useRouter()
 
-  const { isLoading, isError, error, mutate } = useMutation(registerUser, {
+  const { isLoading, isError, error, mutate } = useMutation((values) => completeRegApi({ ...values, role: "consumer" }), {
     onSuccess: (res) => {
-      console.log('res.data', res.data)
-      localStorage.setItem('userId', res.data._id)
-      router.push('/auth/consumer/complete')
+      router.push('/auth/login')
       return toast({
         title: "Account created",
-        description: `Kindly go ahead and complete your registration`,
+        description: `You have completed the registration process, now login`,
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -39,23 +39,17 @@ const CompleteRegistration = () => {
         position: "top-right",
       });
     },
-    retry: 2
   })
 
-  async function registerUser(values) {
-    const valuesToUse = { ...values, role: "consumer" }
-    const res = await axiosInstance.post('/auth/register', valuesToUse)
-    return (res)
-  }
 
   const formSchema = Yup.object().shape({
     phone: Yup.string()
       .min(10, 'phone too short')
       .required('Phone number is required'),
     address: Yup.string()
-      .min(8, 'Address too short!')
+      .min(5, 'Address too short!')
       .required('Address is required'),
-    state: Yup.string()
+    country: Yup.string()
       .required('State is required')
   });
 
@@ -64,7 +58,7 @@ const CompleteRegistration = () => {
     initialValues: {
       phone: '',
       address: '',
-      state: '',
+      country: '',
     },
     onSubmit: values => mutate(values)
   })
@@ -109,20 +103,21 @@ const CompleteRegistration = () => {
             error={formik.errors.address}
             onChange={formik.handleChange('address')}
             type={'address'}
-            label={'Email address'}
+            label={'Address'}
             id='address'
             placeholder={'Your address'}
           />
-          <FormInput
+          <FormSelect
+            options={countries}
             h='50px'
             // mb='20px'
             isRequired
-            value={formik.values.state}
-            error={formik.errors.state}
-            onChange={formik.handleChange('state')}
+            value={formik.values.country}
+            error={formik.errors.country}
+            onChange={formik.handleChange('country')}
             label={'Please select'}
-            id='state'
-            placeholder={'State of residence'}
+            id='country'
+            placeholder={'Country of residence'}
           />
           <Button
             onClick={formik.handleSubmit}
@@ -135,7 +130,11 @@ const CompleteRegistration = () => {
               'Save & Continue'
             )}
           </Button>
-          <Text cursor={'pointer'} textAlign={'center'} color='#A2A6AB' mt='28px' fontSize={'14px'}>Skip for now</Text>
+          <Text
+            onClick={() => router.push('/auth/login')}
+            cursor={'pointer'} textAlign={'center'}
+            color='#A2A6AB' mt='28px' fontSize={'14px'}
+          >Skip for now</Text>
           <Flex color='#A2A6AB' mt='43px' gap='8px' align='center' w='full' justify={'center'}>
             <BiLock size={20} />
             <Text fontSize={'14px'}>Your Info is safely secured</Text>

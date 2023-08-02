@@ -3,16 +3,23 @@ import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
 import Categories from './Categories';
 import searchIcon from '@/assets/images/search-icon.png'
-import { BiHeart } from 'react-icons/bi';
+import { BiBell, BiHeart, BiMessage, BiStore } from 'react-icons/bi';
 import Button from '../button';
 import { useRouter } from 'next/router';
 import Drawer from './Drawer';
 import { FaBars } from 'react-icons/fa';
+import { useContext } from 'react';
+import { GlobalContext } from '@/context/Provider';
+import ProfileMenu from './ProfileMenu';
+import Notifications from './Notifications';
+import { BellIcon } from '@chakra-ui/icons';
 
 const Navbar = ({ }) => {
-  // const loggedIn = window.localStorage.getItem('userId')
+  const { authState } = useContext(GlobalContext)
+  const loggedIn = authState.isAuthenticated
+  // const loggedIn = true
   const router = useRouter();
-  const drawerModal = useDisclosure()
+  const drawerModal = useDisclosure();
 
   return (
     <>
@@ -21,7 +28,7 @@ const Navbar = ({ }) => {
         w='full' h={'100px'} alignItems={'center'}
         justify={'space-between'} px={'84px'}
         position={'fixed'} zIndex={100} gap='180px'
-        bg="#F5F5F5" shadow={'sm'}
+        bg="#EDF2F4"
       >
         <HStack spacing={'40px'}>
           <Menu>
@@ -35,12 +42,12 @@ const Navbar = ({ }) => {
               />
             </Link>
             <Categories />
-            <InputGroup outline={'none'} border='1px' borderRadius={'full'} w='full' maxW='482px' pr='15px'>
+            <InputGroup border='1px' borderRadius={'full'} w='full' maxW='482px' pr='15px'>
               <Input
-                outline={'none'}
+                _focus={{ border: 'none', outline: 'none' }}
+                border={'none'}
                 placeholder="What do you have in mind?"
-                // w='full'
-                border={"none !important"}
+              // w='full'
               />
               <InputLeftAddon
                 bg={'transparent'}
@@ -53,25 +60,43 @@ const Navbar = ({ }) => {
           </Menu>
         </HStack>
 
-        <HStack spacing='32px'>
-          <Box cursor='pointer'>
-            <BiHeart size={25} />
-          </Box>
-          <Link href='/auth/login'>
-            <Button
-              borderRadius='full'
-              color='#2B2D42'
-              bg='transparent'
-            >Sign In</Button>
-          </Link>
+        {loggedIn ? (
+          <HStack spacing='20px'>
+            <Box cursor='pointer'>
+              <BiHeart size={25} />
+            </Box>
+            {authState?.user?.role === 'creator' && (
+              <Link href='/store'>
+                <Box cursor='pointer'>
+                  <BiStore size={25} />
+                </Box>
+              </Link>
+            )}
+            <Notifications />
+            <ProfileMenu />
+          </HStack>
+        ) : (
+          <HStack spacing='32px'>
+            <Box cursor='pointer'>
+              <BiHeart size={25} />
+            </Box>
+            <Link href='/auth/login'>
+              <Button
+                borderRadius='full'
+                color='#2B2D42'
+                bg='transparent'
+              >Sign In</Button>
+            </Link>
 
-          <Button
-            onClick={() => router.push('/auth')}
-            borderRadius='full'
-            color='white'
-            bg='#2B2D42' border='1px solid #2B2D42'
-          >Create Account</Button>
-        </HStack>
+            <Button
+              onClick={() => router.push('/auth')}
+              borderRadius='full'
+              color='white'
+              bg='#2B2D42' border='1px solid #2B2D42'
+            >Create Account</Button>
+          </HStack>
+        )}
+
       </Flex>
 
       <Flex
@@ -90,7 +115,10 @@ const Navbar = ({ }) => {
             alt={logo}
           />
         </Link>
-        <FaBars size={25} onClick={drawerModal.onOpen} />
+        <HStack spacing='15px' align={'flex-end'}>
+          <Notifications />
+          <FaBars size={25} onClick={drawerModal.onOpen} />
+        </HStack>
       </Flex>
       <Drawer modal={drawerModal} />
     </>

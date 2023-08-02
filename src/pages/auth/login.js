@@ -63,27 +63,30 @@
 
 
 import { Box, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
-import React from 'react'
+import React, { useContext } from 'react'
 import AuthContainer from './sections/authCon'
 import FormInput from '@/components/form/FormInput';
 import Button from '@/components/button';
 import { FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import axiosInstance from '@/utils/axiosInstance';
 import { useMutation } from 'react-query';
 import { useFormik } from 'formik';
 import FormInputPassword from '@/components/form/FormInputPassword';
 import * as Yup from 'yup';
+import { GlobalContext } from '@/context/Provider';
+import { loginUser } from '@/context/actions/auth';
+import { loginUserApi } from '@/apis/auth';
 
 const Login = () => {
   const toast = useToast()
   const router = useRouter()
+  const { authDispatch } = useContext(GlobalContext)
 
-  const { isLoading, isError, error, mutate } = useMutation(loginUser, {
+  const { isLoading, isError, error, mutate } = useMutation(loginUserApi, {
     onSuccess: (res) => {
-      console.log('res.data', res.data)
-      localStorage.setItem('userId', res.data._id)
-      router.push('/auth/creator/complete')
+      localStorage.setItem('userId', res.data?.data?.user?._id)
+      loginUser(res.data.data)(authDispatch)
+      router.push('/dashboard')
       return toast({
         title: "Login",
         description: `Login successfully`,
@@ -103,14 +106,8 @@ const Login = () => {
         position: "top-right",
       });
     },
-    retry: 2
   })
 
-  async function loginUser(values) {
-    const valuesToUse = { ...values, role: "creator" }
-    const res = await axiosInstance.post('/auth/register', valuesToUse)
-    return (res)
-  }
 
   const formSchema = Yup.object().shape({
     email: Yup.string()
@@ -128,8 +125,8 @@ const Login = () => {
       password: '',
     },
     onSubmit: values => {
-      // mutate(values)
-      router.push('/auth/creator/complete')
+      mutate(values)
+      // router.push('/auth/creator/complete')
     }
   })
 

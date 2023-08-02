@@ -19,7 +19,6 @@ const RegisterCAC = () => {
 
   const { isLoading, isError, error, mutate } = useMutation(registerUser, {
     onSuccess: (res) => {
-      console.log('res.data', res.data)
       localStorage.setItem('userId', res.data._id)
       router.push('/auth/consumer/complete')
       return toast({
@@ -41,7 +40,6 @@ const RegisterCAC = () => {
         position: "top-right",
       });
     },
-    retry: 2
   })
 
   async function registerUser(values) {

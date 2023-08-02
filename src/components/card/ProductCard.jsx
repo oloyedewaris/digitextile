@@ -45,29 +45,33 @@ const ProductCard = ({
       <HStack p='8px' position='relative'>
         {persons.map((person, i) => (
           <Box key={i} position='relative' left={`-${i * 15}px`}>
-            <Image src={person} />
+            <Image w={{ base: '28px', md: '48px' }} h={{ base: '28px', md: '48px' }} src={person} />
           </Box>
         ))}
       </HStack>
-      <ImageGallery
-        renderItem={(image) => (
-          <Image
-            borderRadius={{ base: 'md', md: 'xl' }}
-            bgPosition={'center'}
-            bgSize={"cover"}
-            w='full'
-            maxW='290px'
-            h={{ base: 'auto', md: "240px" }}
-            src={image.original}
-          />
-        )}
-        showThumbnails={false}
-        showNav={false}
-        showPlayButton={false}
-        showFullscreenButton={false}
-        showBullets={true}
-        items={imagesToUse}
-      />
+      <Box minH={{ base: '200px', md: "280px" }}>
+        <ImageGallery
+          renderItem={(image) => (
+            <Image
+              borderRadius={{ base: 'sm', md: 'md' }}
+              bgPosition={'center'}
+              bgSize={"cover"}
+              w='full'
+              maxW='290px'
+              h='auto'
+              maxH={{ base: '200px', md: "280px" }}
+              minH={{ base: '200px', md: "280px" }}
+              src={image.original}
+            />
+          )}
+          showThumbnails={false}
+          showNav={false}
+          showPlayButton={false}
+          showFullscreenButton={false}
+          showBullets={true}
+          items={imagesToUse}
+        />
+      </Box>
 
       <VStack mt={"8px"} align={"start"}>
         <HStack justify={"space-between"} alignItems={'center'} w={"100%"}>

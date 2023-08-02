@@ -8,7 +8,7 @@ const Creator = () => {
     {
       icon: <RiArrowRightLine size={30} color='white' />,
       title: 'Create an Account',
-      subTitle: 'Choose the creator option when registering (every creator is an automatic consumer) and proceed to fill in all required information.',
+      subTitle: 'Choose the creator option when registering (every creator is an automatic consumer) and proceed to fill all required information.',
     },
     {
       icon: <RiArrowRightLine size={30} color='white' />,
