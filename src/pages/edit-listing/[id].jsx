@@ -21,34 +21,33 @@ const CreateListing = () => {
   const [originalfiles, setOriginalFiles] = useState([]);
   const [tagName, setTagName] = useState('');
   const [sectionName, setSectionName] = useState('');
-  const [categoryName, setCategoryName] = useState('');
   const sectionModal = useDisclosure();
   const productId = router.query.id
 
-  const { data, isError, error, isLoading, refetch, } = useQuery(["getCategories"], getCategoriesApi);
+  const { data } = useQuery(["getCategories"], getCategoriesApi);
   const { data: productData } = useQuery(["getProductApi"], () => getProductApi(productId));
 
   const productObj = productData?.data?.data;
 
-  const { isLoading: productCreating, mutate } = useMutation((formData) => updateProductApi(productId, formData), {
-    onSuccess: (res) => {
-      mutateImages(res.data?.data?._id)
-    },
-    onError: (err) => {
-      toast({
-        title: `"Oops...`,
-        description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-    },
-  })
+  const { isLoading: productCreating, mutate } = useMutation(
+    (formData) => updateProductApi(productId, formData),
+    {
+      onSuccess: (res) => {
+        mutateImages(res.data?.data?._id)
+      },
+      onError: (err) => {
+        toast({
+          title: `"Oops...`,
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    })
 
-  console.log('productObj', productObj)
-
-  const { isLoading: addingImages, mutate: mutateImages } = useMutation(
+  const { isLoading: uploadingImages, mutate: mutateImages } = useMutation(
     (id) => {
       const formData = new FormData();
 
@@ -56,7 +55,10 @@ const CreateListing = () => {
         formData.append('files', files[i])
       }
 
-      return attachImageToProduct(id, formData)
+      if (originalfiles.length)
+        return attachImageToProduct(id, formData)
+      else
+        return true
     },
     {
       onSuccess: (res) => {
@@ -91,8 +93,8 @@ const CreateListing = () => {
       description: productObj?.description || "",
       type: productObj?.type || "",
       tags: productObj?.tags || [],
-      price: productObj?.price || 0,
-      quantity: productObj?.quantity || 0,
+      price: productObj?.price || '',
+      quantity: productObj?.quantity || '',
       personalization: productObj?.personalization || {},
       variation: productObj?.variation || [],
       collaborationPartners: productObj?.collaborationPartners || [],
@@ -100,7 +102,6 @@ const CreateListing = () => {
       categories: [],
     },
     onSubmit: (values) => {
-
       const categoriesIds = formik.values.categories.map(category => (fetchedCategories.find(cat => cat.name === category))._id)
       const valuesToUse = {
         ...values,
@@ -121,12 +122,11 @@ const CreateListing = () => {
 
   const addFiles = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
-      setOriginalFiles((prevValue) => [
-        ...prevValue,
-        file
-      ])
-
       if (files.length <= 3) {
+        setOriginalFiles((prevValue) => [
+          ...prevValue,
+          file
+        ])
         return encodeFileToBase64(file).then((res) => {
           setFiles((prevValue) => [
             ...prevValue,
@@ -157,6 +157,14 @@ const CreateListing = () => {
       }
     }
     setFiles(copy);
+    const copyOriginal = [...originalfiles];
+    for (let i = 0; i < copyOriginal.length; i++) {
+      if (i == index) {
+        copyOriginal.splice(i, 1);
+        i = copyOriginal.length;
+      }
+    }
+    setOriginalFiles(copyOriginal);
   };
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
@@ -253,31 +261,6 @@ const CreateListing = () => {
     formik.setFieldValue('sections', copy);
   };
 
-  const addCategories = () => {
-    if (formik.values.categories.length >= 6)
-      return toast({
-        title: "Hmm...",
-        description: `You can only add 6 tags`,
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-        position: "top-right",
-      });
-
-    if (!categoryName)
-      return toast({
-        title: "Hmm...",
-        description: `Enter a section name`,
-        status: "error",
-        duration: 4000,
-        isClosable: true,
-        position: "top-right",
-      });
-
-    formik.setFieldValue('categories', [...formik.values.categories, categoryName])
-    setCategoryName('')
-  }
-
   const removeCategory = (index) => {
     const copy = [...formik.values.categories];
     for (let i = 0; i < copy.length; i++) {
@@ -373,7 +356,7 @@ const CreateListing = () => {
               </GridItem>
             </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, md: 7 }} gap={{ base: '12px', md: '20px' }} justifyContent={'center'}>
+            {/* <SimpleGrid columns={{ base: 1, md: 7 }} gap={{ base: '12px', md: '20px' }} justifyContent={'center'}>
               <GridItem colSpan={{ base: 1, md: 7 }}>
                 <VStack spacing={'4px'} align={'stretch'} w='full'>
                   <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>
@@ -411,7 +394,7 @@ const CreateListing = () => {
                   </Center>
                 </Flex>
               </GridItem>
-            </SimpleGrid>
+            </SimpleGrid> */}
 
             <Divider w='full' my={{ base: '20px', md: '40px' }} />
 
@@ -443,6 +426,7 @@ const CreateListing = () => {
                   onChange={formik.handleChange('title')}
                   border={'1px solid #999'}
                   w='full'
+                  placeholder={'Enter product title'}
                 />
               </GridItem>
 
@@ -457,35 +441,25 @@ const CreateListing = () => {
                 </Box>
               </GridItem>
               <GridItem colSpan={{ base: 1, md: 5 }}>
-                <Flex align='center' gap='20px'>
-                  <InputGroup py='6px'
-                    border='1px' borderRadius={'4px'} w='full' pl='15px'>
-                    <InputLeftAddon
-                      bg={'transparent'}
-                      p={"0px"}
-                      border={"none"}
-                    >
-                      <Image alt='next_image' src={searchIcon.src} />
-                    </InputLeftAddon>
-                    <Select
-                      border={'none'}
-                      _focus={{ border: 'none' }}
-                      value={categoryName}
-                      onChange={(e) => setCategoryName(e.target.value)}
-                    >
-                      {fetchedCategories?.map(cat => (
-                        <option name={cat?.name}>{cat?.name}</option>
-                      ))}
-                    </Select>
-                  </InputGroup>
-                  <Text
-                    onClick={addCategories}
-                    cursor={'pointer'}
-                    color={'#2B2D42'}
-                    fontSize={'16px'}
-                    fontWeight={600}
-                  >Add</Text>
-                </Flex>
+                <InputGroup py='6px'
+                  border='1px' borderRadius={'4px'} w='full' pl='15px'>
+                  <InputLeftAddon
+                    bg={'transparent'}
+                    p={"0px"}
+                    border={"none"}
+                  >
+                    <Image alt='next_image' src={searchIcon.src} />
+                  </InputLeftAddon>
+                  <Select
+                    border={'none'}
+                    _focus={{ border: 'none' }}
+                    onChange={e => formik.setFieldValue('categories', [...formik.values.categories, e.target.value])}
+                  >
+                    {fetchedCategories?.map(cat => (
+                      <option name={cat?.name}>{cat?.name}</option>
+                    ))}
+                  </Select>
+                </InputGroup>
                 <Flex mt='12px' align='center' gap='15px'>
                   {formik.values.categories.map((cat, index) => (
                     <Center gap='10px' border='1px solid #E4DFDA' w='fit-content' py='8px' px='14px' borderRadius={'8px'}>
@@ -709,22 +683,25 @@ const CreateListing = () => {
           <Divider mt={{ base: '20px', md: '40px' }} w='full' />
           <Flex mt={{ base: '20px', md: '40px' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'} align={'center'} gap={{ base: '10px', md: '120px' }}>
             <Flex align='center' gap='32px'>
-              {/* <Button bg='transparent' border=' 1px solid #999' px='24px' py='16px' borderRadius={'4px'}>Cancel</Button> */}
               <Text color='#4D515E' fontSize={{ base: '15px', md: '20px' }} fontWeight={400}>
-                This listing isn't active yet. It will be available to shoppers once you
-                <Text as='span' fontWeight={600}> publish</Text> it. <Text as='span' fontWeight={600}>Save</Text> to continue editing later in your store.
+                This listing isn't saved yet. It will be updated to shoppers once you
+                <Text as='span' fontWeight={600}> update</Text> it. <Text as='span' fontWeight={600}>Reset</Text> to start again.
               </Text>
             </Flex>
             <Flex align='center' gap='32px'>
-              <Button bg='transparent' border=' 1px solid #999' px='24px' py='16px' borderRadius={'4px'}>Save</Button>
               <Button
-                disabled={productCreating}
-                isLoading={productCreating}
+                onClick={formik.resetForm}
+                bg='transparent' border=' 1px solid #999'
+                px='24px' py='16px' borderRadius={'4px'}
+              >Reset</Button>
+              <Button
+                disabled={productCreating || uploadingImages}
+                isLoading={productCreating || uploadingImages}
                 onClick={formik.handleSubmit}
                 bg='#2B2D42' px='24px'
                 py='16px' borderRadius={'4px'}
                 color='white'
-              >Publish</Button>
+              >Update</Button>
             </Flex>
           </Flex>
         </Box>
