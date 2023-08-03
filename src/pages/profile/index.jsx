@@ -202,7 +202,6 @@ const Profile = () => {
               {...getRootProps({ className: "dropzone" })}
             >
               <input {...getInputProps()} />
-              {console.log('user.', user)}
               {isDragActive ? (
                 <Text>Drop the files here</Text>
               ) : (

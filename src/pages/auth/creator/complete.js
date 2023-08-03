@@ -208,7 +208,7 @@ const CompleteRegistration = () => {
       router.push('/auth/login')
       return toast({
         title: "Account created",
-        description: `You have completed the registration process, now login`,
+        description: `You are almost there!!, check your email address to complete the process`,
         status: "success",
         duration: 4000,
         isClosable: true,

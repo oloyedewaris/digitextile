@@ -49,7 +49,6 @@ const Product = () => {
 
 
   const product = data?.data?.data;
-  console.log('product', product)
 
   const persons = [person1.src, person2.src];
 
@@ -177,7 +176,6 @@ const Product = () => {
                   <BiHeart size={20} />
                   <Text fontSize={'14px'}>Add to Wishlist</Text>
                 </Flex>
-                {console.log(user, product?.seller)}
                 {user?._id === product?.seller?._id && (
                   <Link href={`/edit-listing/${productId}`}>
                     <Center gap='10px' border={'0.812px solid #2B2D42'} mt={{ base: '20px', md: '35px' }} px='11px' py='12px' borderRadius={'full'}>

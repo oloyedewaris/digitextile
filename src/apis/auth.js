@@ -16,3 +16,8 @@ export const loginUserApi = async (values) => {
     const res = await axiosInstance.post('/auth/login', values)
     return (res)
 }
+
+export const verifyEmail = async (token) => {
+    const res = await axiosInstance.get(`/auth/verify-email/${token}`)
+    return (res)
+}

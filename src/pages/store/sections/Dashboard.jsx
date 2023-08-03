@@ -135,7 +135,6 @@ const Dashboard = () => {
           borderRadius={{ base: '8px', md: '16px' }}
           spacing={{ base: '20px', md: '32px' }} border='1px solid #9F9898'
         >
-          {console.log('products', products)}
           {(products || []).map(product => (
             <Link href={`/product/${product._id}`}>
               <Flex justify='space-between' align='center'>

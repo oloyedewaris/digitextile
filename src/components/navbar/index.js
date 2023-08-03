@@ -72,7 +72,7 @@ const Navbar = ({ }) => {
                 </Box>
               </Link>
             )}
-            <Notifications />
+            {/* <Notifications /> */}
             <ProfileMenu />
           </HStack>
         ) : (
@@ -116,7 +116,7 @@ const Navbar = ({ }) => {
           />
         </Link>
         <HStack spacing='15px' align={'flex-end'}>
-          <Notifications />
+          {/* <Notifications /> */}
           <FaBars size={25} onClick={drawerModal.onOpen} />
         </HStack>
       </Flex>

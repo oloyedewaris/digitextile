@@ -38,7 +38,7 @@ const AuthContainer = ({ children }) => {
           </Flex>
         </Box>
       </Box>
-      <Box mb={{ base: '60px', md: '0' }} w={{ base: '100%', md: '65%' }} h={{ base: 'auto', md: '100vh' }} overflowY={{ base: 'auto', md: 'scroll' }}>
+      <Box mb={{ base: '60px', md: '0' }} w={{ base: '100%', md: '65%' }} h={{ base: '30vh', md: '100vh' }} overflowY={{ base: 'auto', md: 'scroll' }}>
         {children}
       </Box>
     </Flex>
