@@ -9,6 +9,7 @@ import {
 import { motion } from "framer-motion";
 
 const ProductCard = ({
+  id,
   title,
   image,
   subTitle,
@@ -19,6 +20,7 @@ const ProductCard = ({
 
   return (
     <Flex
+      cursor='pointer'
       bg='white'
       py={{ base: '15px', md: '19px' }}
       px={{ base: '6px', md: '12px' }}

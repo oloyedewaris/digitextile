@@ -1,9 +1,10 @@
 import axiosInstance from "@/utils/axiosInstance"
 
 export const getProductsApi = async (params) => {
-    const res = await axiosInstance.get(`/products?page=${params?.page || 1}&limit=${params?.limit || 10}`)
+    const res = await axiosInstance.get(`/products?page=${params?.page || 1}&limit=${params?.limit || 10}&category=${params.category}`)
     return (res)
 }
+
 
 export const getProductApi = async (id) => {
     const res = await axiosInstance.get(`/products/${id}`)
@@ -34,6 +35,12 @@ export const getCategoriesApi = async (params) => {
     const res = await axiosInstance.get(`/categories?page=${params?.page || 1}&limit=${params?.limit || 6}`)
     return (res)
 }
+
+
+// export const getCategory = async (params) => {
+//     const res = await axiosInstance.get(`/categories?page=${params?.page || 1}&limit=${params?.limit || 6}`)
+//     return (res)
+// }
 
 
 export const searchCategory = async (text) => {

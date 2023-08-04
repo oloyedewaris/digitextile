@@ -17,7 +17,7 @@ const CompleteRegistration = () => {
   const toast = useToast()
   const router = useRouter()
 
-  const { isLoading, isError, error, mutate } = useMutation((values) => completeRegApi({ ...values, role: "consumer" }), {
+  const { isLoading, isError, error, mutate } = useMutation((values) => completeRegApi({ ...values, role: "consumer", cacNumber: 123 }), {
     onSuccess: (res) => {
       router.push('/auth/login')
       return toast({

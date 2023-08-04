@@ -6,9 +6,8 @@ export const registerUserApi = async (values) => {
 }
 
 export const completeRegApi = async (values) => {
-    const val = { ...values, cacNumber: 123 }
     const userID = localStorage.getItem('userId');
-    const res = await axiosInstance.post(`/auth/register/profile/${userID}`, val);
+    const res = await axiosInstance.post(`/auth/register/profile/${userID}`, values);
     return (res)
 }
 

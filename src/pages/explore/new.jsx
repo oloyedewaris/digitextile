@@ -43,7 +43,7 @@ const TopDeals = () => {
               images={product.images}
               title={product.title}
               subTitle={product.subTitle}
-              price={product.price}
+              price={`N${product.price}`}
               persons={product.persons}
             />
           ))}

@@ -267,8 +267,16 @@ const RegisterCreator = () => {
       role: "creator",
     },
     onSubmit: values => {
+      if (!formik.values.terms)
+        return toast({
+          title: `"Oops...`,
+          description: `Please agree to the terms and conditions`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
       mutate(values)
-      // router.push('/auth/creator/complete')
     }
   })
 
@@ -281,7 +289,7 @@ const RegisterCreator = () => {
             <Text fontSize={'18px'} noOfLines={1}>Back</Text>
           </Flex>
           <Box color={'#8692A6'} fontSize={'16px'} fontWeight={600}>
-            <Text>STEP 01/02</Text>
+            <Text>STEP 01/03</Text>
             <Text>Profile Info</Text>
           </Box>
         </Flex>

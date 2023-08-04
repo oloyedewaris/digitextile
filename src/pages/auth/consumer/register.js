@@ -64,8 +64,16 @@ const RegisterConsumer = () => {
       role: "consumer",
     },
     onSubmit: values => {
+      if (!formik.values.terms)
+        return toast({
+          title: `"Oops...`,
+          description: `Please agree to the terms and conditions`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
       mutate(values)
-      // router.push('/auth/consumer/complete')
     }
   })
 

@@ -4,15 +4,21 @@ import React from 'react';
 import ProductCard from '@/components/card/ProductCard';
 import FormSelect from '@/components/form/FromSelect';
 import { getProductsApi } from '@/apis/product';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 
-const TopDeals = () => {
-  const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
+const Category = () => {
+  const router = useRouter()
+  const categoryId = router.query.id;
+  const categoryName = router.query.category;
+  const { data, } = useQuery(["getProductsByCategory"], () => getProductsApi({ page: 1, limit: 8, category: categoryId }));
+  // const { data: category, } = useQuery(["getCategory"], getCategory);
+  console.log('data', data, categoryId)
 
   return (
     <LayoutView noPadding>
       <Box px={{ base: '10px', md: '48px' }} my={{ base: '80px', md: '150px' }}>
-        <Text mb={{ base: '10px', md: '32px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>Top Deals</Text>
+        <Text mb={{ base: '10px', md: '32px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>{categoryName || 'Category'}</Text>
         <Flex mb='30px' align={'center'} justify={'space-between'}>
           <Flex gap='16px'>
             <FormSelect
@@ -58,4 +64,4 @@ const TopDeals = () => {
   )
 }
 
-export default TopDeals
+export default Category
