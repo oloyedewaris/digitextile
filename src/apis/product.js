@@ -1,6 +1,11 @@
 import axiosInstance from "@/utils/axiosInstance"
 
 export const getProductsApi = async (params) => {
+    const res = await axiosInstance.get(`/products?page=${params?.page || 1}&limit=${params?.limit || 10}`)
+    return (res)
+}
+
+export const getCategorysApi = async (params) => {
     const res = await axiosInstance.get(`/products?page=${params?.page || 1}&limit=${params?.limit || 10}&category=${params.category}`)
     return (res)
 }

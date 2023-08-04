@@ -3,7 +3,7 @@ import { Box, Flex, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
 import React from 'react';
 import ProductCard from '@/components/card/ProductCard';
 import FormSelect from '@/components/form/FromSelect';
-import { getProductsApi } from '@/apis/product';
+import { getCategorysApi, getProductsApi } from '@/apis/product';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 
@@ -11,8 +11,7 @@ const Category = () => {
   const router = useRouter()
   const categoryId = router.query.id;
   const categoryName = router.query.category;
-  const { data, } = useQuery(["getProductsByCategory"], () => getProductsApi({ page: 1, limit: 8, category: categoryId }));
-  // const { data: category, } = useQuery(["getCategory"], getCategory);
+  const { data, } = useQuery(["getProductsByCategory"], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
   console.log('data', data, categoryId)
 
   return (
