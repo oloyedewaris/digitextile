@@ -11,13 +11,14 @@ const Category = () => {
   const router = useRouter()
   const categoryId = router.query.id;
   const categoryName = router.query.category;
-  const { data, } = useQuery(["getProductsByCategory"], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
+  const { data } = useQuery(["getProductsByCategory"], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
 
+  console.log('data', data?.data?.data)
   return (
     <LayoutView noPadding>
       <Box px={{ base: '10px', md: '48px' }} my={{ base: '80px', md: '150px' }}>
-        <Text mb={{ base: '10px', md: '32px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>{categoryName || 'Category'}</Text>
-        <Flex mb='30px' align={'center'} justify={'space-between'}>
+        <Text mb={{ base: '10px', md: '22px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>{categoryName || 'Category'}</Text>
+        <Flex mb='20px' align={'center'} justify={'space-between'}>
           <Flex gap='16px'>
             <FormSelect
               borderRadius='full'

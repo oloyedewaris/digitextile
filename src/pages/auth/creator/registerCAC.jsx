@@ -99,6 +99,7 @@ const RegisterCAC = () => {
       file: null
     },
     onSubmit: values => {
+      const formData = new FormData()
       formData.append('file', values.file)
       formData.append('cacNumber', Number(values.cacNumber))
       formData.append('name', values.name)

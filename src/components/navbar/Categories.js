@@ -3,9 +3,12 @@ import { Flex, Text, MenuList, Menu, MenuButton, MenuItem } from '@chakra-ui/rea
 import Link from 'next/link';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { motion } from 'framer-motion';
-import categoriesData from '@/utils/categories.json'
+import { useQuery } from 'react-query';
+import { getCategoriesApi } from '@/apis/category';
 
 const Categories = () => {
+  const { data } = useQuery(["getCategories"], getCategoriesApi);
+  const categories = data?.data?.data
 
   return (
     <Menu h="fit-content">
@@ -18,11 +21,13 @@ const Categories = () => {
         </Flex>
       </MenuButton>
       <MenuList style={{ height: 'fit-content' }} w='280px'>
-        {categoriesData.map(category => (
+        {categories?.map(category => (
           <MenuItem>
-            <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
-              {category}
-            </Text>
+            <Link href={`/category/${category?._id}?category=${category?.name}`}>
+              <Text color='#919191' fontWeight='400' my='10px' fontSize={'16px'} pl='20px'>
+                {category?.name}
+              </Text>
+            </Link>
           </MenuItem>
         ))}
       </MenuList>
