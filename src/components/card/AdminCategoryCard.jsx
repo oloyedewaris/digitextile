@@ -5,16 +5,20 @@ import {
   Text,
   Flex,
   Box,
+  Spinner,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { DeleteIcon } from "@chakra-ui/icons";
 
-const Category = ({
+const AdminCategory = ({
   id,
   title,
   image,
   subTitle,
   onClickCard,
-  offers
+  onClickDelete,
+  offers,
+  deleting
 }) => {
 
 
@@ -49,13 +53,17 @@ const Category = ({
       />
 
       <VStack align={"stretch"} spacing={{ base: '2px', md: '5px' }} >
-        <Text lineHeight={{ base: '12px', md: '18px' }} fontSize={{ base: '12px', md: '16px' }} fontWeight='700'>{title}</Text>
-        <Text lineHeight={{ base: '12px', md: '18px' }} fontSize={{ base: '10px', md: '14px' }}>{subTitle}</Text>
+        <Text lineHeight={{ base: '12px', md: '18px' }} fontSize={{ base: '12px', md: '16px' }} fontWeight='700' noOfLines={1}>{title}</Text>
+        <Text lineHeight={{ base: '12px', md: '18px' }} fontSize={{ base: '10px', md: '14px' }} noOfLines={2}>{subTitle}</Text>
         <Text lineHeight={{ base: '12px', md: '18px' }} fontSize={{ base: '10px', md: '14px' }} mt={{ base: 'auto', md: "8px" }}>{offers}</Text>
+        {deleting ?
+          <DeleteIcon alignSelf={'flex-end'} fontSize={'20px'} color='#EF233C' opacity={0.4} />
+          : <DeleteIcon alignSelf={'flex-end'} fontSize={'20px'} color='#EF233C' onClick={onClickDelete} />
+        }
       </VStack>
     </Flex>
   );
 };
 
 
-export default Category;
+export default AdminCategory;

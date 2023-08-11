@@ -1,10 +1,7 @@
 import { Center, CircularProgress, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import AuthContainer from '../auth/sections/authCon'
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { verifyEmail } from '@/apis/auth';
 
 const Verify = () => {
@@ -12,7 +9,7 @@ const Verify = () => {
   const router = useRouter();
   const token = router.query?.token
 
-  const { isLoading, isError, error, mutate } = useMutation(() => verifyEmail(token), {
+  const { isLoading, error, mutate } = useMutation(() => verifyEmail(token), {
     onSuccess: (res) => {
       router.push('/auth/login')
       return toast({
@@ -29,7 +26,31 @@ const Verify = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 10000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+  })
+
+  const { isLoading: isResending, mutate: resendVerification } = useMutation(() => resendVerification(email), {
+    onSuccess: (res) => {
+      router.push('/auth/login')
+      return toast({
+        title: "Verification email sent",
+        description: 'Check your email to complete',
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+    onError: (err) => {
+      toast({
+        title: `"Oops...`,
+        description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+        status: "error",
+        duration: 10000,
         isClosable: true,
         position: "top-right",
       });
@@ -45,12 +66,13 @@ const Verify = () => {
 
 
   return (
-    <Center>
-      <Center w='full' h='60vh' gap='20px' flexDirection={'column'}>
-        <CircularProgress _loading={isLoading} isIndeterminate size={'50px'} />
-        <Text>Please wait why we are verifying your account</Text>
-      </Center>
-      {error && <Text color='red'>An error occurred{JSON.stringify(error)}</Text>}
+    <Center flexDirection={'column'}>
+      {error ? <Text mt='20vh' color='red'>An error occurred {JSON.stringify(error?.message)}</Text> : (
+        <Center w='full' h='60vh' gap='20px' flexDirection={'column'}>
+          <CircularProgress _loading={isLoading} isIndeterminate size={'50px'} />
+          <Text>Please wait why we are verifying your account</Text>
+        </Center>
+      )}
     </Center>
   )
 }

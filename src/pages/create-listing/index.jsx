@@ -10,7 +10,8 @@ import { CloseIcon, DeleteIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
 import FormInput from '@/components/form/FormInput';
 import FormTextarea from '@/components/form/FormTextarea';
-import { attachImageToProduct, createProductApi, getCategoriesApi } from '@/apis/product';
+import { attachImageToProduct, createProductApi } from '@/apis/product';
+import { getCategoriesApi } from '@/apis/category';
 import { useMutation, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 

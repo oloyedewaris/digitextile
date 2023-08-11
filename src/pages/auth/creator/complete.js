@@ -17,12 +17,12 @@ const CompleteRegistration = () => {
   const toast = useToast()
   const router = useRouter()
 
-  const { isLoading, mutate } = useMutation((values) => completeRegApi({ ...values, role: "creator", cacNumber: 123 }), {
+  const { isLoading, mutate } = useMutation((values) => completeRegApi({ ...values, role: "creator" }), {
     onSuccess: (res) => {
-      router.push('/auth/login')
+      router.push('/auth/creator/registerCAC')
       return toast({
-        title: "Account created",
-        description: `You are almost there!!, check your email address to complete the process`,
+        title: "Saved created",
+        description: `Kindly go ahead and complete your business registration`,
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -60,10 +60,7 @@ const CompleteRegistration = () => {
       country: '',
     },
     onSubmit: values => {
-      router.push({
-        pathname: '/auth/creator/registerCAC',
-        query: values
-      })
+      mutate(values)
     }
   })
 

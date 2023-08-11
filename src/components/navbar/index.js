@@ -13,11 +13,11 @@ import { GlobalContext } from '@/context/Provider';
 import ProfileMenu from './ProfileMenu';
 import Notifications from './Notifications';
 import { BellIcon } from '@chakra-ui/icons';
+import { RiAdminFill } from 'react-icons/ri';
 
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
   const loggedIn = authState.isAuthenticated
-  // const loggedIn = true
   const router = useRouter();
   const drawerModal = useDisclosure();
 
@@ -69,6 +69,13 @@ const Navbar = ({ }) => {
               <Link href='/store'>
                 <Box cursor='pointer'>
                   <BiStore size={25} />
+                </Box>
+              </Link>
+            )}
+            {authState?.user?.role === 'admin' && (
+              <Link href='/admin'>
+                <Box cursor='pointer'>
+                  <RiAdminFill size={25} />
                 </Box>
               </Link>
             )}

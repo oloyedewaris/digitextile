@@ -1,5 +1,5 @@
-import { Box, Checkbox, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
-import React from 'react';
+import { Box, Center, Checkbox, CircularProgress, Divider, Flex, Image, Text, useToast } from '@chakra-ui/react'
+import React, { useCallback, useEffect, useState } from 'react';
 import AuthContainer from '../sections/authCon'
 import FormInput from '@/components/form/FormInput';
 import Button from '@/components/button';
@@ -9,22 +9,61 @@ import { useMutation } from 'react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { completeRegApi } from '@/apis/auth';
+import { registerCac } from '@/apis/auth';
+import { BiCamera } from 'react-icons/bi';
+import { useDropzone } from 'react-dropzone';
 
 const RegisterCAC = () => {
   const toast = useToast()
   const router = useRouter()
   const valuesGotten = router.query
+  const [copyFile, setCopyFile] = useState(null)
 
-  console.log('values', valuesGotten)
+  const addFile = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0]
+    formik.setFieldValue('file', file)
+    return encodeFileToBase64(file)
+      .then((res) => setCopyFile(Object.assign({ image: res }, file, { preview: URL.createObjectURL(file), })))
+      .catch(err => { })
+  })
 
-  const { isLoading, mutate } = useMutation((values) => completeRegApi(
-    { cacNumber: Number(values?.cacNumber), role: "creator", ...valuesGotten, }),
+  const encodeFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
+    accept: { "image/*": [], },
+    maxSize: 2 * 1024 * 1024,
+    multiple: false,
+    onDrop: addFile
+  });
+
+  useEffect(() => {
+    if (fileRejections.length) {
+      toast({
+        title: "Hmm...",
+        description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [fileRejections, acceptedFiles]);
+
+
+  const { isLoading, mutate } = useMutation(registerCac,
     {
       onSuccess: (res) => {
         router.push('/auth/login')
         return toast({
-          title: "Account created",
+          title: "Saved created",
           description: `You are almost there!!, check your email address to complete the process`,
           status: "success",
           duration: 4000,
@@ -55,9 +94,16 @@ const RegisterCAC = () => {
     validationSchema: formSchema,
     initialValues: {
       cacNumber: '',
+      name: '',
+      address: '',
+      file: null
     },
     onSubmit: values => {
-      mutate(values)
+      formData.append('file', values.file)
+      formData.append('cacNumber', Number(values.cacNumber))
+      formData.append('name', values.name)
+      formData.append('address', values.address)
+      mutate(formData)
     }
   })
 
@@ -86,13 +132,88 @@ const RegisterCAC = () => {
             h='50px'
             mb='20px'
             isRequired
+            value={formik.values.name}
+            error={formik.errors.name}
+            onChange={formik.handleChange('name')}
+            label={'Your Business Name'}
+            id='name'
+            placeholder={'Enter name'}
+          />
+          <FormInput
+            h='50px'
+            mb='20px'
+            isRequired
+            value={formik.values.address}
+            error={formik.errors.address}
+            onChange={formik.handleChange('address')}
+            label={'Business Address'}
+            id='address'
+            placeholder={'Enter address'}
+          />
+          <FormInput
+            h='50px'
+            mb='20px'
+            type={'number'}
+            isRequired
             value={formik.values.cacNumber}
             error={formik.errors.cacNumber}
             onChange={formik.handleChange('cacNumber')}
             label={'Corporate Affairs Commission number (CAC)'}
             id='cacNumber'
-            placeholder={'ENter number'}
+            placeholder={'Enter number'}
           />
+          <Text mb='30px' color='#A2A6AB'>Upload your Corporate Affairs Commission number (CAC) certificate </Text>
+          <Center
+            m={{ base: '15px', md: '35px' }}
+            w={{ base: '60px', md: '96px' }}
+            h={{ base: '60px', md: '96px' }}
+            {...getRootProps({ className: "dropzone" })}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <Text>Drop the files here</Text>
+            ) : (
+              <Flex
+                bgPosition={'center'}
+                bgSize={'contain'}
+                direction={'column'}
+                justify={'flex-end'}
+                align={'stretch'}
+                h={{ base: '100px', md: '140px' }}
+                w={{ base: '100px', md: '140px' }}
+                borderRadius={'4px'}
+                border='1px solid #C9C5C5'
+                flexDirection={'column'}
+              >
+                <Center
+                  h={{ base: '100px', md: '140px' }}
+                  w={{ base: '100px', md: '140px' }}
+                  borderRadius={'4px'}
+                  border='1px solid #C9C5C5'
+                  flexDirection={'column'}
+                  {...getRootProps({ className: "dropzone" })}
+                >
+                  <input {...getInputProps()} />
+                  <BiCamera size={25} />
+                  {isDragActive ? (
+                    <Text>Drop the files here</Text>
+                  ) : (
+                    <Text>Upload file</Text>
+                  )}
+                </Center>
+              </Flex>
+            )}
+          </Center>
+          {copyFile && <Image
+            mt='50px'
+            // bgPosition={'center'}
+            // bgSize={'contain'}
+            h={{ base: '250px', md: '390px' }}
+            w={{ base: '250px', md: '390px' }}
+            borderRadius={'4px'}
+            src={copyFile?.image}
+          />}
+
           <Button
             onClick={formik.handleSubmit}
             borderRadius='full' bg='#2B2D42'

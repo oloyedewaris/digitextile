@@ -4,11 +4,12 @@ import { useRouter } from 'next/router';
 import LayoutView from '@/components/layout';
 import Dashboard from './sections/Dashboard';
 import { BiChart, BiGridAlt, BiMessage, BiStore } from 'react-icons/bi';
-import { FaBox } from 'react-icons/fa';
-import Listings from './sections/MyListings';
+import { FaBox, FaUsers } from 'react-icons/fa';
+import Categories from './sections/Categories';
+import Users from './sections/Users';
 import Auth from '@/hoc/Auth';
 
-const Store = () => {
+const PatientProfile = () => {
   const toast = useToast()
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
@@ -21,19 +22,14 @@ const Store = () => {
       icon: <BiGridAlt size={25} />
     },
     {
-      tablist: "Listings",
-      component: <Listings />,
+      tablist: "Users",
+      component: <Users />,
+      icon: <FaUsers size={25} />
+    },
+    {
+      tablist: "Categories",
+      component: <Categories />,
       icon: <BiStore size={25} />
-    },
-    {
-      tablist: "Messages",
-      component: <Dashboard />,
-      icon: <BiMessage size={25} />
-    },
-    {
-      tablist: "Insight",
-      component: <Dashboard />,
-      icon: <BiChart size={25} />
     },
   ];
 
@@ -87,9 +83,9 @@ const Store = () => {
             </Box>
 
             <Box w={{ base: '100%', md: '72%' }} bg='white' borderRadius={{ base: '8px', md: '16px' }}>
-              <TabPanels minH='80vh'>
+              <TabPanels h='fit-content'>
                 {tabs.map((item, index) => (
-                  <TabPanel key={index} px="0px">
+                  <TabPanel minH='80vh' key={index} px="0px">
                     {item.component}
                   </TabPanel>
                 ))}
@@ -102,4 +98,4 @@ const Store = () => {
   )
 }
 
-export default Auth(Store);
+export default Auth(PatientProfile);

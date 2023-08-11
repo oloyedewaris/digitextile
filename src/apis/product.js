@@ -36,22 +36,6 @@ export const createProductApi = async (data) => {
     return (res)
 }
 
-export const getCategoriesApi = async (params) => {
-    const res = await axiosInstance.get(`/categories?page=${params?.page || 1}&limit=${params?.limit || 6}`)
-    return (res)
-}
-
-
-// export const getCategory = async (params) => {
-//     const res = await axiosInstance.get(`/categories?page=${params?.page || 1}&limit=${params?.limit || 6}`)
-//     return (res)
-// }
-
-
-export const searchCategory = async (text) => {
-    const res = await axiosInstance.get(`/categories/search?query=${text}`)
-    return (res)
-}
 
 export const deleteProductApi = async (id, data) => {
     const res = await axiosInstance.delete(`/products/user/${id}`, data)

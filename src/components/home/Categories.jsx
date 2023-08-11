@@ -3,9 +3,9 @@ import React from 'react';
 import { RiArrowRightLine } from 'react-icons/ri';
 import CategoryCard from '../card/CategoryCard';
 import Link from 'next/link';
-import { getCategoriesApi } from '@/apis/product';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
+import { getCategoriesApi } from '@/apis/category';
 
 const Categories = () => {
   const router = useRouter();

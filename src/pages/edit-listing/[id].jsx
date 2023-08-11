@@ -10,7 +10,8 @@ import { CloseIcon, DeleteIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
 import FormInput from '@/components/form/FormInput';
 import FormTextarea from '@/components/form/FormTextarea';
-import { attachImageToProduct, createProductApi, getCategoriesApi, getProductApi, updateProductApi } from '@/apis/product';
+import { attachImageToProduct, createProductApi, getProductApi, updateProductApi } from '@/apis/product';
+import { getCategoriesApi } from '@/apis/category';
 import { useMutation, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 
@@ -51,14 +52,11 @@ const CreateListing = () => {
     (id) => {
       const formData = new FormData();
 
-      for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i])
+      for (let i = 0; i < originalfiles.length; i++) {
+        formData.append('files', originalfiles[i])
       }
 
-      if (originalfiles.length)
-        return attachImageToProduct(id, formData)
-      else
-        return true
+      return attachImageToProduct(id, formData)
     },
     {
       onSuccess: (res) => {
