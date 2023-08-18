@@ -30,6 +30,24 @@ const CreateListing = () => {
 
   const productObj = productData?.data?.data;
 
+  useEffect(() => {
+    formik.setValues({
+      title: productObj?.title || "",
+      description: productObj?.description || "",
+      type: productObj?.type || "",
+      tags: productObj?.tags || [],
+      price: productObj?.price || '',
+      quantity: productObj?.quantity || '',
+      personalization: productObj?.personalization || {},
+      variation: productObj?.variation || [],
+      collaborationPartners: productObj?.collaborationPartners || [],
+      sections: productObj?.sections || [],
+      categories: [],
+    })
+  }, [productObj])
+
+  console.log('productObj', productObj)
+
   const { isLoading: productCreating, mutate } = useMutation(
     (formData) => updateProductApi(productId, formData),
     {
@@ -61,8 +79,8 @@ const CreateListing = () => {
     {
       onSuccess: (res) => {
         toast({
-          title: "Product created",
-          description: `Product successfully created`,
+          title: "Product updated",
+          description: `Product successfully updated`,
           status: "success",
           duration: 4000,
           isClosable: true,
@@ -167,7 +185,7 @@ const CreateListing = () => {
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
     accept: { "image/*": [], },
-    maxSize: 2 * 1024 * 1024,
+    maxSize: 4 * 1024 * 1024,
     multiple: true,
     onDrop: addFiles
   });
@@ -176,7 +194,7 @@ const CreateListing = () => {
     if (fileRejections.length) {
       toast({
         title: "Hmm...",
-        description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
+        description: `${fileRejections[0].errors[0].code}: file is larger than 4MB`,
         status: "error",
         duration: 4000,
         isClosable: true,

@@ -12,7 +12,7 @@ const Categories = () => {
 
   return (
     <LayoutView>
-      <Box px={{ base: '10px', md: '48px' }} mt={{ base: '40px', md: '100px' }}>
+      <Box px={{ base: '10px', md: '48px' }} my={{ base: '40px', md: '100px' }}>
         <Text mb={{ base: '10px', md: '32px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>All Categories</Text>
         <Skeleton isLoaded={data?.data?.data?.map}>
           <SimpleGrid columns={{ base: '2', md: '4' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>

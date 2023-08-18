@@ -5,11 +5,14 @@ import Carousel from 'react-elastic-carousel'
 const TopBanner = () => {
   return (
     <Box px={{ base: '15px', md: '40px' }}>
-      <Box
+      <Flex
         borderRadius={{ base: '8px', md: '16px' }}
         bg={'#1C1D2C'} w='full' h={{ base: '', md: '300px' }}
         px={{ base: '12px', md: '40px' }}
-        pt={{ base: '50px', md: '38px' }}
+        direction={'column'}
+        align={'stretch'}
+        justify={'center'}
+        py={{ base: '10px', md: '28px' }}
       // pb={{ base: '40px', md: '120px' }}
       >
         <Carousel showArrows={false}>
@@ -26,7 +29,7 @@ const TopBanner = () => {
             </Flex>
           ))}
         </Carousel>
-      </Box>
+      </Flex>
     </Box>
   )
 }

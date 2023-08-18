@@ -3,10 +3,10 @@ import { Box, Button, Center, CircularProgress, Flex, GridItem, HStack, SimpleGr
 import { useRouter } from 'next/router';
 import LayoutView from '@/components/layout';
 import Dashboard from './sections/Dashboard';
-import { BiChart, BiGridAlt, BiMessage, BiStore } from 'react-icons/bi';
-import { FaBox } from 'react-icons/fa';
+import { BiChart, BiEnvelope, BiGridAlt, BiStore } from 'react-icons/bi';
 import Listings from './sections/MyListings';
 import Auth from '@/hoc/Auth';
+import Messages from './sections/Messages';
 
 const Store = () => {
   const toast = useToast()
@@ -27,8 +27,8 @@ const Store = () => {
     },
     {
       tablist: "Messages",
-      component: <Dashboard />,
-      icon: <BiMessage size={25} />
+      component: <Messages />,
+      icon: <BiEnvelope size={25} />
     },
     {
       tablist: "Insight",
@@ -59,27 +59,33 @@ const Store = () => {
                 {tabs.map((item, index) => (
                   <Tab key={index} p='0' _focus={{ border: 'none', bg: 'transparent' }} border={'none'} w='full' mx='0'>
                     {tabIndex === index ? (
-                      <Center
+                      <Flex
+                        justify={'flex-start'}
+                        align={'center'}
                         color='#2B2D42' fontWeight='600'
                         bg='#D1DEF4' borderRadius='8px'
-                        mx="0" w="full" px={{ base: '6px', md: '12px' }} py={{ base: '8px', md: '16px' }}
-                        align={'center'}
+                        mx="0" w="full"
                         gap='20px'
+                        px={{ base: '6px', md: '12px' }}
+                        py={{ base: '8px', md: '16px' }}
                       >
                         {item.icon}
                         <Text display={{ base: 'none', md: 'block' }} fontSize={'22px'} fontWeight={500}>{item.tablist}</Text>
-                      </Center>
+                      </Flex>
                     ) : (
-                      <Center
+                      <Flex
+                        justify={'flex-start'}
+                        align={'center'}
                         color='#A2A6AB' fontWeight='600'
                         borderRadius='8px'
-                        mx="0" w="full" px={{ base: '6px', md: '12px' }} py={{ base: '8px', md: '16px' }}
-                        align={'center'}
+                        mx="0" w="full"
                         gap='20px'
+                        px={{ base: '6px', md: '12px' }}
+                        py={{ base: '8px', md: '16px' }}
                       >
                         {item.icon}
                         <Text display={{ base: 'none', md: 'block' }} fontSize={'22px'} fontWeight={500}>{item.tablist}</Text>
-                      </Center>
+                      </Flex>
                     )}
                   </Tab>
                 ))}

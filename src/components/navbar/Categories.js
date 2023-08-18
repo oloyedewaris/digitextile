@@ -13,8 +13,11 @@ const Categories = () => {
   return (
     <Menu h="fit-content">
       <MenuButton w='178px' color='white' variant={'link'} rounded={'full'} cursor={'pointer'} alignItems='center'>
-        <Flex gap={'8px'} as={motion.div} align={'center'} justifyContent={'center'} cursor={'pointer'}
-          whiletap={{ scale: 0.9 }} whilehover={{ scale: 1.1 }}
+        <Flex
+          gap={'8px'} as={motion.div}
+          align={'center'} justifyContent={'center'}
+          cursor={'pointer'} whilehover={{ scale: 1.1 }}
+          whiletap={{ scale: 0.9 }}
         >
           <Text color='#000000'>Categories</Text>
           <RiArrowDownSLine color='#2B2D42' size={25} />

@@ -163,7 +163,7 @@ const CreateListing = () => {
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
     accept: { "image/*": [], },
-    maxSize: 2 * 1024 * 1024,
+    maxSize: 4 * 1024 * 1024,
     multiple: true,
     onDrop: addFiles
   });
@@ -172,7 +172,7 @@ const CreateListing = () => {
     if (fileRejections.length) {
       toast({
         title: "Hmm...",
-        description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
+        description: `${fileRejections[0].errors[0].code}: file is larger than 4MB`,
         status: "error",
         duration: 4000,
         isClosable: true,

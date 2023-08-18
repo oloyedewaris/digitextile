@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { GlobalContext } from '@/context/Provider';
 import { getUserProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
+import EmptyState from '@/components/empty-state';
+import product from '@/constant/product';
 
 const Dashboard = () => {
   const { authState: { user } } = useContext(GlobalContext)
@@ -91,6 +93,8 @@ const Dashboard = () => {
           ))}
         </VStack> */}
 
+        <EmptyState text={'No message yet'} height={'200px'} />
+
         <Text mt={{ base: '20px', md: '40px' }} color={'#1C1D2C'} fontSize={'24px'} fontWeight={600}>My Listings</Text>
         <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
           <Flex gap={{ base: '6px', md: '16px' }}>
@@ -124,40 +128,44 @@ const Dashboard = () => {
         </Flex>
         <Flex justify='space-between' align='center' bg='#F0FFEC' borderRadius={'8px'} px='30px' py='16px'>
           <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={600} color='#1C1D2C'>Listings</Text>
-          <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={600} color='#1C1D2C'>Category</Text>
+          <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={600} color='#1C1D2C'>Description</Text>
           <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={600} color='#1C1D2C'>Price</Text>
         </Flex>
-        <VStack
-          mt={{ base: '20px', md: '40px' }}
-          px={{ base: '20px', md: '40px' }}
-          py={{ base: '15px', md: '30px' }}
-          align={'stretch'} shadow='md'
-          borderRadius={{ base: '8px', md: '16px' }}
-          spacing={{ base: '20px', md: '32px' }} border='1px solid #9F9898'
-        >
-          {(products || []).map(product => (
-            <Link href={`/product/${product._id}`}>
-              <Flex justify='space-between' align='center'>
-                <Flex gap={{ base: '8px', md: '16px' }} align={'center'} w='30%'>
-                  {product.images[0] && (
-                    <Image
-                      src={product.images[0]}
-                      h={{ base: '25px', md: '40px' }}
-                      w={{ base: '25px', md: '40px' }}
-                      borderRadius={'8px'}
-                    />
-                  )}
-                  <VStack align={'stretch'} spacing={{ base: '0px', md: '4px' }}>
-                    <Text noOfLines={1} fontWeight={500}>{product.title}</Text>
-                    <Text noOfLines={1} fontWeight={500} fontSize={'12px'}>Inquiries: 4</Text>
-                  </VStack>
+        {(!isLoading && products?.length) ? (
+          <VStack
+            mt={{ base: '20px', md: '40px' }}
+            px={{ base: '20px', md: '40px' }}
+            py={{ base: '15px', md: '30px' }}
+            align={'stretch'} shadow='md'
+            borderRadius={{ base: '8px', md: '16px' }}
+            spacing={{ base: '20px', md: '32px' }} border='1px solid #9F9898'
+          >
+            {(products || []).map(product => (
+              <Link href={`/product/${product._id}`}>
+                <Flex justify='space-between' align='center'>
+                  <Flex gap={{ base: '8px', md: '16px' }} align={'center'} w='30%'>
+                    {product.images[0] && (
+                      <Image
+                        src={product.images[0]}
+                        h={{ base: '25px', md: '40px' }}
+                        w={{ base: '25px', md: '40px' }}
+                        borderRadius={'8px'}
+                      />
+                    )}
+                    <VStack align={'stretch'} spacing={{ base: '0px', md: '4px' }}>
+                      <Text noOfLines={1} fontWeight={500}>{product.title}</Text>
+                      {/* <Text noOfLines={1} fontWeight={500} fontSize={'12px'}>Inquiries: 4</Text> */}
+                    </VStack>
+                  </Flex>
+                  <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{product.description}</Text>
+                  <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>NGN {product?.price}</Text>
                 </Flex>
-                <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{product.description}</Text>
-                <Text textDecoration={'underline'} color='#3F51B5' fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>Reply</Text>
-              </Flex>
-            </Link>
-          ))}
-        </VStack>
+              </Link>
+            ))}
+          </VStack>
+        ) : (
+          <EmptyState text={'No product yet'} height={'200px'} />
+        )}
       </Box>
     </Box >
   )

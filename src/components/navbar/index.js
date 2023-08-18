@@ -3,7 +3,7 @@ import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
 import Categories from './Categories';
 import searchIcon from '@/assets/images/search-icon.png'
-import { BiBell, BiHeart, BiMessage, BiStore } from 'react-icons/bi';
+import { BiEnvelope, BiHeart, BiMessageAlt, BiMessageDetail, BiStore } from 'react-icons/bi';
 import Button from '../button';
 import { useRouter } from 'next/router';
 import Drawer from './Drawer';
@@ -11,9 +11,8 @@ import { FaBars } from 'react-icons/fa';
 import { useContext } from 'react';
 import { GlobalContext } from '@/context/Provider';
 import ProfileMenu from './ProfileMenu';
-import Notifications from './Notifications';
-import { BellIcon } from '@chakra-ui/icons';
 import { RiAdminFill } from 'react-icons/ri';
+import Notifications from './Notifications';
 
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
@@ -62,9 +61,16 @@ const Navbar = ({ }) => {
 
         {loggedIn ? (
           <HStack spacing='20px'>
-            <Box cursor='pointer'>
-              <BiHeart size={25} />
-            </Box>
+            <Link href='/messages'>
+              <Box cursor='pointer'>
+                <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
+              </Box>
+            </Link>
+            <Link href='/explore/favourites'>
+              <Box cursor='pointer'>
+                <BiHeart size={25} />
+              </Box>
+            </Link>
             {authState?.user?.role === 'creator' && (
               <Link href='/store'>
                 <Box cursor='pointer'>
@@ -79,7 +85,7 @@ const Navbar = ({ }) => {
                 </Box>
               </Link>
             )}
-            {/* <Notifications /> */}
+            <Notifications />
             <ProfileMenu />
           </HStack>
         ) : (
@@ -123,7 +129,7 @@ const Navbar = ({ }) => {
           />
         </Link>
         <HStack spacing='15px' align={'flex-end'}>
-          {/* <Notifications /> */}
+          <Notifications />
           <FaBars size={25} onClick={drawerModal.onOpen} />
         </HStack>
       </Flex>

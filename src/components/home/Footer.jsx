@@ -9,21 +9,24 @@ import logo from '@/assets/svgs/footer-logo.svg'
 import naira from '@/assets/svgs/footer-naira.svg'
 import Link from 'next/link';
 import { FaApple, FaFacebook, FaGoogle, FaGooglePlay, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { useQuery } from 'react-query';
+import { getCategoriesApi } from '@/apis/category';
 
 const Footer = ({ isDark }) => {
+  const { data } = useQuery(["getCategories"], getCategoriesApi);
+  const categories = data?.data?.data
+
   return (
     <Box w='full' p={{ base: '22px 20px 7px 22px', md: '88px 80px 28px 88px' }} bg={isDark ? '#2B2D42' : 'white'} color={isDark ? 'white' : '#9F9898'}>
       {!isDark && (
         <SimpleGrid mb='66px' columns={{ base: 1, md: 3, lg: 4 }} color='#9F9898' fontSize={'24px'} fontWeight={400}>
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>Categories</Text>
-            <Link href='/'><Text>Textile Design</Text></Link>
-            <Link href='/'><Text>Modelling</Text></Link>
-            <Link href='/'><Text>Fashion Consulting</Text></Link>
-            <Link href='/'><Text>Fashion Design</Text></Link>
-            <Link href='/'><Text>Sales</Text></Link>
-            <Link href='/'><Text>Machinery</Text></Link>
-            <Link href='/'><Text>Learning</Text></Link>
+            {categories?.map(category => (
+              <Link href={`/category/${category?._id}?category=${category?.name}`}>
+                <Text> {category?.name}</Text>
+              </Link>
+            ))}
           </VStack>
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>About</Text>

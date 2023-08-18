@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton, VStack, Box, Image, Text, Flex } from '@chakra-ui/react';
-import { BiBell, BiHeart, BiLogOut, BiMessage, BiPlus, BiStore } from 'react-icons/bi';
+import { BiHeart, BiLogOut, BiMessage, BiStore } from 'react-icons/bi';
 import Link from 'next/link';
 import Button from '../button';
 import { useRouter } from 'next/router';
@@ -27,7 +27,7 @@ const DrawerComp = ({ modal }) => {
         <DrawerCloseButton />
         <DrawerBody py='40px'>
           {loggedIn ? (
-            <Flex w='full' h='full' direction={'column'} justify={'space-between'} px='20px' py='40px'>
+            <Flex w='full' h='full' direction={'column'} justify={'space-between'} px='10px' py='40px'>
               <VStack w='full' align='flex-start' spacing={'20px'}>
                 <Link href={'/profile'}>
                   <Flex cursor='pointer' px='6px' py='3px' bg='rgba(255, 255, 255, 0.4)' gap='8px' align='center'>
@@ -49,15 +49,7 @@ const DrawerComp = ({ modal }) => {
                     </Flex>
                   </Link>
                 )}
-                {authState?.user?.role === 'creator' && (
-                  <Link href={'/create-listing'}>
-                    <Flex cursor='pointer' px='6px' py='3px' bg='rgba(255, 255, 255, 0.4)' gap='8px' align='center'>
-                      <BiPlus fontSize={25} />
-                      <Text fontWeight={500}>Add Listing</Text>
-                    </Flex>
-                  </Link>
-                )}
-                <Link href={'/'}>
+                <Link href='/explore/favourites'>
                   <Flex cursor='pointer' px='6px' py='3px' bg='rgba(255, 255, 255, 0.4)' gap='8px' align='center'>
                     <BiHeart size={25} />
                     <Text fontWeight={500}>Favourites</Text>
@@ -79,9 +71,6 @@ const DrawerComp = ({ modal }) => {
                   bg='transparent'
                 >Sign In</Button>
               </Link>
-              {/* <Box cursor='pointer'>
-              <BiHeart size={25} />
-            </Box> */}
 
               <Button
                 onClick={() => router.push('/auth')}

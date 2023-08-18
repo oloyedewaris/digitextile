@@ -3,7 +3,6 @@ import React from 'react';
 import { RiArrowRightLine } from 'react-icons/ri';
 import ProductCard from '../card/ProductCard';
 import Link from 'next/link';
-import products from '@/constant/product'
 import { useQuery } from 'react-query';
 import { getProductsApi } from '@/apis/product';
 

@@ -10,6 +10,20 @@ export const getCategorysApi = async (params) => {
     return (res)
 }
 
+export const getFavourite = async () => {
+    const res = await axiosInstance.get(`/favorites/`)
+    return (res)
+}
+export const addFavourite = async (id) => {
+    const res = await axiosInstance.post(`/favorites/${id}`)
+    return (res)
+}
+
+export const deleteFavourite = async (id) => {
+    const res = await axiosInstance.delete(`/favorites/${id}`)
+    return (res)
+}
+
 
 export const getProductApi = async (id) => {
     const res = await axiosInstance.get(`/products/${id}`)

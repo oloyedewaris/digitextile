@@ -5,7 +5,6 @@ import { BiPlus } from 'react-icons/bi';
 import FormSelect from '@/components/form/FromSelect';
 import searchIcon from '@/assets/images/search-icon.png'
 import MyListingCard from '@/components/card/MyListingCard';
-import products from '@/constant/product'
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { getUserProductApi } from '@/apis/user';
@@ -79,7 +78,7 @@ const Listings = () => {
                 images={product.images}
                 title={product.title}
                 subTitle={product.description}
-                price={product.price}
+                price={`N${product.price}`}
                 persons={product.persons || []}
               />
             ))}

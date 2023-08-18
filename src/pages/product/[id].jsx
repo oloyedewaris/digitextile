@@ -47,10 +47,9 @@ const Product = () => {
     },
   })
 
-
   const product = data?.data?.data;
 
-  const persons = [person1.src, person2.src];
+  console.log('product', product)
 
   const imagesToUse = product?.images?.map(image => ({
     original: image,

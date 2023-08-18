@@ -21,7 +21,7 @@ function Index() {
       <Ecosystem />
       <HotDrops />
       <Creator />
-      {/* <Artlerry /> */}
+      <Artlerry />
       <BottomBanner
         button={(
           <Link href='/dashboard'>

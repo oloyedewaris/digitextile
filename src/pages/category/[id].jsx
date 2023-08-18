@@ -11,7 +11,7 @@ const Category = () => {
   const router = useRouter()
   const categoryId = router.query.id;
   const categoryName = router.query.category;
-  const { data } = useQuery(["getProductsByCategory"], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
+  const { data } = useQuery(["getProductsByCategory", categoryId, categoryName], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
 
   console.log('data', data?.data?.data)
   return (

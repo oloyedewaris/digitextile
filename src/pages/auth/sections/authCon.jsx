@@ -24,9 +24,9 @@ const AuthContainer = ({ children }) => {
             <Box color='white'>
               <Text fontSize={'92px'} lineHeight={'25px'} fontWeight={700}>“</Text>
               <Text fontSize={'19px'} fontWeight={400}>
-                Eget eu massa ornare maecenas nunc dolor in. Ullamcorper aliquam adipiscing et nibh.
-                Sagittis habitasse quis malesuada posuere et pretium adipiscing aliquet. Tortor augue
-                faucibus arcu suspendisse nulla id enim lacus.
+                Connecting the fashion industry
+                Bringing various possibilities into existence.
+                Buy, sell, collaborate and stay up to date with latest trends.
               </Text>
               <Flex gap='8px' mt='17px'>
                 <Text fontSize={'17px'} fontWeight={500}>Saint Mary</Text>
