@@ -123,7 +123,7 @@
 
 
 import LayoutView from '@/components/layout';
-import { Box, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { extended } from '@/constant/hot-drop';
 import searchIcon from '@/assets/images/search-icon.png';
@@ -134,12 +134,16 @@ import { useRouter } from 'next/router';
 import { fetchForums } from '@/apis/forum';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
+import { BiPlus } from 'react-icons/bi';
+import Link from 'next/link';
 
 const HotDrops = () => {
   const router = useRouter()
   const { data, isError, error, isLoading, refetch, } = useQuery(["fetchForums"], fetchForums);
 
   const forums = data?.data?.data
+
+  const firstForum = forums[0]
 
   console.log('forums', forums)
 
@@ -176,6 +180,16 @@ const HotDrops = () => {
           </InputGroup>
 
 
+          <Button
+            mb='20px'
+            leftIcon={<BiPlus />}
+            borderRadius='full' bg='#2B2D42'
+            color='white'
+          >
+            <Link href='/create-hot-drop'>
+              Add Article
+            </Link>
+          </Button>
 
           <Flex direction={{ base: 'column', md: 'row' }} gap='35px'>
             <Box w={{ base: 'full', md: '50%' }}>
@@ -193,8 +207,8 @@ const HotDrops = () => {
             <Box w={{ base: 'full', md: '50%' }}>
               <Flex gap='5px' align='center'>
                 <HStack position='relative' divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />} spacing={'14px'}>
-                  <Text color='#1565C0' fontSize={{ base: '17px', md: '28px' }}>Fashion Consulting</Text>
-                  <Text color='#1565C0' fontSize={{ base: '17px', md: '28px' }}>8 mins read</Text>
+                  <Text color='#1565C0' fontSize={{ base: '17px', md: '28px' }}>{firstForum?.category}</Text>
+                  <Text color='#1565C0' fontSize={{ base: '17px', md: '28px' }}>{firstForum?.readTime}</Text>
                 </HStack>
               </Flex>
               <Text
@@ -206,9 +220,7 @@ const HotDrops = () => {
                 Fashion, technology and travelling.
               </Text>
               <Text mt={{ base: '8px', md: '24px' }} fontSize={{ base: '18px', md: '30px' }} noOfLines={3} color='#999'>
-                Lectus mattis tincidunt dis viverra enim velit augue senectus.
-                Vel ridiculus nullam diam cras egestas adipiscing.
-                Laoreet orci nulla neque a quis ultrices.
+                {firstForum.content}
               </Text>
               <HStack
                 mt={{ base: '8px', md: '12px' }}
@@ -216,9 +228,9 @@ const HotDrops = () => {
                 divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
                 <Flex justify={'center'} align={'center'} gap='14px'>
                   <Image h='40px' w='40px' borderRadius='full' src={person.src} />
-                  <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>Waris Oloyede</Text>
+                  <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{firstForum?.creator?.fullname}</Text>
                 </Flex>
-                <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>10th April, 2023</Text>
+                <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{firstForum?.createdAt && new Date(firstForum?.createdAt).toDateString()}</Text>
               </HStack>
             </Box>
           </Flex>

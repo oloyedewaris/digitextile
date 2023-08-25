@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaSignOutAlt, FaCaretDown, FaUser } from 'react-icons/fa';
 import { RiSettings4Fill } from 'react-icons/ri';
-import { BiMessageDetail, BiUser } from 'react-icons/bi';
+import { BiGroup, BiMessageDetail, BiUser } from 'react-icons/bi';
 import { motion } from 'framer-motion';
 import { GlobalContext } from '@/context/Provider';
 import { logout } from '@/context/actions/auth';
@@ -45,6 +45,16 @@ const ProfileMenu = () => {
             </Text>
           </Flex>
         </MenuItem>
+
+        <MenuItem>
+          <Link href='/hot-drops'>
+            <Flex gap={3} align='center' mb='15px'>
+              <BiGroup size={'26px'} color='#919191' />
+              <Text style={{ color: '#919191', fontWeight: '400' }}>Hot Drops</Text>
+            </Flex>
+          </Link>
+        </MenuItem>
+
         <MenuItem onClick={handleLogout}>
           <Flex gap={3} align='center'>
             <FaSignOutAlt size={'26px'} color='#919191' />
