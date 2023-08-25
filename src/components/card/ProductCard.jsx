@@ -8,13 +8,13 @@ import {
   Center,
   useToast,
 } from "@chakra-ui/react";
-import { RiArrowRightLine } from "react-icons/ri";
+import { RiArrowRightLine, RiHeart2Line, RiHeartFill } from "react-icons/ri";
 import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import { BiHeart } from "react-icons/bi";
 import Link from "next/link";
-import { useMutation } from "react-query";
-import { addFavourite } from "@/apis/product";
+import { useMutation, useQuery } from "react-query";
+import { addFavourite, checkFavourite, deleteFavourite } from "@/apis/product";
 
 const ProductCard = ({
   title,
@@ -27,7 +27,7 @@ const ProductCard = ({
 }) => {
   const toast = useToast()
   const addFavouriteMutation = useMutation(() => addFavourite(id), {
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
         title: "Product added to favourite",
         status: "success",
@@ -35,6 +35,7 @@ const ProductCard = ({
         isClosable: true,
         position: "top-right",
       });
+      await refetch()
     },
     onError: () => {
       toast({
@@ -47,6 +48,31 @@ const ProductCard = ({
     }
   })
 
+  const deleteFavouriteMutation = useMutation(() => deleteFavourite(id), {
+    onSuccess: async () => {
+      toast({
+        title: "Product removed from favourite",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+      await refetch()
+    },
+    onError: () => {
+      toast({
+        title: "An error occurred",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  })
+
+  const { data, refetch } = useQuery(["checkFavourite", id], () => checkFavourite(id));
+
+  const status = data?.data?.data;
 
   const imagesToUse = images.map(image => ({
     original: image,
@@ -101,7 +127,18 @@ const ProductCard = ({
       <VStack mt={"8px"} align={"start"}>
         <HStack justify={"space-between"} alignItems={'center'} w={"100%"}>
           <Text fontSize={{ base: '13px', md: '20px' }} fontWeight='500' noOfLines={1}>{title}</Text>
-          <BiHeart style={{ cursor: 'pointer' }} onClick={addFavouriteMutation.mutate} size={20} />
+          {status ? (
+            <RiHeartFill
+              color='#D90429' style={{ cursor: 'pointer' }}
+              onClick={deleteFavouriteMutation.mutate} size={20}
+            />
+          ) : (
+            <RiHeart2Line
+              aria-disabled={addFavouriteMutation.isLoading}
+              style={{ cursor: 'pointer' }}
+              onClick={addFavouriteMutation.mutate} size={20}
+            />
+          )}
         </HStack>
         <Text fontSize={{ base: '10px', md: '12px' }}>{subTitle}</Text>
         <HStack justify={"space-between"} w={"100%"} mt='12px' fontSize={{ base: '10px', md: '14px' }} fontWeight={500}>

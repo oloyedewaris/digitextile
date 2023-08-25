@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import ImageGallery from 'react-image-gallery';
 import { BiHeart } from "react-icons/bi";
 import Link from "next/link";
+import avatar from '@/assets/images/avatar.png'
 
 const HotDropDetail = ({
   title,
@@ -29,10 +30,9 @@ const HotDropDetail = ({
 
   return (
     <Box
-      bg='white'
+      bg='white' cursor='pointer'
       p={{ base: '8px', md: '16px' }}
-      mx={'auto'}
-      w='100%'
+      mx={'auto'} w='100%'
       borderRadius={{ base: '8px', md: '16px' }}
       overflow='hidden'
       as={motion.div}
@@ -45,13 +45,11 @@ const HotDropDetail = ({
         <Image
           borderRadius={{ base: 'sm', md: 'md' }}
           bgPosition={'center'}
-          bgSize={"cover"}
-          w='full'
-          maxW='290px'
-          h='auto'
+          bgSize={"cover"} src={image}
+          w='full' maxW='290px' h='auto'
           maxH={{ base: '200px', md: "280px" }}
           minH={{ base: '200px', md: "280px" }}
-          src={image}
+
         />
       </Box>
 
@@ -64,7 +62,7 @@ const HotDropDetail = ({
         <Text fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4' noOfLines={3}>{subTitle}</Text>
         <HStack alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
           <Flex justify={'center'} align={'center'} gap='14px'>
-            <Image h='40px' w='40px' borderRadius='full' src={person} />
+            <Image h='40px' w='40px' borderRadius='full' src={person || avatar.src} />
             <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{user}</Text>
           </Flex>
           <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{time}</Text>

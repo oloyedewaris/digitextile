@@ -14,6 +14,13 @@ export const getFavourite = async () => {
     const res = await axiosInstance.get(`/favorites/`)
     return (res)
 }
+
+
+export const checkFavourite = async (id) => {
+    const res = await axiosInstance.get(`/favorites/${id}`)
+    return (res)
+}
+
 export const addFavourite = async (id) => {
     const res = await axiosInstance.post(`/favorites/${id}`)
     return (res)
