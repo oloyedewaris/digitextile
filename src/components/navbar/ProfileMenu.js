@@ -37,6 +37,16 @@ const ProfileMenu = () => {
             </Flex>
           </Link>
         </MenuItem>
+
+        <MenuItem>
+          <Link href='/hot-drops/my-hot-drops'>
+            <Flex gap={3} align='center' mb='15px'>
+              <BiGroup size={'26px'} color='#919191' />
+              <Text style={{ color: '#919191', fontWeight: '400' }}> My Hot Drops</Text>
+            </Flex>
+          </Link>
+        </MenuItem>
+
         <MenuItem>
           <Flex gap={3} align='center' mb='15px'>
             <BiMessageDetail size={'26px'} color='#919191' />
@@ -44,15 +54,6 @@ const ProfileMenu = () => {
               Terms & Conditions
             </Text>
           </Flex>
-        </MenuItem>
-
-        <MenuItem>
-          <Link href='/hot-drops'>
-            <Flex gap={3} align='center' mb='15px'>
-              <BiGroup size={'26px'} color='#919191' />
-              <Text style={{ color: '#919191', fontWeight: '400' }}>Hot Drops</Text>
-            </Flex>
-          </Link>
         </MenuItem>
 
         <MenuItem onClick={handleLogout}>

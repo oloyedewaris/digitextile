@@ -5,6 +5,7 @@ import ProductCard from '@/components/card/ProductCard';
 import FormSelect from '@/components/form/FromSelect';
 import { getProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
+import { FilterCategory, FilterDate, FilterSection } from '@/components/elements';
 
 const TopDeals = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
@@ -15,27 +16,9 @@ const TopDeals = () => {
         <Text mb={{ base: '10px', md: '32px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>Top Deals</Text>
         <Flex mb='30px' align={'center'} justify={'space-between'}>
           <Flex gap='16px'>
-            <FormSelect
-              borderRadius='full'
-              w='120px'
-              border='1px solid #2B2D42'
-              placeholder={'Category'}
-              options={[]}
-            />
-            <FormSelect
-              borderRadius='full'
-              w='120px'
-              border='1px solid #2B2D42'
-              placeholder={'Section'}
-              options={[]}
-            />
-            <FormSelect
-              borderRadius='full'
-              w='120px'
-              border='1px solid #2B2D42'
-              placeholder={'Date'}
-              options={[]}
-            />
+            <FilterCategory />
+            <FilterSection />
+            <FilterDate />
           </Flex>
         </Flex>
         <Skeleton isLoaded={data?.data?.data?.map}>

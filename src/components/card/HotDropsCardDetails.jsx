@@ -56,7 +56,7 @@ const HotDropDetail = ({
       <VStack mt={"8px"} align={"start"}>
         <HStack alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
           <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{category}</Text>
-          <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{timeToRead}</Text>
+          <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{timeToRead || 0} min read</Text>
         </HStack>
         <Text fontSize={{ base: '13px', md: '20px' }} fontWeight='500' noOfLines={1}>{title}</Text>
         <Text fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4' noOfLines={3}>{subTitle}</Text>

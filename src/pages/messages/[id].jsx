@@ -11,6 +11,8 @@ import EmptyState from '@/components/empty-state'
 
 const Message = () => {
   const router = useRouter();
+  const recipientId = router.query.id;
+  const { data: checkData, isLoading } = useQuery(["checkConversation"], () => recipientId && checkConversation(recipientId));
   const [conversation, setConversation] = useState(null);
   const conversationQuery = useQuery(["getUserConversations"], getUserConversations);
   const conversationsData = conversationQuery?.data?.data?.data;
@@ -34,6 +36,13 @@ const Message = () => {
     }
   );
 
+  const startNewUserConversationMutation = useMutation(
+    () => createConversation({ recipientId: router.query?.id, content: 'hello' }),
+    {
+      onSuccess: res => console.log('res', res),
+      onError: err => console.log('err', err)
+    }
+  );
 
   const sendMessageMutation = useMutation(
     (data) => {
@@ -47,32 +56,49 @@ const Message = () => {
   );
 
 
+  useEffect(() => {
+    if (recipientId) {
+      if (!isLoading && !checkData?.data?.data) {
+        startNewUserConversationMutation.mutate()
+      } else {
+        setConversation(checkData?.data?.data)
+      }
+    }
+  }, [checkData?.data])
+
+
   const handleSelectConv = (conv) => {
     setConversation(conv)
   }
 
   return (
     <LayoutView darkFooter noFooter>
-      <Box
-        color='#9F9898'
-        mb={{ base: '10px', md: '30px' }}
-        px={{ base: '20px', md: '70px' }}
-        borderRadius={{ base: '12px', md: '24px' }}
-      >
-        <Flex w='full' gap='20px' direction={{ base: 'column', md: 'row' }}>
-          <Box w={{ base: '100%', md: '28%' }} px='7px' py='10px' bg='white' borderRadius={{ md: '16px' }} h='80vh'>
-            <Conversations handleSelectConv={handleSelectConv} conversationsData={conversationsData} />
-          </Box>
+      {isLoading ? (
+        <Center h='50vh' w='full'>
+          <Spinner />
+        </Center>
+      ) : (
+        <Box
+          color='#9F9898'
+          mb={{ base: '10px', md: '30px' }}
+          px={{ base: '20px', md: '70px' }}
+          borderRadius={{ base: '12px', md: '24px' }}
+        >
+          <Flex w='full' gap='20px' direction={{ base: 'column', md: 'row' }}>
+            <Box w={{ base: '100%', md: '28%' }} px='7px' py='10px' bg='white' borderRadius={{ md: '16px' }} h='80vh'>
+              <Conversations handleSelectConv={handleSelectConv} conversationsData={conversationsData} />
+            </Box>
 
-          <Box w={{ base: '100%', md: '72%' }} bg='white' borderRadius={{ base: '8px', md: '16px' }} h='80vh'>
-            {conversation ? (
-              <Chats sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
-            ) : (
-              <EmptyState h='80vh' text={'Select a conversation to start'} />
-            )}
-          </Box>
-        </Flex>
-      </Box>
+            <Box w={{ base: '100%', md: '72%' }} bg='white' borderRadius={{ base: '8px', md: '16px' }} h='80vh'>
+              {conversation ? (
+                <Chats sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
+              ) : (
+                <EmptyState text={'Select a conversation to start'} />
+              )}
+            </Box>
+          </Flex>
+        </Box>
+      )}
     </LayoutView>
   )
 }

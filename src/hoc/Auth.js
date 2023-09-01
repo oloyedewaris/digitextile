@@ -10,9 +10,28 @@ function Auth(Component) {
     const router = useRouter()
     const [checked, setChecked] = useState(false)
     const { authState, authDispatch } = useContext(GlobalContext)
+    // const consumerRoutes = ['/category', '/']
+
+    // useEffect(() => {
+    //   console.log('router?.pathname', router?.pathname)
+    //   if (authState?.user && authState?.user?.role) {
+    //     const userRole = authState?.user?.role;
+    //     if (userRole === 'consumer') {
+
+    //     }
+    //   }
+    // }, [router?.pathname])
 
     useEffect(() => {
       let accessToken = localStorage.getItem('accessToken')
+      // if (authState?.isAuthenticated) {
+      //   if (authState.user.role === 'creator')
+      //     router.push('/store')
+      //   else if (authState.user.role === 'creator')
+      //     router.push('/')
+      //   else if (authState.user.role === 'admin')
+      //     router.push('/admin')
+      // }
       if (!authState?.isAuthenticated && accessToken) {
         axiosInstance.get("/auth")
           .then(res => {

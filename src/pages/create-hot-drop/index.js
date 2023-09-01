@@ -1,8 +1,7 @@
 import LayoutView from '@/components/layout'
-import { Box, Button, Center, CircularProgress, Divider, Flex, Image, Input, InputGroup, InputRightElement, SimpleGrid, Text, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, Center, CircularProgress, Divider, Flex, GridItem, Image, Input, InputGroup, InputRightElement, ListItem, SimpleGrid, Text, UnorderedList, VStack, useToast } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import avatar from '@/assets/images/avatar.png'
-import ProfileInput from '@/components/form/ProfileInput';
 import Auth from '@/hoc/Auth';
 import { CheckIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useFormik } from 'formik';
@@ -16,6 +15,8 @@ import { useRouter } from 'next/router';
 import ProfileSelect from '@/components/form/ProfileSelect';
 import { createForum } from '@/apis/forum';
 import FormTextarea from '@/components/form/FormTextarea';
+import FormInput from '@/components/form/FormInput';
+import FormSelect from '@/components/form/FromSelect';
 
 const CreateHotDrop = () => {
   const toast = useToast()
@@ -94,16 +95,13 @@ const CreateHotDrop = () => {
       image: '',
       title: '',
       content: '',
-      readTime: '',
       category: ''
     },
     onSubmit: (values) => {
-      console.log('values', values)
       const formData = new FormData()
       formData.append('file', values?.image)
       formData.append('title', values?.title)
       formData.append('content', values?.content)
-      formData.append('readTime', `${values?.readTime} mins`)
       formData.append('category', values?.category)
       mutate(formData)
     }
@@ -113,13 +111,17 @@ const CreateHotDrop = () => {
     <LayoutView>
       <Box px={{ base: '20px', md: '70px' }}>
         <Box
-          color='#9F9898'
+          color='#4D515E'
           mb={{ base: '40px', md: '90px' }}
           p={{ base: '30px', md: '70px' }}
           borderRadius={{ base: '12px', md: '24px' }} bg='white'
         >
-          <Text fontSize={{ base: '20px', md: '38px' }} fontWeight={700}>Create Forum Article</Text>
-          <Flex align='center' gap={{ base: '15px', md: '24px' }} my={{ base: '15px', md: '35px' }} p={{ base: '15px', md: '35px' }}>
+          <Text fontSize={{ base: '20px', md: '38px' }} fontWeight={500}>Create an hotdrop</Text>
+          <Text fontSize={{ base: '25px', md: '20px' }} fontWeight={400}>Ready to thread the needle of innovation? Drop into our Textile Forum today and let your ideas and expertise become part of our ever-evolving fabric</Text>
+          <Text fontSize={{ base: '20px', md: '20px' }} fontWeight={500} mt='40px'>Cover Photo *</Text>
+          <Text fontSize={{ base: '25px', md: '15px' }} fontWeight={400}>Chose an Image that correspond with  your intended topic</Text>
+
+          <Flex direction={'column'} justify='center' gap={{ base: '15px', md: '24px' }} my={{ base: '15px', md: '30px' }} p={{ base: '15px', md: '35px' }}>
             <Center
               w={{ base: '60px', md: '96px' }}
               h={{ base: '60px', md: '96px' }}
@@ -165,81 +167,69 @@ const CreateHotDrop = () => {
 
           </Flex>
           <VStack align={'stretch'} spacing={{ base: '15px', md: '35px' }}>
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
               <VStack spacing={'4px'} align={'stretch'} w='full'>
-                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>Title</Text>
-                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Title of article</Text>
+                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} >Title Category *</Text>
+                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Choose or create a title category</Text>
               </VStack>
-              <Box>
-                <ProfileInput
-                  value={formik.values.title}
-                  error={formik.errors.title}
-                  onChange={formik.handleChange('title')}
+              <GridItem colSpan={2}>
+                <FormSelect
+                  options={(categories?.map(cat => cat?.name) || [])}
+                  value={formik.values.category}
+                  error={formik.errors.category}
+                  onChange={formik.handleChange('category')}
                   w='full'
-                  label={'Title'}
                 />
-              </Box>
+              </GridItem>
             </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
               <VStack spacing={'4px'} align={'stretch'} w='full'>
-                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>Content</Text>
-                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Write a content for this topic</Text>
+                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} >Drop Topic *</Text>
+                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Choose or create a title category</Text>
               </VStack>
-              <FormTextarea
-                value={formik.values.content}
-                error={formik.errors.content}
-                onChange={formik.handleChange('content')}
-                w='full'
-                placeholder={'Content'}
-              />
+              <GridItem colSpan={2}>
+                <Box>
+                  <FormInput
+                    value={formik.values.title}
+                    error={formik.errors.title}
+                    onChange={formik.handleChange('title')}
+                    w='full'
+                  />
+                </Box>
+              </GridItem>
             </SimpleGrid>
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
               <VStack spacing={'4px'} align={'stretch'} w='full'>
-                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>Category</Text>
-                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Select a category for this topic</Text>
+                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} >Drop Content *</Text>
+                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>
+                  Create engaging and well crafted article for the community to engage with.
+                  NB: All articles are subject to verification before it is finally published.
+                </Text>
+                <Box>
+                  <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={400} >
+                    Tips:
+                    <UnorderedList>
+                      <ListItem>Avoid usage of vulgar words</ListItem>
+                      <ListItem>Keep grammar articulate and correct</ListItem>
+                      <ListItem>Keep content in line with platform’s purpose</ListItem>
+                      <ListItem>Do not directly advertise any product</ListItem>
+                    </UnorderedList>
+                  </Text>
+                </Box>
               </VStack>
-              <ProfileSelect
-                options={(categories?.map(cat => cat?.name) || [])}
-                value={formik.values.category}
-                error={formik.errors.category}
-                onChange={formik.handleChange('category')}
-                w='full'
-                label={'Category'}
-              />
-            </SimpleGrid>
-
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
-              <VStack spacing={'4px'} align={'stretch'} w='full'>
-                <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>Read time</Text>
-                <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Enter how long it will take users to read this article</Text>
-              </VStack>
-
-              <InputGroup py='6px' border='1px' borderRadius={'4px'} w='90%'>
-                <Input
-                  type='number'
-                  value={formik.values.readTime}
-                  error={formik.errors.readTime}
-                  onChange={formik.handleChange('readTime')}
-                  w='full' border={'none'}
-                  _focus={{ border: 'none', outline: 'none' }}
-                  placeholder="Read time"
+              <GridItem colSpan={2}>
+                <FormTextarea
+                  h='500px'
+                  value={formik.values.content}
+                  error={formik.errors.content}
+                  onChange={formik.handleChange('content')}
+                  w='full'
                 />
-                <InputRightElement
-                  h='full' w='50px' px={"14px"}
-                  borderLeft={"1px solid #999"}
-                >
-                  <Text
-                    cursor={'pointer'}
-                    color={'#2B2D42'}
-                    fontSize={'16px'}
-                    fontWeight={600}
-                  >Mins</Text>
-                </InputRightElement>
-              </InputGroup>
-
+              </GridItem>
             </SimpleGrid>
+
           </VStack>
 
 

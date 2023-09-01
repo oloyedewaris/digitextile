@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { CircularProgress, Flex } from '@chakra-ui/react';
-import { GlobalContext } from '@/context/Provider';
 
 function LandingAuth(Component) {
   const AuthCheck = () => {
     const router = useRouter()
     const [checked, setChecked] = useState(false)
-    const { authState } = useContext(GlobalContext)
-    const loggedIn = authState.isAuthenticated
+    const loggedIn = localStorage.getItem('accessToken');
 
     useEffect(() => {
       if (loggedIn) {

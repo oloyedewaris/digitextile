@@ -5,6 +5,7 @@ import ProductCard from '@/components/card/ProductCard';
 import FormSelect from '@/components/form/FromSelect';
 import { getFavourite, getProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
+import EmptyState from '@/components/empty-state';
 
 const TopDeals = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getFavourite"], () => getFavourite({ page: 1, limit: 8 }));
@@ -29,6 +30,7 @@ const TopDeals = () => {
             ))}
           </SimpleGrid>
         </Skeleton>
+        {!favouriteData.length && <EmptyState h='50px' text={'No favourite listing yet'} />}
       </Box>
     </LayoutView>
   )

@@ -9,14 +9,14 @@ const EmptyState = ({ text, height }) => {
       borderRadius="5px"
       w="full"
       justify="center"
-      bg="#ffffff"
+      bg="transparent"
       my="13px"
       mb="24px"
     >
       <VStack>
         <Image
           w="152px"
-          h="118px"
+          h="58px"
           src={empty.src}
           alt="notification empty state"
         />

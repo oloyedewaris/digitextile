@@ -86,7 +86,14 @@ const Login = () => {
     onSuccess: (res) => {
       localStorage.setItem('userId', res.data?.data?.user?._id)
       loginUser(res.data.data)(authDispatch)
-      router.push('/dashboard')
+      console.log('res.data.data', res.data.data?.user?.role)
+      const userRole = res.data.data?.user?.role;
+      if (userRole === 'admin')
+        router.push('/admin')
+      else if (userRole === 'creator')
+        router.push('/store')
+      else
+        router.push('/dashboard')
       return toast({
         title: "Login",
         description: `Login successfully`,

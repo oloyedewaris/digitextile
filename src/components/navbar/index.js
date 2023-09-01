@@ -60,34 +60,49 @@ const Navbar = ({ }) => {
         </HStack>
 
         {loggedIn ? (
-          <HStack spacing='20px'>
-            <Link href='/messages'>
-              <Box cursor='pointer'>
-                <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
-              </Box>
-            </Link>
-            <Link href='/explore/favourites'>
-              <Box cursor='pointer'>
-                <BiHeart size={25} />
-              </Box>
-            </Link>
-            {authState?.user?.role === 'creator' && (
-              <Link href='/store'>
-                <Box cursor='pointer'>
-                  <BiStore size={25} />
-                </Box>
-              </Link>
+          <>
+            {authState?.user?.role === 'admin' ? (
+              <HStack spacing='20px'>
+                <Link href='/admin'>
+                  <Box cursor='pointer'>
+                    <RiAdminFill size={25} />
+                  </Box>
+                </Link>
+                <Notifications />
+                <ProfileMenu />
+              </HStack>
+            ) : authState?.user?.role === 'creator' ? (
+              <HStack spacing='20px'>
+                <Link href='/messages'>
+                  <Box cursor='pointer'>
+                    <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
+                  </Box>
+                </Link>
+                <Link href='/store'>
+                  <Box cursor='pointer'>
+                    <BiStore size={25} />
+                  </Box>
+                </Link>
+                <Notifications />
+                <ProfileMenu />
+              </HStack>
+            ) : (
+              <HStack spacing='20px'>
+                <Link href='/messages'>
+                  <Box cursor='pointer'>
+                    <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
+                  </Box>
+                </Link>
+                <Link href='/explore/favourites'>
+                  <Box cursor='pointer'>
+                    <BiHeart size={25} />
+                  </Box>
+                </Link>
+                <Notifications />
+                <ProfileMenu />
+              </HStack>
             )}
-            {authState?.user?.role === 'admin' && (
-              <Link href='/admin'>
-                <Box cursor='pointer'>
-                  <RiAdminFill size={25} />
-                </Box>
-              </Link>
-            )}
-            <Notifications />
-            <ProfileMenu />
-          </HStack>
+          </>
         ) : (
           <HStack spacing='32px'>
             <Box cursor='pointer'>

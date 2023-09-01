@@ -108,4 +108,4 @@ const Store = () => {
   )
 }
 
-export default Auth(Store);
+export default (Store);

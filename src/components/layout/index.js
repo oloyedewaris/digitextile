@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import Navbar from "../navbar";
 import Footer from "../home/Footer";
 
-const LayoutView = ({ darkFooter, children, noPadding, activePage, ...rest }) => (
+const LayoutView = ({ darkFooter, children, noPadding, noFooter, activePage, ...rest }) => (
   <Box
     maxW='100vw'
     overflowX={'hidden'}
@@ -16,7 +16,7 @@ const LayoutView = ({ darkFooter, children, noPadding, activePage, ...rest }) =>
     <Box mt={{ base: '60px', md: '120px' }} w={"100%"}>
       {children}
     </Box>
-    <Footer isDark={darkFooter} />
+    {!noFooter && <Footer isDark={darkFooter} />}
   </Box>
 );
 

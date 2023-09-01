@@ -15,13 +15,13 @@ const HotDropsCard = ({
 
   return (
     <Flex
-      bg='white'
+      bg='white' mx={'auto'}
       p={{ base: "12px", md: '24px' }}
       pb={{ base: '30px', md: '40px' }}
-      mx={'auto'}
-      w='100%'
+      w='100%' cursor='pointer'
       h={{ base: '300px', md: '455px' }}
       bgImage={image}
+      bgSize={'cover'}
       borderRadius={{ base: '8px', md: '16px' }}
       overflow='hidden'
       as={motion.div}
@@ -34,7 +34,7 @@ const HotDropsCard = ({
       align='stretch'
       justify={'space-between'}
     >
-      <Image src={person} h={{ base: '40px', md: '63px' }} w={{ base: '40px', md: '63px' }} />
+      <Image borderRadius={'full'} src={person} h={{ base: '40px', md: '63px' }} w={{ base: '40px', md: '63px' }} />
       <Text fontSize={{ base: '22px', md: '28px' }} fontWeight='700' color='white'>{title}</Text>
     </Flex>
   );

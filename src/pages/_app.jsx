@@ -4,6 +4,12 @@ import "./globalStyles.css";
 import Provider from "../context/Provider";
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { QueryClient, QueryClientProvider } from "react-query";
+import NoSSR from 'react-no-ssr'
+import Preloader from "@/components/preloader";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+
+TimeAgo.addDefaultLocale(en)
 
 const queryClient = new QueryClient();
 
@@ -25,7 +31,9 @@ function MyApp({ Component, pageProps }) {
             />
             <link rel="shortcut icon" href="/favicon.ico" />
           </Head>
-          <Component pageProps={pageProps} />
+          <NoSSR onSSR={<Preloader />}>
+            <Component pageProps={pageProps} />
+          </NoSSR>
         </Provider>
       </ChakraProvider>
     </QueryClientProvider>

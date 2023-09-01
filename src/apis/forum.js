@@ -9,6 +9,10 @@ export const fetchForums = async (params) => {
     const res = await axiosInstance.get(`/forums?page=${params?.page || 1}&limit=${params?.limit || 10}`)
     return (res)
 }
+export const fetchMyForums = async (params) => {
+    const res = await axiosInstance.get(`/forums/user/all?page=${params?.page || 1}&limit=${params?.limit || 10}`)
+    return (res)
+}
 
 export const addComment = async (id, data) => {
     const res = await axiosInstance.post(`/forums/${id}/comment`, data)

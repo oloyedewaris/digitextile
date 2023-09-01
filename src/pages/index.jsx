@@ -11,6 +11,7 @@ import LandingAuth from '@/hoc/LandingWrapper';
 import Link from 'next/link';
 import Button from '@/components/button';
 
+
 function Index() {
 
   return (

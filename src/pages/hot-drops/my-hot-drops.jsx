@@ -6,7 +6,7 @@ import hotDrop from '@/assets/images/hot-drop-main.png';
 import HotDropDetail from '@/components/card/HotDropsCardDetails';
 import person from '@/assets/images/person/person3.png'
 import { useRouter } from 'next/router';
-import { fetchForums } from '@/apis/forum';
+import { fetchForums, fetchMyForums } from '@/apis/forum';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
 import { BiPlus } from 'react-icons/bi';
@@ -16,9 +16,8 @@ import FormSelect from '@/components/form/FromSelect';
 
 const HotDrops = () => {
   const router = useRouter()
-  const { data, isError, error, isLoading, refetch, } = useQuery(["fetchForums"], fetchForums);
+  const { data, isError, error, isLoading, refetch, } = useQuery(["fetchMyForums"], fetchMyForums);
 
-  console.log('data', data)
   const forums = data?.data?.data
 
   return (
@@ -28,32 +27,10 @@ const HotDrops = () => {
           bg='white' borderRadius={{ base: '12px', md: '24px' }}
           p={{ base: '15px', md: '60px' }}
         >
-          <Text textAlign={'center'} mb={{ base: '10px', md: '18px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>Hot Drops</Text>
+          <Text textAlign={'center'} mb={{ base: '10px', md: '18px' }} fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>My Hot Drops</Text>
           <Text textAlign={'center'} mb={{ base: '20px', md: '52px' }} fontSize={{ base: '14px', md: '24px' }} color={'#999'} w={{ base: '95%', md: '75%' }} mx='auto'>
-            Engage with a global community of textile enthusiasts, and together, let's weave a tapestry of inspiration and knowledge.
+            HotDrops I have engaged with
           </Text>
-          <InputGroup
-            mb={{ base: '20px', md: '52px' }} border='1px'
-            borderRadius={{ base: '3px', md: '8px' }}
-            w='full' maxW='482px' pr='15px'
-            mx={'auto'}
-          >
-            <Input
-              _focus={{ border: 'none', outline: 'none' }}
-              border={'none'}
-              placeholder="What do you have in mind?"
-            // w='full'
-            />
-            <InputLeftAddon
-              bg='transparent'
-              p={"0px"}
-              border={"none"}
-            >
-              <Image alt='next_image' src={searchIcon.src} />
-            </InputLeftAddon>
-          </InputGroup>
-
-
           <Flex
             mt={{ base: '20px', md: '40px' }}
             gap={{ base: '10px' }}
@@ -104,7 +81,7 @@ const HotDrops = () => {
               ))}
             </SimpleGrid>
             {!forums?.length && (
-              <EmptyState text={'No forum article yet'} />
+              <EmptyState text={'No forum article of my engagement yet'} />
             )}
           </Skeleton>
         </Box>

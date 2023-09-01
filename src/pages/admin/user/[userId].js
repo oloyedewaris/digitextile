@@ -25,7 +25,6 @@ const User = () => {
       setUserData(data?.data?.data)
   }, [data?.data?.data])
 
-  console.log('userData', userData)
 
   const { isLoading: toggling, mutate: toggleMutate } = useMutation(() => toggleActiveStateApi(userId), {
     onSuccess: (res) => {
@@ -115,16 +114,20 @@ const User = () => {
                   {userData?.isVerified ? <Text as='span' color='#009900'> Verified</Text> : <Text as='span' color='#EF233C'> Not Verified</Text>}
                 </Text>
 
-                {userData?.isApproved ? (
-                  <Text color={'#009900'} fontWeight={500} mt={{ base: '17px', md: '35px' }} textAlign={'center'}>User Approved</Text>
-                ) : (
-                  <Button
-                    isLoading={approving}
-                    disabled={approving}
-                    onClick={approveUser}
-                    borderRadius='full' bg='#009900'
-                    w='full' h='55px' mt={{ base: '17px', md: '35px' }} color='white'
-                  >Approve User</Button>
+                {userData.role === 'creator' && (
+                  <>
+                    {userData?.isApproved ? (
+                      <Text color={'#009900'} fontWeight={500} mt={{ base: '17px', md: '35px' }} textAlign={'center'}>User Approved</Text>
+                    ) : (
+                      <Button
+                        isLoading={approving}
+                        disabled={approving}
+                        onClick={approveUser}
+                        borderRadius='full' bg='#009900'
+                        w='full' h='55px' mt={{ base: '17px', md: '35px' }} color='white'
+                      >Approve User</Button>
+                    )}
+                  </>
                 )}
 
                 {userData?.isActive ? (

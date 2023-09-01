@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { getUserProductApi } from '@/apis/user';
 import EmptyState from '@/components/empty-state';
 import { GlobalContext } from '@/context/Provider';
+import { FilterCategory, FilterDate, FilterSection } from '@/components/elements';
 
 const Listings = () => {
   const { authState: { user } } = useContext(GlobalContext)
@@ -42,21 +43,9 @@ const Listings = () => {
 
         <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
           <Flex gap={{ base: '6px', md: '16px' }}>
-            <FormSelect
-              bg='#E4DFDA'
-              placeholder={'Category'}
-              options={[]}
-            />
-            <FormSelect
-              bg='#E4DFDA'
-              placeholder={'Section'}
-              options={[]}
-            />
-            <FormSelect
-              bg='#E4DFDA'
-              placeholder={'Date'}
-              options={[]}
-            />
+            <FilterCategory />
+            <FilterSection />
+            <FilterDate />
           </Flex>
           <Link href='/create-listing'>
             <Button

@@ -8,6 +8,7 @@ import { FaBox, FaUsers } from 'react-icons/fa';
 import Categories from './sections/Categories';
 import Users from './sections/Users';
 import Auth from '@/hoc/Auth';
+import HotDropsAdmin from './sections/HotDrops';
 
 const PatientProfile = () => {
   const toast = useToast()
@@ -29,6 +30,11 @@ const PatientProfile = () => {
     {
       tablist: "Categories",
       component: <Categories />,
+      icon: <BiStore size={25} />
+    },
+    {
+      tablist: "HotDrops",
+      component: <HotDropsAdmin />,
       icon: <BiStore size={25} />
     },
   ];

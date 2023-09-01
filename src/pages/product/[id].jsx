@@ -49,8 +49,6 @@ const Product = () => {
 
   const product = data?.data?.data;
 
-  console.log('product', product)
-
   const imagesToUse = product?.images?.map(image => ({
     original: image,
     thumbnail: image,
@@ -168,6 +166,7 @@ const Product = () => {
                   {product?.description}
                 </Text>
                 <Button
+                  onClick={() => router.push(`/messages/${product.seller?._id}`)}
                   borderRadius='full' bg='#2B2D42'
                   w='full' h='55px' mt='55px' color='white'
                 >Message Creator</Button>

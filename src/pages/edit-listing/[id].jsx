@@ -46,8 +46,6 @@ const CreateListing = () => {
     })
   }, [productObj])
 
-  console.log('productObj', productObj)
-
   const { isLoading: productCreating, mutate } = useMutation(
     (formData) => updateProductApi(productId, formData),
     {
