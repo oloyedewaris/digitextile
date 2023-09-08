@@ -13,6 +13,7 @@ import edit from '@/assets/svgs/edit-listing.svg'
 import { GlobalContext } from '@/context/Provider';
 import { RiHeart2Line, RiHeartFill } from 'react-icons/ri';
 import { checkConversation, createConversation, sendMessage } from '@/apis/messaging';
+import avatar from '@/assets/images/avatar.png';
 
 const Product = () => {
   const router = useRouter()
@@ -248,11 +249,11 @@ const Product = () => {
               <Box w={{ base: 'full', md: '40%' }}>
                 <Flex gap='5px' align='center'>
                   <HStack p='8px' position='relative'>
-                    {/* {persons.map((person, i) => (
-                      <Box key={i} position='relative' left={`-${i * 15}px`}>
-                        <Image src={person} />
-                      </Box>
-                    ))} */}
+                    {/* {persons.map((person, i) => ( */}
+                    <Box key={i} position='relative' left={`-${i * 15}px`}>
+                      <Image src={product?.seller?.image || avatar.src} />
+                    </Box>
+                    {/* ))} */}
                   </HStack>
                   <Text fontSize={{ base: '15px', md: '20px' }}>
                     {product?.tags.map((tag, i) => (
