@@ -94,8 +94,6 @@ const RegisterCAC = () => {
     validationSchema: formSchema,
     initialValues: {
       cacNumber: '',
-      name: '',
-      address: '',
       file: null
     },
     onSubmit: values => {
@@ -129,28 +127,7 @@ const RegisterCAC = () => {
             </Text>
           </Box>
           <Divider mt='12px' mb='24px' w='full' />
-          <FormInput
-            h='50px'
-            mb='20px'
-            isRequired
-            value={formik.values.name}
-            error={formik.errors.name}
-            onChange={formik.handleChange('name')}
-            label={'Your Business Name'}
-            id='name'
-            placeholder={'Enter name'}
-          />
-          <FormInput
-            h='50px'
-            mb='20px'
-            isRequired
-            value={formik.values.address}
-            error={formik.errors.address}
-            onChange={formik.handleChange('address')}
-            label={'Business Address'}
-            id='address'
-            placeholder={'Enter address'}
-          />
+
           <FormInput
             h='50px'
             mb='20px'
@@ -165,6 +142,7 @@ const RegisterCAC = () => {
           />
           <Text mb='30px' color='#A2A6AB'>Upload your Corporate Affairs Commission number (CAC) certificate </Text>
           <Center
+            mx='auto'
             m={{ base: '15px', md: '35px' }}
             w={{ base: '60px', md: '96px' }}
             h={{ base: '60px', md: '96px' }}
@@ -228,14 +206,12 @@ const RegisterCAC = () => {
           </Button>
           <Divider my='30px' />
           <Button
-            onClick={() => router.push('/auth/consumer/complete')}
+            onClick={() => router.push('/auth/login')}
             borderRadius='full' bg='transparent'
             w='full' h='55px' color='black' shadow='md'
           >
             <Flex justify={'space-between'} align={'center'} w='80%' mx='auto'>
-              <FaGoogle size={20} />
-              <Text>Register with CAC</Text>
-              <Box w='25px' />
+              <Text>Skip for later</Text>
             </Flex>
           </Button>
         </Box>

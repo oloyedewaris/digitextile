@@ -18,6 +18,8 @@ const HotDropAdmin = () => {
 
   const forumData = data?.data?.data
 
+  console.log('forumData', forumData)
+
   const approveForum = useMutation((data) => {
     return updateForumApprovalStatus(data, forumId)
   }, {

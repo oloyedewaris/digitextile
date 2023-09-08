@@ -19,6 +19,8 @@ const HotDropsAdmin = () => {
 
   const forums = data?.data?.data
 
+  console.log('forums', forums)
+
 
   const { isLoading: isDeleting, mutate } = useMutation(deleteCategoryApi, {
     onSuccess: async (res) => {
@@ -64,6 +66,7 @@ const HotDropsAdmin = () => {
         <SimpleGrid my={{ base: '20px', md: '40px' }} columns={{ base: '1', md: '2' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
           {forums?.map((card, i) => (
             <HotDropDetail
+              status={card?.approvalStatus}
               user={card?.creator?.fullname}
               subTitle={card?.content}
               onClickCard={() => router.push(`/admin/hot-drop/${card?._id}`)}

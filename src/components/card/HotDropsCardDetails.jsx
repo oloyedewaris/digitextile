@@ -14,8 +14,10 @@ import ImageGallery from 'react-image-gallery';
 import { BiHeart } from "react-icons/bi";
 import Link from "next/link";
 import avatar from '@/assets/images/avatar.png'
+import edit from '@/assets/svgs/edit-forum.svg'
 
 const HotDropDetail = ({
+  isPending,
   title,
   image,
   subTitle,
@@ -25,7 +27,8 @@ const HotDropDetail = ({
   category,
   timeToRead,
   user,
-  person
+  person,
+  status
 }) => {
 
   return (
@@ -39,21 +42,32 @@ const HotDropDetail = ({
       maxWidth={"322px"}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      onClick={onClickCard}
     >
-      <Box minH={{ base: '200px', md: "280px" }}>
-        <Image
-          borderRadius={{ base: 'sm', md: 'md' }}
-          bgPosition={'center'}
-          bgSize={"cover"} src={image}
-          w='full' maxW='290px' h='auto'
-          maxH={{ base: '200px', md: "280px" }}
-          minH={{ base: '200px', md: "280px" }}
-
-        />
+      <Box
+        p='24px'
+        borderRadius={{ base: 'sm', md: 'md' }}
+        bgPosition={'center'}
+        bgSize={"cover"} bgImage={image}
+        w='full' maxW='290px' h='auto'
+        maxH={{ base: '200px', md: "280px" }}
+        minH={{ base: '200px', md: "280px" }}
+      >
+        {isPending && (
+          <Link href={`/edit-hot-drop/${id}`}>
+            <Center w='70px' bg='#1C1D2C' border={'0.812px solid #2B2D42'} px='11px' py='5px' borderRadius={'full'} gap='8px'>
+              <Image src={edit.src} />
+              <Text color='#fff'>Edit</Text>
+            </Center>
+          </Link>
+        )}
+        {status && (
+          <Center w='100px' bg='#1C1D2C' border={'0.812px solid #2B2D42'} px='11px' py='5px' borderRadius={'full'} gap='8px'>
+            <Text color='#fff' textTransform={'capitalize'}>{status}</Text>
+          </Center>
+        )}
       </Box>
 
-      <VStack mt={"8px"} align={"start"}>
+      <VStack mt={"8px"} align={"start"} onClick={onClickCard}>
         <HStack alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
           <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{category}</Text>
           <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{timeToRead || 0} min read</Text>

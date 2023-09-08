@@ -1,4 +1,4 @@
-import { Flex, Image, Text, HStack, Menu, useDisclosure, InputGroup, InputLeftAddon, Input, Box } from '@chakra-ui/react';
+import { Flex, Image, Text, HStack, Menu, useDisclosure, InputGroup, InputLeftAddon, Input, Box, Badge } from '@chakra-ui/react';
 import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
 import Categories from './Categories';
@@ -13,12 +13,33 @@ import { GlobalContext } from '@/context/Provider';
 import ProfileMenu from './ProfileMenu';
 import { RiAdminFill } from 'react-icons/ri';
 import Notifications from './Notifications';
+import { useQuery } from 'react-query';
+import { getMessageCount } from '@/apis/messaging';
 
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
   const loggedIn = authState.isAuthenticated
   const router = useRouter();
-  const drawerModal = useDisclosure();
+  const drawerModal = useDisclosure(); //getMessageCount
+
+  const messagesCountQuery = useQuery(
+    ["getMessageCount"],
+    () => getMessageCount(),
+    {
+      enabled: true,
+      refetchInterval: 2000,
+      refetchIntervalInBackground: true,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      staleTime: Infinity,
+      // retry: true,
+      // retryDelay: 1000,
+      // retryOnMount: true,
+    }
+  );
+
+  console.log('messagesCountQuery', messagesCountQuery)
 
   return (
     <>
@@ -76,6 +97,9 @@ const Navbar = ({ }) => {
                 <Link href='/messages'>
                   <Box cursor='pointer'>
                     <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
+                    <Badge variant='outline' colorScheme='red'>
+                      {/* {} */}
+                    </Badge>
                   </Box>
                 </Link>
                 <Link href='/store'>

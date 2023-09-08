@@ -3,10 +3,11 @@ import { Box, Button, Center, CircularProgress, Flex, GridItem, HStack, SimpleGr
 import { useRouter } from 'next/router';
 import LayoutView from '@/components/layout';
 import Dashboard from './sections/Dashboard';
-import { BiChart, BiEnvelope, BiGridAlt, BiStore } from 'react-icons/bi';
+import { BiBox, BiChart, BiEnvelope, BiGridAlt, BiStore } from 'react-icons/bi';
 import Listings from './sections/MyListings';
 import Auth from '@/hoc/Auth';
 import Messages from './sections/Messages';
+import MyStore from './sections/MyStore';
 
 const Store = () => {
   const toast = useToast()
@@ -21,9 +22,14 @@ const Store = () => {
       icon: <BiGridAlt size={25} />
     },
     {
+      tablist: "My Store",
+      component: <MyStore />,
+      icon: <BiStore size={25} />
+    },
+    {
       tablist: "Listings",
       component: <Listings />,
-      icon: <BiStore size={25} />
+      icon: <BiBox size={25} />
     },
     {
       tablist: "Messages",

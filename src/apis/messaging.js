@@ -24,3 +24,7 @@ export const fetchMessages = async (conversationId) => {
     const res = await axiosInstance.get(`/messages/${conversationId}`)
     return (res)
 }
+export const getMessageCount = async () => {
+    const res = await axiosInstance.get(`/conversations/unread/count`)
+    return (res)
+}

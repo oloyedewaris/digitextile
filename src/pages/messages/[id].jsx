@@ -36,13 +36,7 @@ const Message = () => {
     }
   );
 
-  const startNewUserConversationMutation = useMutation(
-    () => createConversation({ recipientId: router.query?.id, content: 'hello' }),
-    {
-      onSuccess: res => console.log('res', res),
-      onError: err => console.log('err', err)
-    }
-  );
+  const startNewUserConversationMutation = useMutation(() => createConversation({ recipientId: router.query?.id, content: 'hello' }));
 
   const sendMessageMutation = useMutation(
     (data) => {

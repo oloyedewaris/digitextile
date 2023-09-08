@@ -58,6 +58,10 @@ const CompleteRegistration = () => {
       phone: '',
       address: '',
       country: '',
+      businessName: '',
+      businessAddress: '',
+      identificationType: '',
+      identificationNumber: '',
     },
     onSubmit: values => {
       mutate(values)
@@ -110,8 +114,8 @@ const CompleteRegistration = () => {
           />
           <FormSelect
             options={countries}
+            mb='20px'
             h='50px'
-            // mb='20px'
             isRequired
             value={formik.values.country}
             error={formik.errors.country}
@@ -119,6 +123,53 @@ const CompleteRegistration = () => {
             label={'Please select'}
             id='country'
             placeholder={'Country of residence'}
+          />
+
+          <FormInput
+            h='50px'
+            mb='20px'
+            isRequired
+            value={formik.values.businessName}
+            error={formik.errors.businessName}
+            onChange={formik.handleChange('businessName')}
+            label={'Your Business Name'}
+            id='businessName'
+            placeholder={'Enter business name'}
+          />
+          <FormInput
+            h='50px'
+            mb='20px'
+            isRequired
+            value={formik.values.businessAddress}
+            error={formik.errors.businessAddress}
+            onChange={formik.handleChange('businessAddress')}
+            label={'Business Address'}
+            id='businessAddress'
+            placeholder={'Enter business address'}
+          />
+          <FormSelect
+            options={['NIN', "Driver’s License", "Voter’s Card", 'International Passport']}
+            h='50px'
+            mb='20px'
+            isRequired
+            value={formik.values.identificationType}
+            error={formik.errors.identificationType}
+            onChange={formik.handleChange('identificationType')}
+            label={'Please select'}
+            id='identificationType'
+            placeholder={'Please choose means of verification'}
+          />
+          <FormInput
+            h='50px'
+            // mb='20px'
+            isRequired
+            // type='number'
+            value={formik.values.identificationNumber}
+            error={formik.errors.identificationNumber}
+            onChange={formik.handleChange('identificationNumber')}
+            label={'Identification number'}
+            id='identificationNumber'
+            placeholder={'Enter identification number'}
           />
           <Button
             onClick={formik.handleSubmit}

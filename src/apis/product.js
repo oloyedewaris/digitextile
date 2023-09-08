@@ -53,7 +53,7 @@ export const attachImageToProduct = async (id, data) => {
 }
 
 export const createProductApi = async (data) => {
-    const res = await axiosInstance.post(`/products`, data)
+    const res = await axiosInstance.post(`/products`, data, { headers: { 'Content-Type': 'multipart/form-data' } })
     return (res)
 }
 

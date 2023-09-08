@@ -13,19 +13,37 @@ import { authenticateUser } from '@/context/actions/auth';
 import { createCategoryApi, getCategoriesApi } from '@/apis/category';
 import { useRouter } from 'next/router';
 import ProfileSelect from '@/components/form/ProfileSelect';
-import { createForum, fetchMyForums, fetchMyPendingForums } from '@/apis/forum';
+import { createForum, fetchMyForums, getForum, updateForum } from '@/apis/forum';
 import FormTextarea from '@/components/form/FormTextarea';
 import FormInput from '@/components/form/FormInput';
 import FormSelect from '@/components/form/FromSelect';
 import HotDropDetail from '@/components/card/HotDropsCardDetails';
 import EmptyState from '@/components/empty-state';
 
-const MyHotDrops = () => {
+const EditHotDrop = () => {
   const toast = useToast()
   const router = useRouter()
   const { authState } = useContext(GlobalContext)
   const user = authState?.user;
   const [copyImage, setCopyImage] = useState(null)
+  const forumId = router.query.id
+  const { data: forumData } = useQuery(["getForum", forumId], () => getForum(forumId));
+  const forumsObj = forumData?.data?.data;
+  const { data: forumsData, isLoading: myforumLoading, } = useQuery(["fetchMyForums"], fetchMyForums);
+  const forums = forumsData?.data?.data;
+  const { data } = useQuery(["getCategories"], getCategoriesApi);
+  const categories = data?.data?.data
+
+
+  useEffect(() => {
+    formik.setValues({
+      // image: forumsObj?.image || '',
+      title: forumsObj?.title || '',
+      content: forumsObj?.content || '',
+      category: forumsObj?.category || ''
+    })
+  }, [forumsObj])
+
 
 
   const addFile = useCallback((acceptedFiles) => {
@@ -66,22 +84,12 @@ const MyHotDrops = () => {
     }
   }, [fileRejections, acceptedFiles]);
 
-  const { data: forumData, isLoading: myforumLoading, } = useQuery(["fetchMyForums"], fetchMyForums);
-  const forums = forumData?.data?.data;
-  const { data: myPendingForumData, isLoading: myPendingForumLoading, } = useQuery(["fetchMyPendingForums"], fetchMyPendingForums);
-  const myPendingForums = myPendingForumData?.data?.data;
-  // const { data: forumData, isLoading: myforumLoading, } = useQuery(["fetchMyForums"], fetchMyForums);
-  // const forums = forumData?.data?.data;
 
-
-  const { data } = useQuery(["getCategories"], getCategoriesApi);
-  const categories = data?.data?.data
-
-  const { isLoading, mutate } = useMutation(createForum, {
+  const { isLoading, mutate } = useMutation((formData) => updateForum(formData, forumId), {
     onSuccess: (res) => {
       toast({
-        title: "Topic created",
-        description: `You have successfully created a forum article`,
+        title: "Topic edited",
+        description: `You have successfully edited a forum article`,
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -103,10 +111,10 @@ const MyHotDrops = () => {
 
   const formik = useFormik({
     initialValues: {
-      image: '',
-      title: '',
-      content: '',
-      category: ''
+      // image: forumsObj?.image || '',
+      title: forumsObj?.title || '',
+      content: forumsObj?.content || '',
+      category: forumsObj?.category || ''
     },
     onSubmit: (values) => {
       const formData = new FormData()
@@ -253,7 +261,7 @@ const MyHotDrops = () => {
               bg='#2B2D42' px='24px'
               py='16px' borderRadius={'4px'}
               color='white'
-            >Create</Button>
+            >Update</Button>
           </Flex>
 
           <Divider mt='100px' mb='60px' />
@@ -271,8 +279,7 @@ const MyHotDrops = () => {
                   time={card?.createdAt && new Date(card?.createdAt).toDateString()}
                   timeToRead={card?.readTime}
                   category={card?.category}
-                  id={card?._id}
-                  key={card?._id}
+                  id={i} key={i}
                   image={card?.image}
                   title={card?.title}
                 // person={card?.person}
@@ -285,37 +292,10 @@ const MyHotDrops = () => {
           </Skeleton>
 
 
-
-
-          <Text mb='30px' fontSize={'40px'} fontWeight={500} color='#4D515E'>Pending Drops</Text>
-          <Skeleton isLoaded={!myPendingForumLoading}>
-            <SimpleGrid my={{ base: '20px', md: '40px' }} columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
-              {myPendingForums?.map((card, i) => (
-                <HotDropDetail
-                  isPending
-                  user={card?.creator?.fullname}
-                  subTitle={card?.content}
-                  onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
-                  time={card?.createdAt && new Date(card?.createdAt).toDateString()}
-                  timeToRead={card?.readTime}
-                  category={card?.category}
-                  id={i} key={i}
-                  image={card?.image}
-                  title={card?.title}
-                // person={card?.person}
-                />
-              ))}
-            </SimpleGrid>
-            {!myPendingForums?.length && (
-              <EmptyState height={'200px'} text={'No pending forum article by me yet'} />
-            )}
-          </Skeleton>
-
-
         </Box>
       </Box>
     </LayoutView>
   )
 }
 
-export default Auth(MyHotDrops)
+export default Auth(EditHotDrop)
