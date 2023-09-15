@@ -16,11 +16,7 @@ const HotDropsAdmin = () => {
   const router = useRouter();
   const toast = useToast();
   const { data, isError, error, isLoading, refetch, } = useQuery(["fetchPendingForums"], fetchPendingForums);
-
   const forums = data?.data?.data
-
-  console.log('forums', forums)
-
 
   const { isLoading: isDeleting, mutate } = useMutation(deleteCategoryApi, {
     onSuccess: async (res) => {
@@ -50,16 +46,7 @@ const HotDropsAdmin = () => {
   return (
     <Box>
       <Flex py={{ base: '9px', md: '27px' }} px={{ base: '10px', md: '40px' }} justify={'space-between'} align={'center'}>
-        <Text fontSize={{ base: '20px', md: '32px' }} fontWeight={700}>Categories</Text>
-        <Link href='/admin/create-category'>
-          <Button
-            leftIcon={<BiPlus />}
-            borderRadius='full' bg='#2B2D42'
-            color='white'
-          >
-            Add Category
-          </Button>
-        </Link>
+        <Text fontSize={{ base: '20px', md: '32px' }} fontWeight={700}>Hot Drops</Text>
       </Flex>
       <Divider w='full' />
       <Skeleton isLoaded={!isLoading}>

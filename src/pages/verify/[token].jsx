@@ -16,7 +16,7 @@ const Verify = () => {
         title: "Verification complete",
         description: 'Account successfully verified, now login to access dashboard',
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -40,7 +40,7 @@ const Verify = () => {
         title: "Verification email sent",
         description: 'Check your email to complete',
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

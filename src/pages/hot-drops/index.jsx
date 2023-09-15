@@ -1,6 +1,6 @@
 import LayoutView from '@/components/layout';
 import { Box, Button, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import searchIcon from '@/assets/images/search-icon.png';
 import hotDrop from '@/assets/images/hot-drop-main.png';
 import HotDropDetail from '@/components/card/HotDropsCardDetails';
@@ -13,13 +13,17 @@ import { BiPlus } from 'react-icons/bi';
 import Link from 'next/link';
 import Auth from '@/hoc/Auth';
 import FormSelect from '@/components/form/FromSelect';
+import { searchApi } from '@/apis/user';
 
 const HotDrops = () => {
   const router = useRouter()
   const { data, isError, error, isLoading, refetch, } = useQuery(["fetchForums"], fetchForums);
-
-  console.log('data', data)
   const forums = data?.data?.data
+  const [searchText, setSearchText] = useState('')
+  const searchQuery = useQuery(['searchApi', searchText], () => searchApi(searchText))
+
+  const forumsSearch = searchQuery?.data?.data?.data?.forums
+
 
   return (
     <LayoutView noPadding>
@@ -39,9 +43,11 @@ const HotDrops = () => {
             mx={'auto'}
           >
             <Input
+              value={searchText}
+              onChange={e => setSearchText(e?.target?.value)}
               _focus={{ border: 'none', outline: 'none' }}
               border={'none'}
-              placeholder="What do you have in mind?"
+              placeholder="Search digitextile"
             // w='full'
             />
             <InputLeftAddon
@@ -86,27 +92,51 @@ const HotDrops = () => {
           </Flex>
 
 
-          <Skeleton isLoaded={!isLoading}>
-            <SimpleGrid my={{ base: '20px', md: '40px' }} columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
-              {forums?.map((card, i) => (
-                <HotDropDetail
-                  user={card?.creator?.fullname}
-                  subTitle={card?.content}
-                  onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
-                  time={card?.createdAt && new Date(card?.createdAt).toDateString()}
-                  timeToRead={card?.readTime}
-                  category={card?.category}
-                  id={i} key={i}
-                  image={card?.image}
-                  title={card?.title}
-                // person={card?.person}
-                />
-              ))}
-            </SimpleGrid>
-            {!forums?.length && (
-              <EmptyState text={'No forum article yet'} />
-            )}
-          </Skeleton>
+          {searchText ? (
+            <Skeleton isLoaded={!searchQuery.isLoading}>
+              <SimpleGrid my={{ base: '20px', md: '40px' }} columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
+                {forumsSearch?.map((card, i) => (
+                  <HotDropDetail
+                    user={card?.creator?.fullname}
+                    subTitle={card?.content}
+                    onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
+                    time={card?.createdAt && new Date(card?.createdAt).toDateString()}
+                    timeToRead={card?.readTime}
+                    category={card?.category}
+                    id={i} key={i}
+                    image={card?.image}
+                    title={card?.title}
+                  // person={card?.person}
+                  />
+                ))}
+              </SimpleGrid>
+              {!forumsSearch?.length && (
+                <EmptyState height={'100px'} text={'No forum article found'} />
+              )}
+            </Skeleton>
+          ) : (
+            <Skeleton isLoaded={!isLoading}>
+              <SimpleGrid my={{ base: '20px', md: '40px' }} columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
+                {forums?.map((card, i) => (
+                  <HotDropDetail
+                    user={card?.creator?.fullname}
+                    subTitle={card?.content}
+                    onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
+                    time={card?.createdAt && new Date(card?.createdAt).toDateString()}
+                    timeToRead={card?.readTime}
+                    category={card?.category}
+                    id={i} key={i}
+                    image={card?.image}
+                    title={card?.title}
+                  // person={card?.person}
+                  />
+                ))}
+              </SimpleGrid>
+              {!forums?.length && (
+                <EmptyState height={'100px'} text={'No forum article yet'} />
+              )}
+            </Skeleton>
+          )}
         </Box>
       </Box>
     </LayoutView>

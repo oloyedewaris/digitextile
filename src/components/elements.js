@@ -12,7 +12,7 @@ export const FilterCategory = () => {
       w='120px'
       border='1px solid #2B2D42'
       placeholder={'Category'}
-      options={categories.map(cat => cat?.name) || []}
+      options={categories?.map(cat => cat?.name) || []}
     />
   )
 }

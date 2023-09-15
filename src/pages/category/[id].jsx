@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
 import { FilterCategory, FilterDate, FilterSection } from '@/components/elements';
+import { formatAmount } from '@/utils/formatAmount';
 
 const Category = () => {
   const router = useRouter()
@@ -35,7 +36,7 @@ const Category = () => {
                 images={product.images}
                 title={product.title}
                 subTitle={product.description}
-                price={`N${product.price}`}
+                price={`N ${formatAmount(product.price)}`}
                 persons={product.persons || []}
               />
             ))}

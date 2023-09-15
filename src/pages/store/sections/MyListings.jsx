@@ -11,6 +11,7 @@ import { getUserProductApi } from '@/apis/user';
 import EmptyState from '@/components/empty-state';
 import { GlobalContext } from '@/context/Provider';
 import { FilterCategory, FilterDate, FilterSection } from '@/components/elements';
+import { formatAmount } from '@/utils/formatAmount';
 
 const Listings = () => {
   const { authState: { user } } = useContext(GlobalContext)
@@ -67,7 +68,7 @@ const Listings = () => {
                 images={product.images}
                 title={product.title}
                 subTitle={product.description}
-                price={`N${product.price}`}
+                price={`N${formatAmount(product.price)}`}
                 persons={product.persons || []}
               />
             ))}

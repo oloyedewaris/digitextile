@@ -88,10 +88,10 @@ const EditHotDrop = () => {
   const { isLoading, mutate } = useMutation((formData) => updateForum(formData, forumId), {
     onSuccess: (res) => {
       toast({
-        title: "Topic edited",
-        description: `You have successfully edited a forum article`,
+        title: "Hotdrop edited",
+        description: `You have successfully edited your hotdrop, but awaits admin approval`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -102,7 +102,7 @@ const EditHotDrop = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

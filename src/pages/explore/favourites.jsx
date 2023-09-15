@@ -6,6 +6,7 @@ import FormSelect from '@/components/form/FromSelect';
 import { getFavourite, getProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
+import { formatAmount } from '@/utils/formatAmount';
 
 const TopDeals = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getFavourite"], () => getFavourite({ page: 1, limit: 8 }));
@@ -24,7 +25,7 @@ const TopDeals = () => {
                 images={favourite?.product?.images}
                 title={favourite?.product?.title}
                 subTitle={favourite?.product?.description}
-                price={`N${favourite?.product?.price}`}
+                price={`N${formatAmount(favourite?.product?.price)}`}
                 persons={favourite?.product?.persons || []}
               />
             ))}

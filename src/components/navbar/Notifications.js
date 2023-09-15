@@ -15,6 +15,8 @@ const Notifications = () => {
 
   const notifData = notificationQuery?.data?.data?.data;
 
+  console.log('notifData', notifData)
+
 
   const handleSettings = () => {
     router.push('/settings');
@@ -36,13 +38,14 @@ const Notifications = () => {
           <Text color='#1C1D2C' fontWeight={500} fontSize={{ base: '18px', md: '24px' }}>Notifications</Text>
         </MenuItem>
         {notifData?.map(notif => (
-          <MenuItem>
+          <MenuItem w='450px'>
             <Link href='/settings'>
               <Flex gap={{ base: 2, md: 3 }} align='center' mb='15px' onClick={handleSettings}>
                 <Image h={{ base: '30px', md: '45px' }} w={{ base: '30px', md: '45px' }} borderRadius={'full'} src={digi.src} />
-                <VStack align={'stretch'} >
-                  <Text style={{ color: '#1C1D2C', fontWeight: '400' }} noOfLines={1}>{notif.title}</Text>
-                  <Text style={{ color: '#C4C4C4', fontWeight: '400' }}>{notif.createdAt && new Date(notif.createdAt).toDateString()}</Text>
+                <VStack align={'stretch'}>
+                  <Text fontSize={'20px'} style={{ color: '#1C1D2C', fontWeight: '500' }} noOfLines={1}>{notif.title}</Text>
+                  <Text fontSize={'15px'} style={{ color: '#1C1D2C', fontWeight: '400' }} noOfLines={3}>{notif.body}</Text>
+                  <Text fontSize={'10px'} style={{ color: '#C4C4C4', fontWeight: '300' }}>{notif.createdAt && new Date(notif.createdAt).toDateString()}</Text>
                 </VStack>
               </Flex>
             </Link>

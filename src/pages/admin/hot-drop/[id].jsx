@@ -18,19 +18,16 @@ const HotDropAdmin = () => {
 
   const forumData = data?.data?.data
 
-  console.log('forumData', forumData)
 
   const approveForum = useMutation((data) => {
     return updateForumApprovalStatus(data, forumId)
   }, {
     onSuccess: (res) => {
-      console.log('res', res)
-      // router.push('/admin')
       toast({
-        title: "Forum approved",
+        title: "Hotdrop approved, users can now view your article",
         description: `You have successfully approved this forum`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -40,7 +37,7 @@ const HotDropAdmin = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -53,10 +50,10 @@ const HotDropAdmin = () => {
     onSuccess: (res) => {
       router.push('/admin')
       toast({
-        title: "Forum rejected",
+        title: "Hotdrop rejected",
         description: `You have successfully rejected this forum`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -66,7 +63,7 @@ const HotDropAdmin = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -81,8 +78,8 @@ const HotDropAdmin = () => {
     setText('')
   }
   const onRejectForum = () => {
-    approveForum.mutate({
-      approvalStatus: "reject",
+    rejectForum.mutate({
+      approvalStatus: "rejected",
       approvalMessage: text
     })
     setText('')
@@ -113,6 +110,14 @@ const HotDropAdmin = () => {
 
           <Text mt='30px' fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4'>{forumData?.content}</Text>
 
+          <Textarea
+            mt='20px'
+            fontSize={'18px'}
+            w='full'
+            placeholder='Attach approval or rejection message...'
+            onChange={e => setText(e.target?.value)}
+            value={text}
+          />
 
           <Flex mt='20px' align={'center'} justify={'flex-end'} gap='20px'>
             <Button
@@ -130,17 +135,6 @@ const HotDropAdmin = () => {
               onClick={onRejectForum}
             >Reject HotDrop</Button>
           </Flex>
-
-          <Textarea
-            mt='20px'
-            fontSize={'18px'}
-            w='full'
-            placeholder='Add approval or rejection message...'
-            onChange={e => setText(e.target?.value)}
-            value={text}
-          />
-
-
         </Box>
       </Box>
     </LayoutView>

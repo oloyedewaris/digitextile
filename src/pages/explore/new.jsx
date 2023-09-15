@@ -6,6 +6,7 @@ import FormSelect from '@/components/form/FromSelect';
 import { getProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
 import { FilterCategory, FilterDate, FilterSection } from '@/components/elements';
+import { formatAmount } from '@/utils/formatAmount';
 
 const NewDeals = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
@@ -30,7 +31,7 @@ const NewDeals = () => {
                 images={product.images}
                 title={product.title}
                 subTitle={product.description}
-                price={`N${product.price}`}
+                price={`N${formatAmount(product.price)}`}
                 persons={product.persons || []}
               />
             ))}

@@ -27,7 +27,10 @@ const HotDrops = () => {
           <RiArrowRightLine color='#EF233C' size='18' />
         </Center>
       </Flex>
-      <Flex overflowX={{ base: 'scroll', md: 'clip' }} gap={{ base: '10px', md: '26px' }} >
+      <Flex
+        overflowY={'clip'}
+        overflowX={'scroll'}
+        gap={{ base: '10px', md: '26px' }} >
         {(forums || []).map((card, i) => (
           <HotDropsCard
             key={i}

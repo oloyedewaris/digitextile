@@ -59,7 +59,7 @@ const MyHotDrops = () => {
         title: "Hmm...",
         description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

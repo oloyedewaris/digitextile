@@ -14,6 +14,7 @@ import { FilterCategory, FilterDate, FilterSection } from '@/components/elements
 import coverImg from '@/assets/images/store-bg.png';
 import avatar from '@/assets/images/avatar.png';
 import verified from '@/assets/svgs/verified.svg'
+import { formatAmount } from '@/utils/formatAmount';
 
 const MyStore = () => {
   const { authState: { user } } = useContext(GlobalContext)
@@ -101,7 +102,7 @@ const MyStore = () => {
                 images={product.images}
                 title={product.title}
                 subTitle={product.description}
-                price={`N${product.price}`}
+                price={`N${formatAmount(product.price)}`}
                 persons={product.persons || []}
               />
             ))}

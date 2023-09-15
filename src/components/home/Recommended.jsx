@@ -5,6 +5,7 @@ import ProductCard from '../card/ProductCard';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { getProductsApi } from '@/apis/product';
+import { formatAmount } from '@/utils/formatAmount';
 
 const Recommended = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
@@ -15,7 +16,7 @@ const Recommended = () => {
       <Flex align='center' w='full' justify='space-between' mb={{ base: '20px', md: '52px' }}>
         <Text fontWeight={700} fontSize={{ base: '20px', md: '48px' }}>Recommended</Text>
         <Center gap='8px'>
-          <Link href='/explore/top-deals'>
+          <Link href='/explore/recommended'>
             <Text fontSize={{ base: '16px', md: '24px' }} color='#EF233C'>See More</Text>
           </Link>
           <RiArrowRightLine color='#EF233C' size='18' />
@@ -30,7 +31,7 @@ const Recommended = () => {
               images={product.images}
               title={product.title}
               subTitle={product.description}
-              price={`N${product.price}`}
+              price={`N ${formatAmount(product.price)}`}
               persons={product.persons || []}
             />
           ))}

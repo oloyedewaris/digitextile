@@ -8,6 +8,7 @@ import { FaPaperPlane } from 'react-icons/fa';
 import { scrollbarStyle } from '@/utils/constant';
 // import { css } from 'emotion';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import { formatAmount } from '@/utils/formatAmount';
 
 // const ROOT_CSS = css({
 //   height: 600,
@@ -60,13 +61,32 @@ const Chats = ({ sendMessageMutation, messagesQuery }) => {
                 {msg?.author?._id === user?._id ? (
                   <Flex my='0px' w='full' justify={'flex-end'} align={'center'}>
                     <VStack align={'stretch'} w='50%'>
-                      <Text
+                      <VStack
+                        px='5px'
+                        color={'#fff'} fontSize={'14px'}
+                        fontWeight={400} align={'stretch'}
+                        bg='#2B2D42' w='full'
                         borderRadius={checkPreviousSender ? '12px 0px 12px 12px' : '12px'}
-                        bg='#2B2D42' padding='6px 12px' color={'#fff'}
-                        fontSize={'14px'} fontWeight={400} w='full'
                       >
-                        {msg?.content}
-                      </Text>
+                        {msg?.product && (
+                          <Flex
+                            px='10px' py='5px'
+                            mt='5px' bg='#333'
+                            justify={'space-between'} align={'center'}
+                            cursor={'pointer'}
+                            onClick={() => router.push(`/product/${msg?.product?._id}`)}
+                          >
+                            <VStack align={'stretch'}>
+                              <Text fontSize={'12px'}>{msg?.product?.title}</Text>
+                              <Text fontSize={'10px'}>NGN {formatAmount(msg?.product?.price)}</Text>
+                            </VStack>
+                            <Image h='43px' w='auto' src={msg?.product?.images[0]} />
+                          </Flex>
+                        )}
+                        <Text padding='6px 12px'>
+                          {msg?.content}
+                        </Text>
+                      </VStack>
                       {checkNextSender && (
                         <Flex justify={'flex-end'} align={'center'} w='full' gap='10px' px='10px'>
                           <Text
@@ -89,12 +109,13 @@ const Chats = ({ sendMessageMutation, messagesQuery }) => {
                       ) : <Box w='40px' />}
                       <VStack align={'stretch'} w='45%'>
                         {checkPreviousSender && (
-                          <Flex justify={'space-between'} align={'center'} w='45%'>
-                            <Text color={'#1C1D2C'} fontSize={'16px'} fontWeight={600}>
+                          <Flex justify={'space-between'} align={'center'} w='full'>
+                            <Text color={'#1C1D2C'} fontSize={'16px'} fontWeight={600} noOfLines={1}>
                               {msg?.author?.fullname}
                             </Text>
                             <Text
-                              pr='10px'
+                              w='full'
+                              // pr='10px' 
                               textAlign={'right'} fontSize={'10px'}
                               fontWeight={300} color='#A5A1A1'
                             >
@@ -102,15 +123,33 @@ const Chats = ({ sendMessageMutation, messagesQuery }) => {
                             </Text>
                           </Flex>
                         )}
-                        <Text
-                          w='full'
-                          borderRadius={checkPreviousSender ? '0px 12px 12px 12px' : '12px'}
-                          bg='#E1E9EC' padding='6px 12px'
+                        <VStack
+                          px='5px'
                           color={'#000'} fontSize={'14px'}
-                          fontWeight={400}
+                          fontWeight={400} align={'stretch'}
+                          bg='#E1E9EC' w='full'
+                          borderRadius={checkPreviousSender ? '0px 12px 12px 12px' : '12px'}
                         >
-                          {msg?.content}
-                        </Text>
+                          {msg?.product && (
+                            <Flex
+                              cursor={'pointer'}
+                              onClick={() => router.push(`/product/${msg?.product?._id}`)}
+                              borderRadius={'8px'}
+                              px='10px' py='5px' mt='5px'
+                              bg='#CBD3D6' w='full'
+                              justify={'space-between'} align={'center'}
+                            >
+                              <VStack align={'stretch'}>
+                                <Text fontSize={'12px'}>{msg?.product?.title}</Text>
+                                <Text fontSize={'10px'}>NGN {formatAmount(msg?.product?.price)}</Text>
+                              </VStack>
+                              <Image h='43px' w='auto' src={msg?.product?.images[0]} />
+                            </Flex>
+                          )}
+                          <Text padding='6px 12px'>
+                            {msg?.content}
+                          </Text>
+                        </VStack>
                       </VStack>
                     </Flex>
                   </Flex>

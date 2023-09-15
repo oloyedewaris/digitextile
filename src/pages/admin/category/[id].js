@@ -29,9 +29,9 @@ const User = () => {
     onSuccess: (res) => {
       setUserData(res?.data?.data)
       toast({
-        title: `User active state changes`,
+        title: `User active status changed`,
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -41,7 +41,7 @@ const User = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -51,9 +51,9 @@ const User = () => {
   const { isLoading: approving, mutate: approveUser } = useMutation(() => toggleActiveStateApi(userId), {
     onSuccess: (res) => {
       toast({
-        title: `User active state changes`,
+        title: `User active state changed`,
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -63,7 +63,7 @@ const User = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

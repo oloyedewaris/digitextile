@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
-import { Box, Center, Flex, HStack, Image, Skeleton, Text, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, Skeleton, Text, Textarea, useToast } from '@chakra-ui/react';
 import LayoutView from '@/components/layout';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import Button from '@/components/button';
@@ -8,12 +8,12 @@ import { addFavourite, checkFavourite, deleteFavourite, deleteProductApi, getPro
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
 import Auth from '@/hoc/Auth';
-import Link from 'next/link';
-import edit from '@/assets/svgs/edit-listing.svg'
 import { GlobalContext } from '@/context/Provider';
 import { RiHeart2Line, RiHeartFill } from 'react-icons/ri';
 import { checkConversation, createConversation, sendMessage } from '@/apis/messaging';
 import avatar from '@/assets/images/avatar.png';
+import { priceString } from '@/utils/formatAmount';
+import { BiSend } from 'react-icons/bi';
 
 const Product = () => {
   const router = useRouter()
@@ -23,6 +23,7 @@ const Product = () => {
   const user = authState.user;
   const [conversation, setConversation] = useState(null);
   const [text, setText] = useState('');
+  const [msgReady, setMsgReady] = useState(false);
 
   const { data } = useQuery(["getProductApi", productId], () => getProductApi(productId));
   const product = data?.data?.data;
@@ -100,15 +101,20 @@ const Product = () => {
     }
   })
 
-  const startNewUserConversationMutation = useMutation(() => createConversation({ recipientId: sellerId, content: 'hello' }));
-
-  const sendMessageMutation = useMutation(
-    (data) => {
-      sendMessage(conversation?._id, data)
-      setText('')
-    },
+  const startNewUserConversationMutation = useMutation(
+    () => createConversation({ recipientId: sellerId }),
     {
       onSuccess: res => {
+        console.log('res?.data', res?.data)
+      },
+    }
+  );
+
+  const sendMessageMutation = useMutation(
+    (data) => sendMessage(conversation?._id, data),
+    {
+      onSuccess: res => {
+        setText('')
         toast({
           title: `Sent`,
           description: `Message delivered to seller`,
@@ -133,18 +139,19 @@ const Product = () => {
 
 
   const sellerId = product?.seller?._id
-  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation"], () => sellerId && checkConversation(sellerId));
+  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
 
 
   useEffect(() => {
-    if (sellerId) {
-      if (!isChecking && !checkData?.data?.data) {
+    console.log('sellerId, !isChecking', sellerId, isChecking, checkData?.data?.data)
+    if (sellerId && !isChecking) {
+      if (!checkData?.data?.data) {
         startNewUserConversationMutation.mutate()
       } else {
         setConversation(checkData?.data?.data)
       }
     }
-  }, [checkData?.data])
+  }, [checkData?.data, sellerId, isChecking])
 
 
 
@@ -153,6 +160,8 @@ const Product = () => {
     original: image,
     thumbnail: image,
   }));
+
+  console.log('conversation', conversation)
 
   const renderGallery = () => (
     <>
@@ -240,7 +249,6 @@ const Product = () => {
               <Text>{product?.seller?.fullname}</Text>
               <ChevronRightIcon fontSize={{ base: 20, md: 25 }} />
               <Text color='#1C1D2C'>{product?.title}</Text>
-              {console.log('product', product)}
             </Flex>
             <Flex direction={{ base: 'column', md: 'row' }} gap='35px'>
               <Box w={{ base: 'full', md: '60%' }}>
@@ -250,38 +258,70 @@ const Product = () => {
                 <Flex gap='5px' align='center'>
                   <HStack p='8px' position='relative'>
                     {/* {persons.map((person, i) => ( */}
-                    <Box key={i} position='relative' left={`-${i * 15}px`}>
-                      <Image src={product?.seller?.image || avatar.src} />
+                    <Box position='relative'>
+                      <Image w='50px' h='50px' borderRadius='full' src={product?.seller?.image || avatar.src} />
                     </Box>
                     {/* ))} */}
                   </HStack>
-                  <Text fontSize={{ base: '15px', md: '20px' }}>
+                  {/* <Text fontSize={{ base: '15px', md: '20px' }}>
                     {product?.tags.map((tag, i) => (
-                      <Text key={i} as='span' color='#EF233C'>@{tag}, </Text>
+                      <Text key={i} as='span' color='#EF233C'>@{tag} </Text>
                     ))}
-                  </Text>
+                  </Text> */}
+
+                  <Text fontSize={{ base: '15px', md: '20px' }} as='span' color='#EF233C'>@{product?.seller?.fullname} </Text>
                 </Flex>
                 <Text fontSize={{ base: '20px', md: '28px' }} fontWeight={600} mt={{ base: '15px', md: '20px' }}>{product?.title}</Text>
-                <Text fontSize={{ base: '18px', md: '24px' }} fontWeight={500} mt={{ base: '13px', md: '8px' }}>NGN{product?.price}</Text>
+                <Text fontSize={{ base: '18px', md: '24px' }} fontWeight={500} mt={{ base: '13px', md: '8px' }}>{priceString(product?.price)} NGN</Text>
+                <Text fontSize={{ base: '16px', md: '20px' }} fontWeight={400} mt={{ base: '15px', md: '12px' }}>{`${product?.quantity} unit(s)`}</Text>
                 <Text mt={{ base: '12px', md: '24px' }}>
                   {product?.description}
                 </Text>
+                {product?.seller?._id !== user?._id && (
+                  <Box>
+                    <Button
+                      mt='20px'
+                      onClick={() => setMsgReady(!msgReady)}
+                      // isLoading={sendMessageMutation.isLoading}
+                      // disabled={sendMessageMutation.isLoading}
+                      borderRadius='full' bg='#2B2D42'
+                      w='full' h='55px' color='white'
+                    >Message Creator</Button>
 
-                <Textarea
-                  onChange={e => setText(e.target.value)}
-                  value={text}
-                  my='25px' w='full' p='16px'
-                  h='140px' borderRadius={'8px'}
-                  border={'1px solid #2B2D42'}
-                  placeholder='Type your messages...'
-                />
-                <Button
-                  isLoading={sendMessageMutation.isLoading}
-                  disabled={sendMessageMutation.isLoading}
-                  onClick={() => text && sendMessageMutation.mutate({ content: text })}
-                  borderRadius='full' bg='#2B2D42'
-                  w='full' h='55px' color='white'
-                >Message Creator</Button>
+                    {msgReady && (
+                      <form onSubmit={() => text && sendMessageMutation.mutate({ content: text, product: productId })}>
+                        <InputGroup my='14px' py='10px' pr='15px' h='140px' borderRadius={'16px'} border='1px solid #B0ABAB' w='100%' mx='auto'>
+                          <Textarea
+                            _focus={{ border: 'none', outline: 'none' }}
+                            // border={'none'}
+                            // my='25px' w='full' p='16px'
+                            h='100px'
+                            resize={'none'}
+                            // border={'1px solid #2B2D42'}
+                            value={text}
+                            onChange={e => setText(e.target.value)}
+                            autoFocus
+                            borderRadius={'full'}
+                            border={'none'}
+                            placeholder='Type your messages...'
+                          />
+                          <InputLeftAddon
+                            bg={'transparent'}
+                            p={"0px"}
+                            border={"none"}
+                            pt='95px'
+                          >
+                            <BiSend
+                              cursor={'pointer'}
+                              onClick={() => text && sendMessageMutation.mutate({ content: text, product: productId })}
+                              color='#2B2D42' size='20'
+                            />
+                          </InputLeftAddon>
+                        </InputGroup>
+                      </form>
+                    )}
+                  </Box>
+                )}
                 <Flex color='#A2A6AB' mt='43px' gap='8px' align='center' w='full' justify={'center'}>
                   {status ? (
                     <Flex
@@ -310,22 +350,22 @@ const Product = () => {
                     </Flex>
                   )}
                 </Flex>
-                {user?._id === product?.seller?._id && (
+                {/* {user?._id === product?.seller?._id && (
                   <Link href={`/edit-listing/${productId}`}>
                     <Center gap='10px' border={'0.812px solid #2B2D42'} mt={{ base: '20px', md: '35px' }} px='11px' py='12px' borderRadius={'full'}>
                       <Text fontWeight={500}>Edit product</Text>
                       <Image src={edit.src} />
                     </Center>
                   </Link>
-                )}
-                {user?._id === product?.seller?._id && (
+                )} */}
+                {/* {user?._id === product?.seller?._id && (
                   <Button
                     isLoading={deleting}
                     onClick={mutate}
                     borderRadius='full' bg='#EF233C'
                     w='full' h='55px' mt={{ base: '17px', md: '35px' }} color='white'
                   >Delete Product</Button>
-                )}
+                )} */}
               </Box>
             </Flex>
           </Box>

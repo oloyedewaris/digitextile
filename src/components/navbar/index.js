@@ -1,4 +1,4 @@
-import { Flex, Image, Text, HStack, Menu, useDisclosure, InputGroup, InputLeftAddon, Input, Box, Badge } from '@chakra-ui/react';
+import { Flex, Image, Text, HStack, Menu, useDisclosure, InputGroup, InputLeftAddon, Input, Box, Badge, Modal, ModalOverlay, ModalContent, ModalBody, SimpleGrid } from '@chakra-ui/react';
 import Link from 'next/link';
 import logo from '@/assets/images/logo.png'
 import Categories from './Categories';
@@ -8,26 +8,39 @@ import Button from '../button';
 import { useRouter } from 'next/router';
 import Drawer from './Drawer';
 import { FaBars } from 'react-icons/fa';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GlobalContext } from '@/context/Provider';
 import ProfileMenu from './ProfileMenu';
 import { RiAdminFill } from 'react-icons/ri';
 import Notifications from './Notifications';
 import { useQuery } from 'react-query';
 import { getMessageCount } from '@/apis/messaging';
+import { searchApi } from '@/apis/user';
+import ProductCard from '../card/ProductCard';
+import { formatAmount } from '@/utils/formatAmount';
+import HotDropsCard from '../card/HotDropsCard';
+import avatar from '@/assets/images/avatar.png'
+import EmptyState from '../empty-state';
 
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
   const loggedIn = authState.isAuthenticated
   const router = useRouter();
-  const drawerModal = useDisclosure(); //getMessageCount
+  const drawerModal = useDisclosure();
+  const searchModal = useDisclosure()
+
+  const [searchText, setSearchText] = useState('')
+  const searchQuery = useQuery(['searchApi', searchText], () => searchApi(searchText))
+
+  const forums = searchQuery?.data?.data?.data?.forums
+  const products = searchQuery?.data?.data?.data?.products
 
   const messagesCountQuery = useQuery(
     ["getMessageCount"],
     () => getMessageCount(),
     {
       enabled: true,
-      refetchInterval: 2000,
+      refetchInterval: 30000,
       refetchIntervalInBackground: true,
       refetchOnWindowFocus: true,
       refetchOnMount: true,
@@ -39,7 +52,6 @@ const Navbar = ({ }) => {
     }
   );
 
-  console.log('messagesCountQuery', messagesCountQuery)
 
   return (
     <>
@@ -62,11 +74,12 @@ const Navbar = ({ }) => {
               />
             </Link>
             <Categories />
-            <InputGroup border='1px' borderRadius={'full'} w='full' maxW='482px' pr='15px'>
+            <InputGroup onClick={searchModal?.onOpen} border='1px' borderRadius={'full'} w='full' maxW='482px' pr='15px'>
               <Input
+                // onChange={}
                 _focus={{ border: 'none', outline: 'none' }}
                 border={'none'}
-                placeholder="What do you have in mind?"
+                placeholder="Search digitextile"
               // w='full'
               />
               <InputLeftAddon
@@ -95,12 +108,12 @@ const Navbar = ({ }) => {
             ) : authState?.user?.role === 'creator' ? (
               <HStack spacing='20px'>
                 <Link href='/messages'>
-                  <Box cursor='pointer'>
+                  <Flex cursor='pointer' direction={'row'} align='center' gap='5px'>
                     <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
                     <Badge variant='outline' colorScheme='red'>
-                      {/* {} */}
+                      {messagesCountQuery?.data?.data?.data}
                     </Badge>
-                  </Box>
+                  </Flex>
                 </Link>
                 <Link href='/store'>
                   <Box cursor='pointer'>
@@ -173,6 +186,76 @@ const Navbar = ({ }) => {
         </HStack>
       </Flex>
       <Drawer modal={drawerModal} />
+
+
+      <Modal
+        onClose={searchModal?.onClose}
+        isOpen={searchModal?.isOpen}
+        motionPreset="slideInBottom"
+        scrollBehavior={'inside'}
+      >
+        <ModalOverlay bg="rgba(0,0,0,0.2)" />
+        <ModalContent py='20px' px='10px' borderRadius={'16px'} w='100%' maxW={'80vw'} bg='#EDF2F4'>
+          <Flex direction="row" align="center" w='70%' mx='auto' mb='8px' px='6px' borderRadius='8px' border={'1px solid #ccc'}>
+            <Image alt='next_image' src={searchIcon.src} />
+            <Input
+              placeholder="Search digitextile"
+              type="text"
+              border="none !important"
+              fontWeight="400"
+              fontSize="15px"
+              lineHeight="16px"
+              color="#606060"
+              _focus={{
+                border: "none !important",
+              }}
+              onChange={(event) => setSearchText(event.target.value)}
+            />
+          </Flex>
+          <ModalBody overflowY={'scroll'}>
+
+            <Box mt='20px'>
+              <Text fontWeight={600} fontSize={{ base: '15px', md: '38px' }}>Products</Text>
+              <SimpleGrid columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
+                {products?.map((product, i) => (
+                  <ProductCard
+                    key={i}
+                    id={product._id}
+                    images={product.images}
+                    title={product.title}
+                    subTitle={product.description}
+                    price={`N ${formatAmount(product.price)}`}
+                    persons={product.persons || []}
+                  />
+                ))}
+              </SimpleGrid>
+              {!products?.length && (
+                <EmptyState height='100px' text={'No product found'} />
+              )}
+
+            </Box>
+
+            <Box mt='20px'>
+              <Text fontWeight={600} fontSize={{ base: '15px', md: '38px' }}>Hot drops</Text>
+              <SimpleGrid columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '26px' }} rowGap={{ base: '15px', md: '56px' }}>
+                {forums?.map((card, i) => (
+                  <HotDropsCard
+                    key={i}
+                    image={card.image}
+                    title={card.title}
+                    person={card.creator?.image || avatar.src}
+                    onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
+                  />
+                ))}
+              </SimpleGrid>
+              {!forums?.length && (
+                <EmptyState height='100px' text={'No forum article found'} />
+              )}
+
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -14,3 +14,8 @@ export const getUserProductApi = async (params) => {
     const res = await axiosInstance.get(`/products/user?page=${params?.page || 1}&limit=${params?.limit || 10}`)
     return (res)
 }
+
+export const searchApi = async (query) => {
+    const res = await axiosInstance.get(`/search?query=${query}`)
+    return (res)
+}

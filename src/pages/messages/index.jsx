@@ -41,8 +41,8 @@ const Message = () => {
       messagesQuery.refetch();
     },
     {
-      onSuccess: res => console.log('res', res),
-      onError: err => console.log('err', err)
+      onSuccess: res => { },
+      onError: err => { }
     }
   );
 

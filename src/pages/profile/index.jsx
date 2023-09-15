@@ -46,7 +46,7 @@ const Profile = () => {
         title: "Hmm...",
         description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -60,7 +60,7 @@ const Profile = () => {
         title: "Profile updated",
         description: `You have successfully updated your profile`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -84,7 +84,7 @@ const Profile = () => {
         title: "Profile image updated",
         description: `You have successfully updated your profile`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -150,7 +150,7 @@ const Profile = () => {
         title: "Hmm...",
         description: `You can only add 6 languages`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -160,7 +160,7 @@ const Profile = () => {
         title: "Hmm...",
         description: `Enter a tag name`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

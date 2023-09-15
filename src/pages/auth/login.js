@@ -86,7 +86,6 @@ const Login = () => {
     onSuccess: (res) => {
       localStorage.setItem('userId', res.data?.data?.user?._id)
       loginUser(res.data.data)(authDispatch)
-      console.log('res.data.data', res.data.data?.user?.role)
       const userRole = res.data.data?.user?.role;
       if (userRole === 'admin')
         router.push('/admin')
@@ -98,7 +97,7 @@ const Login = () => {
         title: "Login",
         description: `Login successfully`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

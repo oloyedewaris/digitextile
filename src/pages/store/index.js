@@ -51,7 +51,7 @@ const Store = () => {
     // };
   };
   return (
-    <LayoutView darkFooter>
+    <LayoutView darkFooter noFooter>
       <Box
         color='#9F9898'
         mb={{ base: '30px', md: '90px' }}
@@ -114,4 +114,4 @@ const Store = () => {
   )
 }
 
-export default (Store);
+export default Auth(Store);

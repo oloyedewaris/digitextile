@@ -21,10 +21,10 @@ const CompleteRegistration = () => {
     onSuccess: (res) => {
       router.push('/auth/creator/registerCAC')
       return toast({
-        title: "Saved created",
+        title: "Changes Saved",
         description: `Kindly go ahead and complete your business registration`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -34,7 +34,7 @@ const CompleteRegistration = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

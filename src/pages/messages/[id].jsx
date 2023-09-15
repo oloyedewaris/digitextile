@@ -36,7 +36,7 @@ const Message = () => {
     }
   );
 
-  const startNewUserConversationMutation = useMutation(() => createConversation({ recipientId: router.query?.id, content: 'hello' }));
+  const startNewUserConversationMutation = useMutation(() => createConversation({ recipientId: router.query?.id }));
 
   const sendMessageMutation = useMutation(
     (data) => {
@@ -44,8 +44,8 @@ const Message = () => {
       messagesQuery.refetch();
     },
     {
-      onSuccess: res => console.log('res', res),
-      onError: err => console.log('err', err)
+      onSuccess: res => { },
+      onError: err => { }
     }
   );
 

@@ -8,7 +8,7 @@ const Button = ({ variant, children, ...rest }) => {
     return (
         <ChakraButton
             as={motion.button}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.9 }}
             _hover={{
                 shadow: "md",

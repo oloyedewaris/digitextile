@@ -26,9 +26,64 @@ const CreateListing = () => {
   const productId = router.query.id
 
   const { data } = useQuery(["getCategories"], getCategoriesApi);
-  const { data: productData } = useQuery(["getProductApi", productId], () => getProductApi(productId));
+  const { data: productData } = useQuery(["getProductApi"], () => getProductApi(productId));
 
   const productObj = productData?.data?.data;
+
+  const { isLoading: productCreating, mutate } = useMutation(
+    (formData) => updateProductApi(productId, formData),
+    {
+      onSuccess: (res) => {
+        mutateImages(res.data?.data?._id)
+      },
+      onError: (err) => {
+        toast({
+          title: `"Oops...`,
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    })
+
+  const { isLoading: uploadingImages, mutate: mutateImages } = useMutation(
+    (id) => {
+      const formData = new FormData();
+
+      for (let i = 0; i < originalfiles.length; i++) {
+        formData.append('files', originalfiles[i])
+      }
+
+      return attachImageToProduct(id, formData)
+    },
+    {
+      onSuccess: (res) => {
+        toast({
+          title: "Listing edited",
+          description: `Listing successfully edited`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        router.push('/store')
+      },
+      onError: (err) => {
+        toast({
+          title: `"Oops...`,
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    })
+
+
+  const fetchedCategories = data?.data?.data
 
   useEffect(() => {
     formik.setValues({
@@ -44,63 +99,7 @@ const CreateListing = () => {
       sections: productObj?.sections || [],
       categories: [],
     })
-  }, [productObj])
-
-  const { isLoading: productCreating, mutate } = useMutation(
-    (formData) => updateProductApi(productId, formData),
-    {
-      onSuccess: (res) => {
-        console.log('res.data?.data', res.data?.data)
-        // mutateImages(res.data?.data?._id)
-      },
-      onError: (err) => {
-        toast({
-          title: `"Oops...`,
-          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
-      },
-    })
-
-  // const { isLoading: uploadingImages, mutate: mutateImages } = useMutation(
-  //   (id) => {
-  //     const formData = new FormData();
-
-  //     for (let i = 0; i < originalfiles.length; i++) {
-  //       formData.append('files', originalfiles[i])
-  //     }
-
-  //     return attachImageToProduct(id, formData)
-  //   },
-  //   {
-  //     onSuccess: (res) => {
-  //       toast({
-  //         title: "Product updated",
-  //         description: `Product successfully updated`,
-  //         status: "success",
-  //         duration: 4000,
-  //         isClosable: true,
-  //         position: "top-right",
-  //       });
-  //       router.push('/store')
-  //     },
-  //     onError: (err) => {
-  //       toast({
-  //         title: `"Oops...`,
-  //         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
-  //         status: "error",
-  //         duration: 3000,
-  //         isClosable: true,
-  //         position: "top-right",
-  //       });
-  //     },
-  //   })
-
-
-  const fetchedCategories = data?.data?.data
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -122,27 +121,7 @@ const CreateListing = () => {
         ...values,
         categories: categoriesIds,
       }
-      const formData = new FormData();
-
-      formData.append('title', valuesToUse?.title)
-      formData.append('description', valuesToUse?.description)
-      formData.append('type', valuesToUse?.type)
-      formData.append('tags', valuesToUse?.tags)
-      formData.append('price', valuesToUse?.price)
-      formData.append('quantity', valuesToUse?.quantity)
-      formData.append('personalization', valuesToUse?.personalization)
-      formData.append('variation', valuesToUse?.variation)
-      formData.append('collaborationPartners', valuesToUse?.collaborationPartners)
-      formData.append('sections', valuesToUse?.sections)
-      formData.append('categories', valuesToUse?.categories)
-
-      for (let i = 0; i < originalfiles.length; i++) {
-        formData.append('files', originalfiles[i])
-      }
-
-      // return attachImageToProduct(id, formData)
-
-      mutate(formData)
+      mutate(valuesToUse)
     }
   })
 
@@ -175,7 +154,7 @@ const CreateListing = () => {
           title: "Sorry...",
           description: `You can only upload 4 images`,
           status: "error",
-          duration: 4000,
+          duration: 5000,
           isClosable: true,
           position: "top-right",
         });
@@ -204,7 +183,7 @@ const CreateListing = () => {
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
     accept: { "image/*": [], },
-    maxSize: 4 * 1024 * 1024,
+    maxSize: 2 * 1024 * 1024,
     multiple: true,
     onDrop: addFiles
   });
@@ -213,9 +192,9 @@ const CreateListing = () => {
     if (fileRejections.length) {
       toast({
         title: "Hmm...",
-        description: `${fileRejections[0].errors[0].code}: file is larger than 4MB`,
+        description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -228,7 +207,7 @@ const CreateListing = () => {
         title: "Hmm...",
         description: `You can only add 6 tags`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -238,7 +217,7 @@ const CreateListing = () => {
         title: "Hmm...",
         description: `Enter a tag name`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -265,7 +244,7 @@ const CreateListing = () => {
         title: "Hmm...",
         description: `You can only add 6 tags`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -275,7 +254,7 @@ const CreateListing = () => {
         title: "Hmm...",
         description: `Enter a section name`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -730,8 +709,8 @@ const CreateListing = () => {
                 px='24px' py='16px' borderRadius={'4px'}
               >Reset</Button>
               <Button
-                disabled={productCreating}
-                isLoading={productCreating}
+                disabled={productCreating || uploadingImages}
+                isLoading={productCreating || uploadingImages}
                 onClick={formik.handleSubmit}
                 bg='#2B2D42' px='24px'
                 py='16px' borderRadius={'4px'}

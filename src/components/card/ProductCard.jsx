@@ -29,9 +29,9 @@ const ProductCard = ({
   const addFavouriteMutation = useMutation(() => addFavourite(id), {
     onSuccess: async () => {
       toast({
-        title: "Product added to favourite",
+        title: "Product added to favourites",
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -41,7 +41,7 @@ const ProductCard = ({
       toast({
         title: "An error occurred",
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

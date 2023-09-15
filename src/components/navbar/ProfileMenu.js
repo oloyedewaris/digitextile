@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Flex, Image, Text, MenuList, Menu, MenuButton, MenuItem } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FaSignOutAlt, FaCaretDown, FaUser } from 'react-icons/fa';
+import { FaSignOutAlt, FaCaretDown, FaUser, FaUsers } from 'react-icons/fa';
 import { RiSettings4Fill } from 'react-icons/ri';
 import { BiGroup, BiMessageDetail, BiUser } from 'react-icons/bi';
 import { motion } from 'framer-motion';
@@ -41,7 +41,7 @@ const ProfileMenu = () => {
         <MenuItem>
           <Link href='/hot-drops/my-hot-drops'>
             <Flex gap={3} align='center' mb='15px'>
-              <BiGroup size={'26px'} color='#919191' />
+              <FaUsers size={'26px'} color='#919191' />
               <Text style={{ color: '#919191', fontWeight: '400' }}> My Hot Drops</Text>
             </Flex>
           </Link>

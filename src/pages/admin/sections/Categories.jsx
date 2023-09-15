@@ -20,7 +20,7 @@ const Categories = () => {
         title: "Category deleted",
         description: `You have successfully deleted the category`,
         status: "success",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -32,7 +32,7 @@ const Categories = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });

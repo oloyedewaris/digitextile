@@ -5,6 +5,7 @@ import ProductCard from '../card/ProductCard';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { getProductsApi } from '@/apis/product';
+import { formatAmount } from '@/utils/formatAmount';
 
 const TopDeals = () => {
   const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
@@ -30,7 +31,7 @@ const TopDeals = () => {
               images={product.images}
               title={product.title}
               subTitle={product.description}
-              price={`N${product.price}`}
+              price={`N ${formatAmount(product.price)}`}
               persons={product.persons || []}
             />
           ))}

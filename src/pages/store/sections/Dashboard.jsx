@@ -10,6 +10,7 @@ import { getUserProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
 import product from '@/constant/product';
+import { formatAmount } from '@/utils/formatAmount';
 
 const Dashboard = () => {
   const { authState: { user } } = useContext(GlobalContext)
@@ -158,7 +159,7 @@ const Dashboard = () => {
                     </VStack>
                   </Flex>
                   <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{product.description}</Text>
-                  <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>NGN {product?.price}</Text>
+                  <Text fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>NGN {formatAmount(product?.price)}</Text>
                 </Flex>
               </Link>
             ))}

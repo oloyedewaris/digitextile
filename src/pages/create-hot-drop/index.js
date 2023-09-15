@@ -56,7 +56,7 @@ const CreateHotDrop = () => {
         title: "Hmm...",
         description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -69,10 +69,10 @@ const CreateHotDrop = () => {
   const { isLoading, mutate } = useMutation(createForum, {
     onSuccess: (res) => {
       toast({
-        title: "Topic created",
-        description: `You have successfully created a forum article`,
+        title: "Hot drop created",
+        description: `You have successfully created a forum article, but await approval from admin before being publish`,
         status: "success",
-        duration: 4000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });

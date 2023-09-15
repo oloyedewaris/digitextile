@@ -50,7 +50,7 @@ const RegisterCAC = () => {
         title: "Hmm...",
         description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
         status: "error",
-        duration: 4000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -66,7 +66,7 @@ const RegisterCAC = () => {
           title: "Saved created",
           description: `You are almost there!!, check your email address to complete the process`,
           status: "success",
-          duration: 4000,
+          duration: 5000,
           isClosable: true,
           position: "top-right",
         });
@@ -76,7 +76,7 @@ const RegisterCAC = () => {
           title: `"Oops...`,
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
-          duration: 3000,
+          duration: 5000,
           isClosable: true,
           position: "top-right",
         });

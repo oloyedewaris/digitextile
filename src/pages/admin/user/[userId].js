@@ -30,9 +30,9 @@ const User = () => {
     onSuccess: (res) => {
       setUserData(res?.data?.data)
       toast({
-        title: `User active state changes`,
+        title: `User active state changed`,
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -42,7 +42,7 @@ const User = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -55,7 +55,7 @@ const User = () => {
       toast({
         title: `User approved`,
         status: "success",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -65,7 +65,7 @@ const User = () => {
         title: `"Oops...`,
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
         position: "top-right",
       });
@@ -113,8 +113,7 @@ const User = () => {
                   Email verification status:
                   {userData?.isVerified ? <Text as='span' color='#009900'> Verified</Text> : <Text as='span' color='#EF233C'> Not Verified</Text>}
                 </Text>
-
-                {userData.role === 'creator' && (
+                {userData?.role === 'creator' && (
                   <>
                     {userData?.isApproved ? (
                       <Text color={'#009900'} fontWeight={500} mt={{ base: '17px', md: '35px' }} textAlign={'center'}>User Approved</Text>
