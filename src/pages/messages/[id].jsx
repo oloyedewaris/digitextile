@@ -20,7 +20,7 @@ const Message = () => {
 
 
   const messagesQuery = useQuery(
-    ["fetchMessages", conversation?._id],
+    ["fetchMessages", conversation?._id, recipientId],
     () => conversation && fetchMessages(conversation?._id),
     {
       enabled: true,

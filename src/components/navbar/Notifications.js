@@ -15,9 +15,6 @@ const Notifications = () => {
 
   const notifData = notificationQuery?.data?.data?.data;
 
-  console.log('notifData', notifData)
-
-
   const handleSettings = () => {
     router.push('/settings');
   };

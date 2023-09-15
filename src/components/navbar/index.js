@@ -111,7 +111,8 @@ const Navbar = ({ }) => {
                   <Flex cursor='pointer' direction={'row'} align='center' gap='5px'>
                     <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
                     <Badge variant='outline' colorScheme='red'>
-                      {messagesCountQuery?.data?.data?.data}
+                      {console.log('messagesCountQuery?.data?.data?.data', messagesCountQuery?.data?.data?.data)}
+                      {Boolean(messagesCountQuery?.data?.data?.data) && messagesCountQuery?.data?.data?.data}
                     </Badge>
                   </Flex>
                 </Link>

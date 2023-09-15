@@ -13,8 +13,10 @@ import { extended } from '@/constant/messages';
 import { CheckIcon } from '@chakra-ui/icons';
 import avatar from '@/assets/images/avatar.png'
 import ReactTimeAgo from 'react-time-ago';
+import { useRouter } from 'next/router';
 
 const Conversations = ({ handleSelectConv, conversationsData }) => {
+  const router = useRouter()
 
   return (
     <Box>
@@ -47,6 +49,7 @@ const Conversations = ({ handleSelectConv, conversationsData }) => {
             justify={'space-between'}
             px='8px' py='10px' w='full'
             onClick={() => handleSelectConv(cnvs)}
+          // onClick={() => router.push(`/messages/${cnvs?.recipient?._id}`)}
           >
             <Flex gap='10px' align={'center'}>
               <Image w='40px' h='40px' borderRadius={'full'} src={cnvs?.creator?.image || avatar.src} />

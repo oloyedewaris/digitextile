@@ -36,7 +36,7 @@ const Product = () => {
     onSuccess: (res) => {
       toast({
         title: `Deleted`,
-        description: `Product deleted`,
+        description: `Listing deleted`,
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -60,7 +60,7 @@ const Product = () => {
   const addFavouriteMutation = useMutation(() => addFavourite(productId), {
     onSuccess: async () => {
       toast({
-        title: "Product added to favourite",
+        title: "Listing added to favourite",
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -82,7 +82,7 @@ const Product = () => {
   const deleteFavouriteMutation = useMutation(() => deleteFavourite(productId), {
     onSuccess: async () => {
       toast({
-        title: "Product removed from favourite",
+        title: "Listing removed from favourite",
         status: "success",
         duration: 4000,
         isClosable: true,
@@ -105,13 +105,24 @@ const Product = () => {
     () => createConversation({ recipientId: sellerId }),
     {
       onSuccess: res => {
-        console.log('res?.data', res?.data)
+        setConversation(res?.data?.data?.data)
       },
     }
   );
 
   const sendMessageMutation = useMutation(
-    (data) => sendMessage(conversation?._id, data),
+    (data) => {
+      if (!conversation?._id)
+        return toast({
+          title: `"Oops...`,
+          description: `Message cannot be sent, go to creator's DM instead`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      return sendMessage(conversation?._id, data)
+    },
     {
       onSuccess: res => {
         setText('')
@@ -143,7 +154,6 @@ const Product = () => {
 
 
   useEffect(() => {
-    console.log('sellerId, !isChecking', sellerId, isChecking, checkData?.data?.data)
     if (sellerId && !isChecking) {
       if (!checkData?.data?.data) {
         startNewUserConversationMutation.mutate()
@@ -160,8 +170,6 @@ const Product = () => {
     original: image,
     thumbnail: image,
   }));
-
-  console.log('conversation', conversation)
 
   const renderGallery = () => (
     <>
@@ -277,6 +285,35 @@ const Product = () => {
                 <Text mt={{ base: '12px', md: '24px' }}>
                   {product?.description}
                 </Text>
+                <Flex color='#A2A6AB' mt='43px' gap='8px' align='center' w='full' justify={'center'}>
+                  {status ? (
+                    <Flex
+                      cursor={'pointer'}
+                      disabled={deleteFavouriteMutation.isLoading}
+                      align='center' gap='7px'
+                      onClick={deleteFavouriteMutation.mutate}
+                    >
+                      <RiHeartFill
+                        color='#D90429'
+                        size={20}
+                      />
+                      <Text fontSize={'14px'}>Remove from favourite</Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      cursor={'pointer'}
+                      disabled={addFavouriteMutation.isLoading}
+                      align='center' gap='7px'
+                      onClick={addFavouriteMutation.mutate}
+                    >
+                      <RiHeart2Line
+                        size={20}
+                      />
+                      <Text fontSize={'14px'}>Add to favourite</Text>
+                    </Flex>
+                  )}
+                </Flex>
+
                 {product?.seller?._id !== user?._id && (
                   <Box>
                     <Button
@@ -322,34 +359,14 @@ const Product = () => {
                     )}
                   </Box>
                 )}
-                <Flex color='#A2A6AB' mt='43px' gap='8px' align='center' w='full' justify={'center'}>
-                  {status ? (
-                    <Flex
-                      cursor={'pointer'}
-                      disabled={deleteFavouriteMutation.isLoading}
-                      align='center' gap='7px'
-                      onClick={deleteFavouriteMutation.mutate}
-                    >
-                      <RiHeartFill
-                        color='#D90429'
-                        size={20}
-                      />
-                      <Text fontSize={'14px'}>Remove from favourite</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      cursor={'pointer'}
-                      disabled={addFavouriteMutation.isLoading}
-                      align='center' gap='7px'
-                      onClick={addFavouriteMutation.mutate}
-                    >
-                      <RiHeart2Line
-                        size={20}
-                      />
-                      <Text fontSize={'14px'}>Add to favourite</Text>
-                    </Flex>
-                  )}
-                </Flex>
+
+                <Text
+                  textAlign={'center'}
+                  color='#2B2D42' mt='12px'
+                  cursor='pointer'
+                  onClick={() => router.push(`/messages/${product?.seller?._id}`)}
+                  fontSize={'14px'}
+                >Chat creator instead</Text>
                 {/* {user?._id === product?.seller?._id && (
                   <Link href={`/edit-listing/${productId}`}>
                     <Center gap='10px' border={'0.812px solid #2B2D42'} mt={{ base: '20px', md: '35px' }} px='11px' py='12px' borderRadius={'full'}>
