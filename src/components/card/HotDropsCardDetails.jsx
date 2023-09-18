@@ -68,21 +68,21 @@ const HotDropDetail = ({
       </Box>
 
       <VStack mt={"8px"} align={"start"} onClick={onClickCard}>
-        <HStack alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
+        <HStack alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
           <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{category}</Text>
           <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{timeToRead || 0} min read</Text>
         </HStack>
-        <Text fontSize={{ base: '13px', md: '20px' }} fontWeight='500' noOfLines={1}>{title}</Text>
-        <Text fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4' noOfLines={3}>{subTitle}</Text>
-        <HStack alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
-          <Flex justify={'center'} align={'center'} gap='14px'>
-            <Image h='40px' w='40px' borderRadius='full' src={person || avatar.src} />
+        <Text fontSize={{ base: '12px', md: '20px' }} fontWeight='500' noOfLines={1}>{title}</Text>
+        <Text fontSize={{ base: '15px', md: '22px' }} color='#C4C4C4' noOfLines={3}>{subTitle}</Text>
+        <HStack alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
+          <Flex justify={'center'} align={'center'} gap={{ base: '6px', md: '14px' }}>
+            <Image h={{ base: '20px', md: '40px' }} w={{ base: '20px', md: '40px' }} borderRadius='full' src={person || avatar.src} />
             <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{user}</Text>
-          </Flex>
+          </Flex >
           <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{time}</Text>
-        </HStack>
-      </VStack>
-    </Box>
+        </HStack >
+      </VStack >
+    </Box >
   );
 };
 

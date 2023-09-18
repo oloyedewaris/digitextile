@@ -31,7 +31,7 @@ const TopDeals = () => {
             ))}
           </SimpleGrid>
         </Skeleton>
-        {!favouriteData.length && <EmptyState h='50px' text={'No favourite listing yet'} />}
+        {!favouriteData?.length && <EmptyState h='50px' text={'No favourite listing yet'} />}
       </Box>
     </LayoutView>
   )

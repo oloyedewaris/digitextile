@@ -304,9 +304,10 @@ const CreateListing = () => {
                 </Box>
               </GridItem>
               <GridItem colSpan={{ base: 1, md: 5 }}>
-                <Flex w='full' gap='25px'>
+                <Flex w='full' gap='25px' flexWrap={'wrap'}>
                   {files.map((file, index) => (
                     <Flex
+                      flex='1 0 42%'
                       bgPosition={'center'}
                       bgSize={'contain'}
                       direction={'column'}
@@ -479,7 +480,7 @@ const CreateListing = () => {
               </GridItem>
               <GridItem colSpan={{ base: 1, md: 5 }}>
                 <RadioGroup w='full' value={formik.values.type} onChange={formik.handleChange('type')}>
-                  <Flex w='full' justify={'space-between'} px={{ base: '10px', md: '30px' }}>
+                  <Flex w='full' justify={'space-between'} px={{ base: '10px', md: '30px' }} gap='15px'>
                     <Radio value='product'>
                       <Text fontSize={{ base: '13px', md: '18px' }} fontWeight={500} color='#4D515E'>
                         Product
@@ -568,7 +569,7 @@ const CreateListing = () => {
                 </Box>
               </GridItem>
               <GridItem colSpan={{ base: 1, md: 5 }}>
-                <Flex align='center' gap='20px'>
+                <Flex align='center' gap={{ base: '6px', md: '20px' }}>
                   <InputGroup py='6px' border='1px' borderRadius={'4px'} w='90%'>
                     <Input
                       value={tagName}
@@ -580,7 +581,7 @@ const CreateListing = () => {
                     <InputRightElement
                       h='full'
                       w='50px'
-                      px={"14px"}
+                      px={{ base: '8px', md: "14px" }}
                       borderLeft={"1px solid #999"}
                     >
                       <Text
@@ -611,7 +612,7 @@ const CreateListing = () => {
 
             <Divider w='full' my={{ base: '20px', md: '40px' }} />
 
-            <SimpleGrid columns={{ base: 1, md: 7 }} gap={{ base: '10px', md: '40px' }} justifyContent={'center'}>
+            <SimpleGrid columns={{ base: 1, md: 7 }} gap={{ base: '30px', md: '40px' }} justifyContent={'center'}>
               <GridItem colSpan={{ base: 1, md: 7 }}>
                 <VStack spacing={'4px'} align={'stretch'} w='full'>
                   <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} color='#4D515E'>

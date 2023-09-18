@@ -110,10 +110,11 @@ const Navbar = ({ }) => {
                 <Link href='/messages'>
                   <Flex cursor='pointer' direction={'row'} align='center' gap='5px'>
                     <BiEnvelope style={{ borderRadius: '10px' }} size={25} />
-                    <Badge variant='outline' colorScheme='red'>
-                      {console.log('messagesCountQuery?.data?.data?.data', messagesCountQuery?.data?.data?.data)}
-                      {Boolean(messagesCountQuery?.data?.data?.data) && messagesCountQuery?.data?.data?.data}
-                    </Badge>
+                    {messagesCountQuery?.data?.data?.data && (
+                      <Badge variant='outline' colorScheme='red'>
+                        {messagesCountQuery?.data?.data?.data}
+                      </Badge>
+                    )}
                   </Flex>
                 </Link>
                 <Link href='/store'>
@@ -182,7 +183,7 @@ const Navbar = ({ }) => {
           />
         </Link>
         <HStack spacing='15px' align={'flex-end'}>
-          <Notifications />
+          {loggedIn && <Notifications />}
           <FaBars size={25} onClick={drawerModal.onOpen} />
         </HStack>
       </Flex>

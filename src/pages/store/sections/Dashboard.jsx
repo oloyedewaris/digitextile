@@ -20,7 +20,7 @@ const Dashboard = () => {
   return (
     <Box>
       <Flex py={{ base: '9px', md: '27px' }} px={{ base: '10px', md: '40px' }} justify={'space-between'} align={'center'}>
-        <Text fontSize={{ base: '20px', md: '32px' }} fontWeight={700}>Dashboard</Text>
+        <Text fontSize={{ base: '15px', md: '32px' }} fontWeight={700}>Dashboard</Text>
         <Text color='#1C1D2C' fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>Welcome, {user?.fullname}</Text>
       </Flex>
       <Divider w='full' />

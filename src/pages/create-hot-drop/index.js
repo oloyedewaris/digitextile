@@ -117,9 +117,9 @@ const CreateHotDrop = () => {
           borderRadius={{ base: '12px', md: '24px' }} bg='white'
         >
           <Text fontSize={{ base: '20px', md: '38px' }} fontWeight={500}>Create an hotdrop</Text>
-          <Text fontSize={{ base: '25px', md: '20px' }} fontWeight={400}>Ready to thread the needle of innovation? Drop into our Textile Forum today and let your ideas and expertise become part of our ever-evolving fabric</Text>
-          <Text fontSize={{ base: '20px', md: '20px' }} fontWeight={500} mt='40px'>Cover Photo *</Text>
-          <Text fontSize={{ base: '25px', md: '15px' }} fontWeight={400}>Chose an Image that correspond with  your intended topic</Text>
+          <Text fontSize={{ base: '12px', md: '20px' }} fontWeight={400}>Ready to thread the needle of innovation? Drop into our Textile Forum today and let your ideas and expertise become part of our ever-evolving fabric</Text>
+          <Text fontSize={{ base: '18px', md: '20px' }} fontWeight={500} mt='40px'>Cover Photo *</Text>
+          <Text fontSize={{ base: '10px', md: '15px' }} fontWeight={400}>Chose an Image that correspond with  your intended topic</Text>
 
           <Flex direction={'column'} justify='center' gap={{ base: '15px', md: '24px' }} my={{ base: '15px', md: '30px' }} p={{ base: '15px', md: '35px' }}>
             <Center
@@ -166,7 +166,7 @@ const CreateHotDrop = () => {
             </Center>
 
           </Flex>
-          <VStack align={'stretch'} spacing={{ base: '15px', md: '35px' }}>
+          <VStack align={'stretch'} spacing={{ base: '20px', md: '35px' }}>
             <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: '10px', md: '20px' }} justifyContent={'center'}>
               <VStack spacing={'4px'} align={'stretch'} w='full'>
                 <Text fontSize={{ base: '16px', md: '24px' }} fontWeight={600} >Title Category *</Text>
@@ -221,7 +221,7 @@ const CreateHotDrop = () => {
               </VStack>
               <GridItem colSpan={2}>
                 <FormTextarea
-                  h='500px'
+                  h={{ base: '200px', md: '500px' }}
                   value={formik.values.content}
                   error={formik.errors.content}
                   onChange={formik.handleChange('content')}

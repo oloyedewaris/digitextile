@@ -72,24 +72,24 @@ const HotDrop = () => {
         >
           <Image w='full' src={forumData?.image} h={{ base: '125px', md: '245px' }} borderRadius={{ base: '12px', md: '20px' }} />
 
-          <HStack mt='30px' alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
+          <HStack mt={{ base: '15px', md: '30px' }} alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
             <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{forumData?.category}</Text>
             <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{forumData?.readTime} min read</Text>
           </HStack>
-          <Text mt='30px' fontSize={{ base: '16px', md: '36px' }} fontWeight='700' noOfLines={1}>{forumData?.title}</Text>
+          <Text mt={{ base: '15px', md: '30px' }} fontSize={{ base: '16px', md: '36px' }} fontWeight='700' noOfLines={1}>{forumData?.title}</Text>
 
-          <HStack mt='30px' alignItems={'center'} w={"100%"} spacing={'14px'} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
+          <HStack mt={{ base: '15px', md: '30px' }} alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
             <Flex justify={'center'} align={'center'} gap='14px'>
-              <Image h='40px' w='40px' borderRadius='full' src={forumData?.person || avatar.src} />
+              <Image w={{ base: '20px', md: '40px' }} borderRadius='full' src={forumData?.person || avatar.src} />
               <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{forumData?.creator?.fullname}</Text>
             </Flex>
             <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{forumData?.createdAt && new Date(forumData?.createdAt).toDateString()}</Text>
           </HStack>
 
-          <Text mt='30px' fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4'>{forumData?.content}</Text>
+          <Text mt={{ base: '15px', md: '30px' }} fontSize={{ base: '12px', md: '22px' }} color='#C4C4C4'>{forumData?.content}</Text>
 
 
-          <Text my='34px' fontWeight={'700'} color='#1C1D2C' fontSize={'50px'}>Comments</Text>
+          <Text my={{ base: '18px', md: '34px' }} fontWeight={'700'} color='#1C1D2C' fontSize={{ base: '20px', md: '50px' }}>Comments</Text>
           <VStack align='stretch' spacing={'10px'} divider={<Divider />}>
             {forumData?.comments?.map(comment => (
               <Box>
@@ -102,14 +102,14 @@ const HotDrop = () => {
             ))}
           </VStack>
           <Textarea
-            mt='20px'
-            fontSize={'18px'}
-            h='200px' w='full'
-            placeholder='Add a comment...' p='40px'
+            mt={{ base: '12px', md: '20px' }}
+            fontSize={{ base: '12px', md: '18px' }}
+            h={{ base: '100px', md: '200px' }} w='full'
+            placeholder='Add a comment...' p={{ base: '15px', md: '40px' }}
             onChange={e => setText(e.target?.value)}
             value={text}
           />
-          <Button float='right' mt='15px' disabled={isCommenting} isLoading={isCommenting} onClick={addNewComment}>Comment</Button>
+          <Button mr='auto' mt={{ base: '12px', md: '15px' }} disabled={isCommenting} isLoading={isCommenting} onClick={addNewComment}>Comment</Button>
 
 
           <Flex
@@ -150,7 +150,7 @@ const HotDrop = () => {
                   user={card?.creator?.fullname}
                   subTitle={card?.content}
                   onClickCard={() => router.push(`/hot-drop/${card?._id}`)}
-                  time={card?.createdAt}
+                  time={card?.createdAt && new Date(card?.createdAt).toDateString()}
                   timeToRead={card?.readTime}
                   category={card?.category}
                   id={i} key={i}

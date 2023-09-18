@@ -18,7 +18,7 @@ const AdminDashboard = () => {
   return (
     <Box>
       <Flex py={{ base: '9px', md: '27px' }} px={{ base: '10px', md: '40px' }} justify={'space-between'} align={'center'}>
-        <Text fontSize={{ base: '20px', md: '32px' }} fontWeight={700}>Admin Dashboard</Text>
+        <Text fontSize={{ base: '15px', md: '32px' }} fontWeight={700}>Admin Dashboard</Text>
         <Text color='#1C1D2C' fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>Welcome, {user?.fullname}</Text>
       </Flex>
       <Divider w='full' />
@@ -36,7 +36,7 @@ const AdminDashboard = () => {
               border='1px solid #E4DFDA'
             >
               <Flex justify={'space-between'} align={'center'} w='full'>
-                <Text color='#1C1D2C' fontSize={'20px'} fontWeight={500}>All Users</Text>
+                <Text color='#1C1D2C' fontSize={{ base: '13px', md: '20px' }} fontWeight={500}>All Users</Text>
                 <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>+12%</Text>
               </Flex>
               <Text fontSize={'32px'} fontWeight={500} color='#1C1D2C'>{users?.length}</Text>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
             {(users || []).map(user => (
               <Link href={`/admin/user/${user?._id}`}>
                 <Flex justify='space-between' align='center'>
-                  <Flex gap={{ base: '8px', md: '16px' }} align={'center'} w='30%'>
+                  <Flex gap={{ base: '8px', md: '16px' }} align={'center'} w={{ base: '70%', md: '30%' }}>
                     {user?.image ? (
                       <Image
                         src={user?.image}
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
                       <Text noOfLines={1} fontWeight={500} fontSize={'12px'}>{user?.address}</Text>
                     </VStack>
                   </Flex>
-                  <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{user?.email}</Text>
+                  <Text display={{ base: 'none !important', md: 'block' }} w={{ base: '100%', md: '50%' }} noOfLines={1}>{user?.email}</Text>
                   <Text textDecoration={'underline'} color='#3F51B5' fontSize={{ base: '12px', md: '16px' }} fontWeight={500}>
                     {user?.role}
                   </Text>
