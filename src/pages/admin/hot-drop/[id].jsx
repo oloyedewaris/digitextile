@@ -102,7 +102,7 @@ const HotDropAdmin = () => {
 
           <HStack mt='30px' alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#4D515E' />}>
             <Flex justify={'center'} align={'center'} gap='14px'>
-              <Image h={{ base: '20px', md: '40px' }}' borderRadius='full' src={forumData?.person || avatar.src} />
+              <Image h={{ base: '20px', md: '40px' }} borderRadius='full' src={forumData?.person || avatar.src} />
               <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{forumData?.creator?.fullname}</Text>
             </Flex>
             <Text fontSize={{ base: '10px', md: '14px' }} color={'#4D515E'} noOfLines={1}>{forumData?.createdAt && new Date(forumData?.createdAt).toDateString()}</Text>
