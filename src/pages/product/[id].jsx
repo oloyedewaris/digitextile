@@ -263,7 +263,7 @@ const Product = () => {
                 {renderGallery()}
               </Box>
               <Box w={{ base: 'full', md: '40%' }}>
-                <Flex gap='5px' align='center'>
+                <Flex gap='5px' align='center' cursor={'pointer'} onClick={() => router.push(`/store/${product?.seller?._id}`)}>
                   <HStack p='8px' position='relative'>
                     {/* {persons.map((person, i) => ( */}
                     <Box position='relative'>

@@ -5,6 +5,16 @@ export const getProductsApi = async (params) => {
     return (res)
 }
 
+export const getTopProductsApi = async (params) => {
+    const res = await axiosInstance.get(`/products/home/top-deals?page=${params?.page || 1}&limit=${params?.limit || 10}`)
+    return (res)
+}
+
+export const getRecommendedProductsApi = async (params) => {
+    const res = await axiosInstance.get(`/products/home/recommend?page=${params?.page || 1}&limit=${params?.limit || 10}`)
+    return (res)
+}
+
 export const getCategorysApi = async (params) => {
     const res = await axiosInstance.get(`/products?page=${params?.page || 1}&limit=${params?.limit || 10}&category=${params.category}`)
     return (res)

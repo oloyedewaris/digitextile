@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Skeleton, Text, VStack } from '@chakra-ui/react'
+import { Box, Center, Divider, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, SimpleGrid, Skeleton, Text, VStack, useDisclosure } from '@chakra-ui/react'
 import React, { useContext } from 'react';
 import Button from '@/components/button';
 import { BiPlus } from 'react-icons/bi';
@@ -15,10 +15,14 @@ import coverImg from '@/assets/images/store-bg.png';
 import avatar from '@/assets/images/avatar.png';
 import verified from '@/assets/svgs/verified.svg'
 import { formatAmount } from '@/utils/formatAmount';
+import infoBtn from '@/assets/svgs/info-button.svg';
+import { RiStarSFill } from 'react-icons/ri';
+import ReviewModal from '@/components/reviewModal';
 
 const MyStore = () => {
   const { authState: { user } } = useContext(GlobalContext)
   const { data, isLoading } = useQuery(["getUserProductApi"], getUserProductApi);
+  const reviewModal = useDisclosure()
 
   return (
     <Box>
@@ -45,21 +49,45 @@ const MyStore = () => {
           <Text color='#fff' fontSize={'14px'} fontWeight={500}>Insert logo</Text>
         </Center>
 
-        {/* <Flex align={'center'} w='full' justify={'space-between'}>
-          <Flex align={'center'} pb={{ base: '20px', md: '40px' }} h='95px'>
+        <Flex align={'center'} w='full' justify={'space-between'} mb={{ base: '20px', md: '40px' }}>
+          <Flex w='40%' align={'center'} h='95px' gap='15px'>
             <Image src={avatar.src} borderRadius={'8px'} w='90px' h='90px' />
             <Flex direction='column' h='full' justify='space-between'>
               <Box>
-                <Text mb='4px' fontWeight={500} fontSize={'20px'} color='#212922'>Store Name here</Text>
-                <Text fontWeight={400} fontSize={'14px'} color='#212922'>Tagline here</Text>
+                <Text mb='4px' fontWeight={500} fontSize={'18px'} color='#212922'>
+                  {user?.fullname}
+                </Text>
+                <Text fontWeight={400} fontSize={'13px'} color='#212922' noOfLines={2}>
+                  {user?.bio}
+                </Text>
               </Box>
-              <HStack spacing={'3px'}>
-                <Image src={verified.src} />
-                <Text fontWeight={400} fontSize={'14px'} color='#212922'>Verified Seller</Text>
+              <HStack spacing={'3px'} align={'center'} gap='2px' divider={<Divider orientation='vertical' h='5px' />}>
+                <Flex align={'center'}>
+                  <Image src={verified.src} />
+                  <Text fontWeight={400} fontSize={'13px'} color='#212922'>Verified Seller</Text>
+                </Flex>
+                <HStack align={'center'} gap='-2px' onClick={reviewModal.onOpen}>
+                  <RiStarSFill />
+                  <RiStarSFill />
+                  <RiStarSFill />
+                </HStack>
               </HStack>
             </Flex>
           </Flex>
-        </Flex> */}
+
+          <Flex w='40%' direction='column' h='full' justify='center'>
+            <Text fontWeight={500} fontSize={'18px'} color='#212922'>
+              You are a Verified Seller!
+            </Text>
+            <Text fontWeight={400} fontSize={'13px'} color='#212922' noOfLines={2}>
+              User are now able to transact with you more conveniently. Watch out for Verified Customers
+            </Text>
+            <HStack spacing={'3px'} align={'center'}>
+              <Image src={infoBtn.src} />
+              <Text fontWeight={400} fontSize={'10px'} color='#1565C0'>Safety tips</Text>
+            </HStack>
+          </Flex>
+        </Flex>
         <InputGroup border='1px' borderRadius={'full'} w='full' pr='15px'>
           <Input
             _focus={{ border: 'none', outline: 'none' }}
@@ -112,7 +140,7 @@ const MyStore = () => {
           )}
         </Skeleton>
       </Box>
-
+      <ReviewModal modal={reviewModal} />
     </Box>
   )
 }

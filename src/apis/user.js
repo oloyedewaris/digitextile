@@ -19,3 +19,13 @@ export const searchApi = async (query) => {
     const res = await axiosInstance.get(`/search?query=${query}`)
     return (res)
 }
+
+export const fetchUserInsight = async () => {
+    const res = await axiosInstance.get(`/users/insights`)
+    return (res)
+}
+
+export const fetchCreatorProfile = async (id) => {
+    const res = await axiosInstance.get(`/users/creator/profile/${id}`)
+    return (res)
+}

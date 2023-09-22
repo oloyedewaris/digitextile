@@ -4,11 +4,11 @@ import { RiArrowRightLine } from 'react-icons/ri';
 import ProductCard from '../card/ProductCard';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
-import { getProductsApi } from '@/apis/product';
+import { getProductsApi, getRecommendedProductsApi, getTopProductsApi } from '@/apis/product';
 import { formatAmount } from '@/utils/formatAmount';
 
 const Recommended = () => {
-  const { data, isError, error, isLoading, refetch, } = useQuery(["getTopDeals"], () => getProductsApi({ page: 1, limit: 8 }));
+  const { data } = useQuery(["getRecommendedProductsApi"], () => getProductsApi({ page: 1, limit: 8 }));
 
 
   return (
