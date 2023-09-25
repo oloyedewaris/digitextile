@@ -27,8 +27,6 @@ const Dashboard = () => {
   const conversationQuery = useQuery(["getUserConversations"], getUserConversations);
   const conversationsData = conversationQuery?.data?.data?.data;
 
-  console.log('conversationsData', conversationsData)
-
   return (
     <Box>
       <Flex py={{ base: '9px', md: '27px' }} px={{ base: '10px', md: '40px' }} justify={'space-between'} align={'center'}>

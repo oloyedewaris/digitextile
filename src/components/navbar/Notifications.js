@@ -15,7 +15,7 @@ const Notifications = () => {
   const notifData = notificationQuery?.data?.data?.data;
 
   const handleSettings = () => {
-    router.push('/settings');
+    // router.push('/settings');
   };
 
   return (
@@ -29,7 +29,7 @@ const Notifications = () => {
           </Box>
         </Flex>
       </MenuButton>
-      <MenuList style={{ height: 'fit-content' }} py='22px' px='18px'>
+      <MenuList style={{ width: 'full', height: 'fit-content' }} py='22px' px='18px'>
         <MenuItem>
           <Text color='#1C1D2C' fontWeight={500} fontSize={{ base: '18px', md: '24px' }}>Notifications</Text>
         </MenuItem>
@@ -38,8 +38,8 @@ const Notifications = () => {
             <Flex gap={{ base: 2, md: 3 }} align='center' mb='15px' onClick={handleSettings}>
               <Image h={{ base: '30px', md: '45px' }} w={{ base: '30px', md: '45px' }} borderRadius={'full'} src={digi.src} />
               <VStack align={'stretch'}>
-                <Text fontSize={'20px'} style={{ color: '#1C1D2C', fontWeight: '500' }} noOfLines={1}>{notif.title}</Text>
-                <Text fontSize={'15px'} style={{ color: '#1C1D2C', fontWeight: '400' }} noOfLines={3}>{notif.body}</Text>
+                <Text fontSize={'20px'} style={{ color: '#1C1D2C', fontWeight: '500' }}>{notif.title}</Text>
+                <Text fontSize={'15px'} style={{ color: '#1C1D2C', fontWeight: '400' }}>{notif.body}</Text>
                 <Text fontSize={'10px'} style={{ color: '#C4C4C4', fontWeight: '300' }}>{notif.createdAt && new Date(notif.createdAt).toDateString()}</Text>
               </VStack>
             </Flex>

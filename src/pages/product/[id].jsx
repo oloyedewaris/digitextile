@@ -126,6 +126,7 @@ const Product = () => {
     {
       onSuccess: res => {
         setText('')
+        setMsgReady(false)
         toast({
           title: `Sent`,
           description: `Message delivered to seller`,
