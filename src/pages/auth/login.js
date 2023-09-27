@@ -69,13 +69,13 @@ import FormInput from '@/components/form/FormInput';
 import Button from '@/components/button';
 import { FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useFormik } from 'formik';
 import FormInputPassword from '@/components/form/FormInputPassword';
 import * as Yup from 'yup';
 import { GlobalContext } from '@/context/Provider';
 import { loginUser } from '@/context/actions/auth';
-import { loginUserApi } from '@/apis/auth';
+import { loginUserApi, resendVerification } from '@/apis/auth';
 
 const Login = () => {
   const toast = useToast()
@@ -113,6 +113,44 @@ const Login = () => {
       });
     },
   })
+
+  const sendMailMutation = useMutation(
+    () => resendVerification(formik.values.email),
+    {
+      onSuccess: (res) => {
+        return toast({
+          title: "Link sent",
+          description: `Check your email address for the verification link`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+      onError: (err) => {
+        toast({
+          title: `"Oops...`,
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    }
+  )
+
+  const handleResend = () => {
+    if (!formik.values.email)
+      return toast({
+        description: `Enter your email in the input`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    sendMailMutation.mutate()
+  }
 
 
   const formSchema = Yup.object().shape({
@@ -174,7 +212,7 @@ const Login = () => {
           <Button
             onClick={formik.handleSubmit}
             borderRadius='full' bg='#2B2D42'
-            w='full' h='55px' mt='55px' color='white'
+            w='full' h={{ base: '40px', md: '55px' }} mt={{ base: '15px', md: '55px' }} color='white'
           >
             {isLoading ? (
               <CircularProgress isIndeterminate size="24px" color="teal" />
@@ -182,7 +220,14 @@ const Login = () => {
               ' Login'
             )}
           </Button>
-          <Divider my='30px' />
+          <Text textAlign={'center'} my={{ base: '10px', md: '30px' }}>Didn't get verification link?
+            {sendMailMutation.isLoading ? (
+              <CircularProgress isIndeterminate size="24px" color="teal" />
+            ) : (
+              <span onClick={handleResend} style={{ color: 'green', cursor: 'pointer' }}> Send again</span>
+            )}
+          </Text>
+          {/* <Divider my='30px' />
           <Button
             onClick={() => router.push('/auth/creator/complete')}
             borderRadius='full' bg='transparent'
@@ -193,7 +238,7 @@ const Login = () => {
               <Text> Login</Text>
               <Box w='25px' />
             </Flex>
-          </Button>
+          </Button> */}
         </Box>
 
       </Flex >

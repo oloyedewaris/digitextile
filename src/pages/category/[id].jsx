@@ -16,6 +16,8 @@ const Category = () => {
   const categoryName = router.query.category;
   const { data } = useQuery(["getProductsByCategory", categoryId, categoryName], () => getCategorysApi({ page: 1, limit: 8, category: categoryId }));
 
+  console.log('data', data)
+
   return (
     <LayoutView noPadding>
       <Box px={{ base: '10px', md: '48px' }} my={{ base: '80px', md: '150px' }}>
