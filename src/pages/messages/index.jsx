@@ -13,8 +13,6 @@ const Message = () => {
   const router = useRouter();
   const [conversation, setConversation] = useState(null);
   const conversationQuery = useQuery(["getUserConversations"], getUserConversations);
-  const conversationsData = conversationQuery?.data?.data?.data;
-
 
 
   const messagesQuery = useQuery(
@@ -61,12 +59,12 @@ const Message = () => {
       >
         <Flex w='full' gap='20px' direction={{ base: 'column', md: 'row' }}>
           <Box w={{ base: '100%', md: '28%' }} px='7px' py='10px' bg='white' borderRadius={{ md: '16px' }} h='80vh'>
-            <Conversations handleSelectConv={handleSelectConv} conversationsData={conversationsData} />
+            <Conversations handleSelectConv={handleSelectConv} conversationQuery={conversationQuery} />
           </Box>
 
           <Box w={{ base: '100%', md: '72%' }} bg='white' borderRadius={{ base: '8px', md: '16px' }} h='80vh'>
             {conversation ? (
-              <Chats sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
+              <Chats conversation={conversation} sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
             ) : (
               <EmptyState h='80vh' text={'Select a conversation to start'} />
             )}

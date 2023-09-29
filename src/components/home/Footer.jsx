@@ -31,27 +31,27 @@ const Footer = ({ isDark }) => {
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>About</Text>
             <Link href='/'><Text>About Us</Text></Link>
-            <Link href='/'><Text>Careers</Text></Link>
-            <Link href='/'><Text>Press & News</Text></Link>
+            {/* <Link href='/'><Text>Careers</Text></Link> */}
+            {/* <Link href='/'><Text>Press & News</Text></Link> */}
             <Link href='/'><Text>Privacy Policy</Text></Link>
             <Link href='/'><Text>Terms of Service</Text></Link>
-            <Link href='/'><Text>Investor Relations</Text></Link>
+            {/* <Link href='/'><Text>Investor Relations</Text></Link> */}
           </VStack>
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>Support</Text>
             <Link href='/'><Text>Contact Us</Text></Link>
-            <Link href='/'><Text>Help & Support</Text></Link>
+            <Link href='/'><Text>FAQs</Text></Link>
             <Link href='/'><Text>Trust and Safety</Text></Link>
             <Link href='/'><Text>Digitextile Guides</Text></Link>
-            <Link href='/'><Text>Dispute Settlement</Text></Link>
+            {/* <Link href='/'><Text>Dispute Settlement</Text></Link> */}
           </VStack>
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>More from Digitextile</Text>
             <Link href='/hot-drops'><Text>Blog & Forums</Text></Link>
-            <Link href='/'><Text>Talent Scout</Text></Link>
-            <Link href='/'><Text>Events</Text></Link>
-            <Link href='/'><Text>Partnerships</Text></Link>
-            <Link href='/'><Text>Press</Text></Link>
+            {/* <Link href='/'><Text>Talent Scout</Text></Link> */}
+            {/* <Link href='/'><Text>Events</Text></Link> */}
+            {/* <Link href='/'><Text>Partnerships</Text></Link> */}
+            {/* <Link href='/'><Text>Press</Text></Link> */}
           </VStack>
         </SimpleGrid>
       )}

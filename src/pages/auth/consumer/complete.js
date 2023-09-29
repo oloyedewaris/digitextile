@@ -12,6 +12,8 @@ import { BiLock } from 'react-icons/bi';
 import FormSelect from '@/components/form/FromSelect';
 import countries from '@/utils/countries.json'
 import { completeRegApi } from '@/apis/auth';
+import SelectSearch from 'react-select';
+import FormInputPhone from '@/components/form/FormInputPhone';
 
 const CompleteRegistration = () => {
   const toast = useToast()
@@ -50,7 +52,7 @@ const CompleteRegistration = () => {
       .min(5, 'Address too short!')
       .required('Address is required'),
     country: Yup.string()
-      .required('State is required')
+      .required('Country of residence is required')
   });
 
   const formik = useFormik({
@@ -60,7 +62,10 @@ const CompleteRegistration = () => {
       address: '',
       country: '',
     },
-    onSubmit: values => mutate(values)
+    onSubmit: values => mutate({
+      ...values,
+      phone: `+234${values.phone}`
+    })
   })
 
   return (
@@ -84,8 +89,8 @@ const CompleteRegistration = () => {
             </Text>
           </Box>
           <Divider mt='12px' mb='24px' w='full' />
-          <FormInput
-            h='50px'
+          <FormInputPhone
+            code='+234'
             mb='20px'
             isRequired
             value={formik.values.phone}
@@ -107,7 +112,21 @@ const CompleteRegistration = () => {
             id='address'
             placeholder={'Your address'}
           />
-          <FormSelect
+          <SelectSearch
+            className='height_50'
+            isSearchable
+            options={countries}
+            // mb='20px'
+            isRequired
+            value={formik.values.country}
+            error={formik.errors.country}
+            onChange={option => formik.handleChange('country')(option.value)}
+            label={'Please select'}
+            id='country'
+            placeholder={formik.values.country || 'Country of residence'}
+
+          />
+          {/* <FormSelect
             options={countries}
             h='50px'
             // mb='20px'
@@ -118,7 +137,7 @@ const CompleteRegistration = () => {
             label={'Please select'}
             id='country'
             placeholder={'Country of residence'}
-          />
+          /> */}
           <Button
             onClick={formik.handleSubmit}
             borderRadius='full' bg='#2B2D42'

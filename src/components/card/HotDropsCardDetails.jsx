@@ -40,8 +40,8 @@ const HotDropDetail = ({
       overflow='hidden'
       as={motion.div}
       maxWidth={"322px"}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
     >
       <Box
         p='24px'

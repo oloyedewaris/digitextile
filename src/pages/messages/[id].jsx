@@ -12,11 +12,9 @@ import EmptyState from '@/components/empty-state'
 const Message = () => {
   const router = useRouter();
   const recipientId = router.query.id;
-  const { data: checkData, isLoading } = useQuery(["checkConversation"], () => recipientId && checkConversation(recipientId));
+  const { data: checkData, isLoading } = useQuery(["checkConversation", recipientId], () => recipientId && checkConversation(recipientId));
   const [conversation, setConversation] = useState(null);
   const conversationQuery = useQuery(["getUserConversations"], getUserConversations);
-  const conversationsData = conversationQuery?.data?.data?.data;
-
 
 
   const messagesQuery = useQuery(
@@ -36,7 +34,14 @@ const Message = () => {
     }
   );
 
-  const startNewUserConversationMutation = useMutation(() => createConversation({ recipientId: router.query?.id }));
+  const startNewUserConversationMutation = useMutation(
+    () => createConversation({ recipientId: router.query?.id }),
+    {
+      onSuccess: res => {
+        setConversation(res?.data?.data?.data)
+      },
+    }
+  );
 
   const sendMessageMutation = useMutation(
     (data) => {
@@ -52,13 +57,15 @@ const Message = () => {
 
   useEffect(() => {
     if (recipientId) {
-      if (!isLoading && !checkData?.data?.data) {
-        startNewUserConversationMutation.mutate()
-      } else {
-        setConversation(checkData?.data?.data)
+      if (!!isLoading) {
+        if (!checkData?.data?.data) {
+          startNewUserConversationMutation.mutate()
+        } else {
+          setConversation(checkData?.data?.data)
+        }
       }
     }
-  }, [checkData?.data])
+  }, [checkData?.data, recipientId])
 
 
   const handleSelectConv = (conv) => {
@@ -80,12 +87,12 @@ const Message = () => {
         >
           <Flex w='full' gap='20px' direction={{ base: 'column', md: 'row' }}>
             <Box w={{ base: '100%', md: '28%' }} px='7px' py='10px' bg='white' borderRadius={{ md: '16px' }} h='80vh'>
-              <Conversations handleSelectConv={handleSelectConv} conversationsData={conversationsData} />
+              <Conversations handleSelectConv={handleSelectConv} conversationQuery={conversationQuery} />
             </Box>
 
             <Box w={{ base: '100%', md: '72%' }} bg='white' borderRadius={{ base: '8px', md: '16px' }} h='80vh'>
               {conversation ? (
-                <Chats sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
+                <Chats conversation={conversation} sendMessageMutation={sendMessageMutation} messagesQuery={messagesQuery} />
               ) : (
                 <EmptyState text={'Select a conversation to start'} />
               )}

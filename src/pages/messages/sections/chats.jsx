@@ -1,5 +1,5 @@
 import { CheckIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Center, Flex, Image, Input, InputGroup, InputLeftAddon, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Image, Input, InputGroup, InputLeftAddon, Spinner, Text, VStack, useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import avatar from '@/assets/images/avatar.png';
@@ -9,17 +9,44 @@ import { scrollbarStyle } from '@/utils/constant';
 // import { css } from 'emotion';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { formatAmount } from '@/utils/formatAmount';
+import { useMutation } from 'react-query';
+import { getReviewRequest } from '@/apis/reviews';
 
 // const ROOT_CSS = css({
 //   height: 600,
 //   width: 400
 // });
-const Chats = ({ sendMessageMutation, messagesQuery }) => {
+const Chats = ({ sendMessageMutation, conversation, messagesQuery }) => {
   const messages = messagesQuery?.data?.data?.data;
   const router = useRouter()
   const { authState: { user } } = useContext(GlobalContext)
   const [text, setText] = useState('');
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
+  const toast = useToast();
+
+  const inviteMutation = useMutation(
+    () => conversation?._id && getReviewRequest(conversation?._id),
+    {
+      onSuccess: res => {
+        toast({
+          title: "Review invite sent",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+      onError: res => {
+        toast({
+          title: `An error occurred while inviting user for review`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    }
+  )
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -110,7 +137,7 @@ const Chats = ({ sendMessageMutation, messagesQuery }) => {
                       <VStack align={'stretch'} w='45%'>
                         {checkPreviousSender && (
                           <Flex justify={'space-between'} align={'center'} w='full'>
-                            <Text color={'#1C1D2C'} fontSize={'16px'} fontWeight={600} noOfLines={1}>
+                            <Text color={'#1C1D2C'} fontSize={'16px'} fontWeight={600} noOfLines={1} w='70%'>
                               {msg?.author?.fullname}
                             </Text>
                             <Text
@@ -163,24 +190,27 @@ const Chats = ({ sendMessageMutation, messagesQuery }) => {
       )}
 
 
-      <form onSubmit={handleSend}>
-        <InputGroup py='15px' pr='10px' borderRadius={'16px'} border='1px solid #2B2D42' w='90%' mx='auto'>
-          <Input
-            _focus={{ border: 'none', outline: 'none' }}
-            border={'none'}
-            placeholder="Compose your messages"
-            value={text}
-            onChange={e => setText(e.target.value)}
-          />
-          <InputLeftAddon
-            bg={'transparent'}
-            p={"0px"}
-            border={"none"}
-          >
-            <FaPaperPlane onClick={handleSend} color='#2B2D42' size='20' />
-          </InputLeftAddon>
-        </InputGroup>
-      </form>
+      <Flex gap='20px' align='center' w='95%' mx='auto'>
+        <form onSubmit={handleSend} style={{ width: '100%' }}>
+          <InputGroup py='15px' pr='10px' borderRadius={'16px'} border='1px solid #2B2D42' w='100%' mx='auto'>
+            <Input
+              _focus={{ border: 'none', outline: 'none' }}
+              border={'none'}
+              placeholder="Compose your messages"
+              value={text}
+              onChange={e => setText(e.target.value)}
+            />
+            <InputLeftAddon
+              bg={'transparent'}
+              p={"0px"}
+              border={"none"}
+            >
+              <FaPaperPlane onClick={handleSend} color='#2B2D42' size='20' />
+            </InputLeftAddon>
+          </InputGroup>
+        </form>
+        {user?.role === 'creator' && <Button onClick={inviteMutation.mutate}>Invite</Button>}
+      </Flex>
     </Flex>
   )
 }

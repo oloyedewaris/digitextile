@@ -307,14 +307,14 @@ const CreateListing = () => {
                 <Flex w='full' gap='25px' flexWrap={'wrap'}>
                   {files.map((file, index) => (
                     <Flex
-                      flex='1 0 42%'
+                      w='10%'
                       bgPosition={'center'}
                       bgSize={'contain'}
                       direction={'column'}
                       justify={'flex-end'}
                       align={'stretch'}
                       h={{ base: '100px', md: '140px' }}
-                      w={{ base: '100px', md: '140px' }}
+                      maxW={{ base: '100px', md: '140px' }}
                       borderRadius={'4px'}
                       border='1px solid #C9C5C5'
                       flexDirection={'column'}

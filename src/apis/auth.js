@@ -7,7 +7,7 @@ export const registerUserApi = async (values) => {
 
 export const completeRegApi = async (values) => {
     const userID = localStorage.getItem('userId');
-    const res = await axiosInstance.post(`/auth/register/profile/${userID}`, values);
+    const res = await axiosInstance.post(`/auth/register/profile/${userID}`, values, { headers: { 'Content-Type': 'multipart/form-data' } });
     return (res)
 }
 

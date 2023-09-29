@@ -3,9 +3,9 @@ import { Modal, ModalOverlay, ModalContent, ModalBody, Heading, Flex, useToast, 
 import avatar from '@/assets/images/avatar.png';
 import { RiStarLine, RiStarSFill } from 'react-icons/ri';
 
-const ReviewModal = ({ modal }) => {
+const ReviewModal = ({ isOpen, onClose }) => {
   return (
-    <Modal isCentered isOpen={modal?.isOpen} onClose={modal?.onClose}>
+    <Modal isCentered isOpen={true} onClose={onClose}>
       <ModalOverlay />
       <ModalContent h='400px' px='20px'>
         <Flex py='10%' direction={'column'} h='full' justify={'space-between'}>
@@ -24,11 +24,12 @@ const ReviewModal = ({ modal }) => {
           <Text fontWeight={500} fontSize={'20px'} color='#1C1D2C'>Was this sale successful?</Text>
 
           <Flex gap='12px' align='center'>
-            <Button onClick={modal?.onOpen} bg='#2B2D42' color='white'>Yes</Button>
-            <Button onClick={modal?.onClose}>No</Button>
+            <Button bg='#2B2D42' color='white'>Yes</Button>
+            <Button onClick={onClose}>No</Button>
           </Flex>
 
           <Input
+            _focus={{ borderTop: 'none', borderRight: 'none', borderLeft: 'none', borderBottom: '1px solid #B0ABAB' }}
             w='full'
             placeholder='Add a comment'
             color='#B0ABAB'
@@ -41,14 +42,14 @@ const ReviewModal = ({ modal }) => {
             <Flex align={'center'} gap='10px'>
               <Text fontWeight={400} fontSize={'16px'} color='#212922'>Leave a rating</Text>
               <HStack align={'center'} gap='-2px'>
-                <RiStarLine />
-                <RiStarLine />
-                <RiStarLine />
-                <RiStarLine />
-                <RiStarLine />
+                <RiStarLine style={{ cursor: 'pointer' }} color='#969696' size={23} />
+                <RiStarLine style={{ cursor: 'pointer' }} color='#969696' size={23} />
+                <RiStarLine style={{ cursor: 'pointer' }} color='#969696' size={23} />
+                <RiStarLine style={{ cursor: 'pointer' }} color='#969696' size={23} />
+                <RiStarLine style={{ cursor: 'pointer' }} color='#969696' size={23} />
               </HStack>
             </Flex>
-            <Button onClick={modal?.onOpen} bg='#2B2D42' color='white'>Post</Button>
+            <Button bg='#2B2D42' color='white'>Post</Button>
           </HStack>
         </Flex>
       </ModalContent>

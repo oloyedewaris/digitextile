@@ -89,8 +89,8 @@ const ProductCard = ({
       overflow='hidden'
       as={motion.div}
       maxWidth={"322px"}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       onClick={onClickCard}
     >
       <HStack p='8px' position='relative'>
@@ -140,7 +140,7 @@ const ProductCard = ({
             />
           )}
         </HStack>
-        <Text fontSize={{ base: '10px', md: '12px' }}>{subTitle}</Text>
+        <Text fontSize={{ base: '10px', md: '12px' }} noOfLines={2}>{subTitle}</Text>
         <HStack justify={"space-between"} w={"100%"} mt='12px' fontSize={{ base: '10px', md: '14px' }} fontWeight={500}>
           <Text fontSize={{ base: '8px', md: '14px' }}><span style={{ color: '#C4C4C4' }}>Price:</span> {price}</Text>
           <Link href={`/product/${id}`}>

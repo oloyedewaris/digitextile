@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
-import { Box, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, Skeleton, Text, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, Skeleton, Spinner, Text, Textarea, VStack, useToast } from '@chakra-ui/react';
 import LayoutView from '@/components/layout';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import Button from '@/components/button';
@@ -9,11 +9,13 @@ import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
 import Auth from '@/hoc/Auth';
 import { GlobalContext } from '@/context/Provider';
-import { RiHeart2Line, RiHeartFill } from 'react-icons/ri';
+import { RiHeart2Line, RiHeartFill, RiStarFill, RiStarLine } from 'react-icons/ri';
 import { checkConversation, createConversation, sendMessage } from '@/apis/messaging';
 import avatar from '@/assets/images/avatar.png';
 import { priceString } from '@/utils/formatAmount';
 import { BiSend } from 'react-icons/bi';
+import { createReviewApi, getProductReview } from '@/apis/reviews';
+import ReactTimeAgo from 'react-time-ago';
 
 const Product = () => {
   const router = useRouter()
@@ -21,40 +23,21 @@ const Product = () => {
   const productId = router.query.id
   const { authState } = useContext(GlobalContext);
   const user = authState.user;
-  const [conversation, setConversation] = useState(null);
   const [text, setText] = useState('');
   const [msgReady, setMsgReady] = useState(false);
+  const [comment, setComment] = useState('')
+  const [rating, setRating] = useState(0)
 
   const { data } = useQuery(["getProductApi", productId], () => getProductApi(productId));
   const product = data?.data?.data;
 
+  const { data: reviewsData } = useQuery(["getProductReview", productId], () => getProductReview(productId));
+  const reviews = reviewsData?.data?.data;
+
+  console.log('reviews', reviews)
+
   const { data: favData, refetch } = useQuery(["checkFavourite", productId], () => checkFavourite(productId));
   const status = favData?.data?.data;
-
-
-  const { isLoading: deleting, mutate } = useMutation((formData) => deleteProductApi(productId, formData), {
-    onSuccess: (res) => {
-      toast({
-        title: `Deleted`,
-        description: `Listing deleted`,
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-      router.push('/dashboard')
-    },
-    onError: (err) => {
-      toast({
-        title: `"Oops...`,
-        description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-    },
-  })
 
 
   const addFavouriteMutation = useMutation(() => addFavourite(productId), {
@@ -102,17 +85,68 @@ const Product = () => {
   })
 
   const startNewUserConversationMutation = useMutation(
-    () => createConversation({ recipientId: sellerId }),
+    createConversation,
     {
       onSuccess: res => {
-        setConversation(res?.data?.data?.data)
+        setText('')
+        setMsgReady(false)
+        toast({
+          title: `Sent`,
+          description: `Message delivered to seller`,
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+          position: "top-right",
+        });
       },
+      onError: err => {
+        toast({
+          title: `"Oops...`,
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      }
     }
   );
 
+  const createReview = useMutation(
+    () => createReviewApi({
+      "content": comment,
+      "rating": rating,
+      "product": product?._id
+    }), {
+    onSuccess: async () => {
+      setRating(0)
+      setComment('')
+      toast({
+        title: "Review submited",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+      await refetch()
+    },
+    onError: () => {
+      toast({
+        title: "An error occurred",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  })
+
+  const sellerId = product?.seller?._id
+  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
+
   const sendMessageMutation = useMutation(
     (data) => {
-      if (!conversation?._id)
+      if (!checkData?.data?.data?._id)
         return toast({
           title: `"Oops...`,
           description: `Message cannot be sent, go to creator's DM instead`,
@@ -121,7 +155,7 @@ const Product = () => {
           isClosable: true,
           position: "top-right",
         });
-      return sendMessage(conversation?._id, data)
+      return sendMessage(checkData?.data?.data?._id, data)
     },
     {
       onSuccess: res => {
@@ -149,22 +183,31 @@ const Product = () => {
     }
   );
 
-
-  const sellerId = product?.seller?._id
-  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
-
-
-  useEffect(() => {
-    if (sellerId && !isChecking) {
+  const handleSendMessage = () => {
+    if (text && !isChecking) {
       if (!checkData?.data?.data) {
-        startNewUserConversationMutation.mutate()
+        startNewUserConversationMutation.mutate({
+          recipientId: sellerId,
+          content: text,
+          produdct: product?._id
+        })
       } else {
-        setConversation(checkData?.data?.data)
+        sendMessageMutation.mutate({ content: text, product: productId })
       }
     }
-  }, [checkData?.data, sellerId, isChecking])
+  }
 
-
+  const handleRating = () => {
+    if (!rating)
+      return toast({
+        title: "Please choose a rating",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    createReview.mutate()
+  }
 
 
   const imagesToUse = product?.images?.map(image => ({
@@ -246,6 +289,75 @@ const Product = () => {
     </>
   )
 
+  const review = () => (
+    <Box>
+      <Box border={'1px solid #969696'} borderRadius={'16px'} p='16px' mt='16px'>
+        <Input
+          value={comment}
+          onChange={e => setComment(e.target.value)}
+          _focus={{ borderTop: 'none', borderRight: 'none', borderLeft: 'none', borderBottom: '1px solid #B0ABAB' }}
+          w='full'
+          placeholder='Add a comment'
+          color='#B0ABAB'
+          borderRadius={0}
+          border={'none'}
+          borderBottom={'1px solid #B0ABAB'}
+        />
+
+        <HStack justify={'space-between'} spacing={'3px'} align={'center'} gap='2px' mt='20px'>
+          <HStack align={'center'} gap='-2px'>
+            {rating >= 1 ?
+              <RiStarFill onClick={() => setRating(1)} style={{ cursor: 'pointer' }} color='#000' size={23} /> :
+              <RiStarLine onClick={() => setRating(1)} style={{ cursor: 'pointer' }} color='#969696' size={23} />
+            }
+            {rating >= 2 ?
+              <RiStarFill onClick={() => setRating(2)} style={{ cursor: 'pointer' }} color='#000' size={23} /> :
+              <RiStarLine onClick={() => setRating(2)} style={{ cursor: 'pointer' }} color='#969696' size={23} />
+            }
+            {rating >= 3 ?
+              <RiStarFill onClick={() => setRating(3)} style={{ cursor: 'pointer' }} color='#000' size={23} /> :
+              <RiStarLine onClick={() => setRating(3)} style={{ cursor: 'pointer' }} color='#969696' size={23} />
+            }
+            {rating >= 4 ?
+              <RiStarFill onClick={() => setRating(4)} style={{ cursor: 'pointer' }} color='#000' size={23} /> :
+              <RiStarLine onClick={() => setRating(4)} style={{ cursor: 'pointer' }} color='#969696' size={23} />
+            }
+            {rating >= 5 ?
+              <RiStarFill onClick={() => setRating(5)} style={{ cursor: 'pointer' }} color='#000' size={23} /> :
+              <RiStarLine onClick={() => setRating(5)} style={{ cursor: 'pointer' }} color='#969696' size={23} />
+            }
+          </HStack>
+          <Button
+            isLoading={createReview.isLoading}
+            onClick={handleRating}
+            px='40px' py='0' bg='#2B2D42' color='white'
+          >Post</Button>
+        </HStack>
+      </Box>
+
+      <HStack justify={'space-between'} spacing={'3px'} align={'center'} my='20px'>
+        <Text fontWeight={500} fontSize={'14px'} color='#1C1D2C'>{reviews?.length} Comments</Text>
+        <Text fontWeight={500} fontSize={'14px'} color='#1C1D2C'>Optional</Text>
+      </HStack>
+
+      <VStack>
+        {reviews?.map(review => (
+          <Box w='full' mb='20px'>
+            <HStack justify={'flex-start'} spacing={'8px'} align={'center'}>
+              <Image w='30px' h='30px' borderRadius={'full'} src={avatar.src} />
+              <Text fontWeight={500} fontSize={'16px'} color='#1C1D2C'>{review.user?.fullname}</Text>
+              <Text fontWeight={500} fontSize={'14px'} color='#A0A0A6'>@{review.user?.fullname}</Text>
+              <ReactTimeAgo style={{ color: '#A0A0A6', fontSize: '12px', fontWeight: 500 }} date={review?.createdAt} locale="en-US" timeStyle="round-minute" />
+            </HStack>
+            <Text fontWeight={500} color='#1C1D2C' mt='10px' pl='40px'>
+              {review.content}
+            </Text>
+          </Box>
+        ))}
+      </VStack>
+    </Box>
+  )
+
 
   return (
     <LayoutView>
@@ -262,6 +374,9 @@ const Product = () => {
             <Flex direction={{ base: 'column', md: 'row' }} gap='35px'>
               <Box w={{ base: 'full', md: '60%' }}>
                 {renderGallery()}
+                <Box display={{ base: 'none', md: 'block' }}>
+                  {review()}
+                </Box>
               </Box>
               <Box w={{ base: 'full', md: '40%' }}>
                 <Flex gap='5px' align='center' cursor={'pointer'} onClick={() => router.push(`/store/${product?.seller?._id}`)}>
@@ -283,7 +398,7 @@ const Product = () => {
                 <Text fontSize={{ base: '20px', md: '28px' }} fontWeight={600} mt={{ base: '15px', md: '20px' }}>{product?.title}</Text>
                 <Text fontSize={{ base: '18px', md: '24px' }} fontWeight={500} mt={{ base: '13px', md: '8px' }}>{priceString(product?.price)} NGN</Text>
                 <Text fontSize={{ base: '16px', md: '20px' }} fontWeight={400} mt={{ base: '15px', md: '12px' }}>{`${product?.quantity} unit(s)`}</Text>
-                <Text mt={{ base: '12px', md: '24px' }}>
+                <Text mt={{ base: '12px', md: '24px' }} fontSize={{ base: '20px', md: '24px' }} color='#1C1D2C'>
                   {product?.description}
                 </Text>
                 <Flex color='#A2A6AB' mt='43px' gap='8px' align='center' w='full' justify={'center'}>
@@ -327,7 +442,7 @@ const Product = () => {
                     >Message Creator</Button>
 
                     {msgReady && (
-                      <form onSubmit={() => text && sendMessageMutation.mutate({ content: text, product: productId })}>
+                      <form onSubmit={handleSendMessage}>
                         <InputGroup my='14px' py='10px' pr='15px' h='140px' borderRadius={'16px'} border='1px solid #B0ABAB' w='100%' mx='auto'>
                           <Textarea
                             _focus={{ border: 'none', outline: 'none' }}
@@ -349,11 +464,15 @@ const Product = () => {
                             border={"none"}
                             pt='95px'
                           >
-                            <BiSend
-                              cursor={'pointer'}
-                              onClick={() => text && sendMessageMutation.mutate({ content: text, product: productId })}
-                              color='#2B2D42' size='20'
-                            />
+                            {(sendMessageMutation.isLoading || startNewUserConversationMutation.isLoading) ? (
+                              <Spinner />
+                            ) : (
+                              <BiSend
+                                cursor={'pointer'}
+                                onClick={handleSendMessage}
+                                color='#2B2D42' size='20'
+                              />
+                            )}
                           </InputLeftAddon>
                         </InputGroup>
                       </form>
@@ -368,22 +487,10 @@ const Product = () => {
                   onClick={() => router.push(`/messages/${product?.seller?._id}`)}
                   fontSize={'14px'}
                 >Chat creator instead</Text>
-                {/* {user?._id === product?.seller?._id && (
-                  <Link href={`/edit-listing/${productId}`}>
-                    <Center gap='10px' border={'0.812px solid #2B2D42'} mt={{ base: '20px', md: '35px' }} px='11px' py='12px' borderRadius={'full'}>
-                      <Text fontWeight={500}>Edit product</Text>
-                      <Image src={edit.src} />
-                    </Center>
-                  </Link>
-                )} */}
-                {/* {user?._id === product?.seller?._id && (
-                  <Button
-                    isLoading={deleting}
-                    onClick={mutate}
-                    borderRadius='full' bg='#EF233C'
-                    w='full' h='55px' mt={{ base: '17px', md: '35px' }} color='white'
-                  >Delete Product</Button>
-                )} */}
+
+                <Box display={{ base: 'block', md: 'none' }}>
+                  {review()}
+                </Box>
               </Box>
             </Flex>
           </Box>

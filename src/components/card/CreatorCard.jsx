@@ -40,7 +40,7 @@ const CreatorCard = ({
           <Text>{index}</Text>
         </Center>
         <Text fontSize={{ base: '22px', md: '28px' }} mt='32px' fontWeight='700' color='white'>{title}</Text>
-        <Text fontSize={{ base: '15px', md: '20px' }} mt={{ base: '10px', md: '12px' }} color='white'>{subTitle}</Text>
+        <Text fontSize={{ base: '15px', md: '20px' }} mt={{ base: '10px', md: '12px' }} color='white' noOfLines={2}>{subTitle}</Text>
       </Box>
       <Box justifySelf={'flex-end'} alignSelf={'flex-end'}>
         <Link href={'/auth'}>{icon}</Link>

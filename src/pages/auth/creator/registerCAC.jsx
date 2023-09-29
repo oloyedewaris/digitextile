@@ -210,9 +210,7 @@ const RegisterCAC = () => {
             borderRadius='full' bg='transparent'
             w='full' h='55px' color='black' shadow='md'
           >
-            <Flex justify={'space-between'} align={'center'} w='80%' mx='auto'>
-              <Text>Skip for later</Text>
-            </Flex>
+            <Text>Skip for later</Text>
           </Button>
         </Box>
 

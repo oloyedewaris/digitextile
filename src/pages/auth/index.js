@@ -29,7 +29,7 @@ const Auth = () => {
             shadow='md'
             borderRadius={'8px'} align={'center'}
             as={motion.div}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.9 }}
           >
             <Center bg='#1C1D2C' w={{ base: '40px', md: '64px' }} h={{ base: '40px', md: '64px' }} borderRadius={{ base: '12px', md: '24px' }}>
@@ -49,7 +49,7 @@ const Auth = () => {
             shadow='md'
             borderRadius={'8px'} align={'center'}
             as={motion.div}
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.9 }}
           >
             <Center border={'1px solid #2B2D42'} bg='white' w={{ base: '40px', md: '64px' }} h={{ base: '40px', md: '64px' }} borderRadius={{ base: '12px', md: '24px' }}>

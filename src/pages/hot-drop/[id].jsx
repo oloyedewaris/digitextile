@@ -70,7 +70,7 @@ const HotDrop = () => {
           bg='white' borderRadius={{ base: '12px', md: '24px' }}
           p={{ base: '15px', md: '60px' }}
         >
-          <Image w='full' src={forumData?.image} h={{ base: '125px', md: '245px' }} borderRadius={{ base: '12px', md: '20px' }} />
+          <Box w='full' bgPosition={'top'} bgSize={'cover'} bgImage={forumData?.image} h={{ base: '125px', md: '245px' }} borderRadius={{ base: '12px', md: '20px' }} />
 
           <HStack mt={{ base: '15px', md: '30px' }} alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
             <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{forumData?.category}</Text>
@@ -89,7 +89,7 @@ const HotDrop = () => {
           <Text mt={{ base: '15px', md: '30px' }} fontSize={{ base: '12px', md: '22px' }} color='#C4C4C4'>{forumData?.content}</Text>
 
 
-          <Text my={{ base: '18px', md: '34px' }} fontWeight={'700'} color='#1C1D2C' fontSize={{ base: '20px', md: '50px' }}>Comments</Text>
+          <Text my={{ base: '18px', md: '34px' }} fontWeight={'700'} color='#1C1D2C' fontSize={{ base: '20px', md: '40px' }}>Comments</Text>
           <VStack align='stretch' spacing={'10px'} divider={<Divider />}>
             {forumData?.comments?.map(comment => (
               <Box>
@@ -100,6 +100,9 @@ const HotDrop = () => {
                 <Text textAlign={'right'} maxW={'70%'} ml={'auto'} mt='-20px' fontSize={{ base: '18px', md: '22px' }} color='#C4C4C4'>{comment?.content}</Text>
               </Box>
             ))}
+            {!forumData?.comments?.length && (
+              <EmptyState height={'70px'} text={'No comments yet'} />
+            )}
           </VStack>
           <Textarea
             mt={{ base: '12px', md: '20px' }}

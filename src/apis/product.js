@@ -68,7 +68,7 @@ export const createProductApi = async (data) => {
 }
 
 
-export const deleteProductApi = async (id, data) => {
-    const res = await axiosInstance.delete(`/products/user/${id}`, data)
+export const deleteProductApi = async (id) => {
+    const res = await axiosInstance.delete(`/products/user/${id}`)
     return (res)
 }

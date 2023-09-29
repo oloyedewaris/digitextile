@@ -107,7 +107,7 @@ const RegisterConsumer = () => {
             onChange={formik.handleChange('fullname')}
             label={'Your fullname'}
             id='fullname'
-            placeholder={'Enter your fullname'}
+            placeholder={'Enter your full name'}
           />
           <FormInput
             h='50px'

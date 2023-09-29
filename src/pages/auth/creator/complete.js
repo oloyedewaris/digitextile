@@ -1,5 +1,5 @@
-import { Box, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
-import React, { useContext } from 'react'
+import { Box, Center, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import AuthContainer from '../sections/authCon'
 import FormInput from '@/components/form/FormInput';
 import Button from '@/components/button';
@@ -8,14 +8,58 @@ import { useMutation } from 'react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { BiLock } from 'react-icons/bi';
+import { BiCamera, BiLock } from 'react-icons/bi';
 import FormSelect from '@/components/form/FromSelect';
 import countries from '@/utils/countries.json'
 import { completeRegApi } from '@/apis/auth';
+import FormInputPhone from '@/components/form/FormInputPhone';
+import SelectSearch from 'react-select';
+import { useDropzone } from 'react-dropzone';
 
 const CompleteRegistration = () => {
   const toast = useToast()
   const router = useRouter()
+  const [copyFile, setCopyFile] = useState(null)
+
+  const addFile = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0]
+    formik.setFieldValue('file', file)
+    return encodeFileToBase64(file)
+      .then((res) => setCopyFile(Object.assign({ image: res }, file, { preview: URL.createObjectURL(file), })))
+      .catch(err => { })
+  })
+
+  const encodeFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
+    accept: { "image/*": [], },
+    maxSize: 2 * 1024 * 1024,
+    multiple: false,
+    onDrop: addFile
+  });
+
+  useEffect(() => {
+    if (fileRejections.length) {
+      toast({
+        title: "Hmm...",
+        description: `${fileRejections[0].errors[0].code}: file is larger than 2MB`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [fileRejections, acceptedFiles]);
+
+
 
   const { isLoading, mutate } = useMutation((values) => completeRegApi({ ...values, role: "creator" }), {
     onSuccess: (res) => {
@@ -64,7 +108,16 @@ const CompleteRegistration = () => {
       identificationNumber: '',
     },
     onSubmit: values => {
-      mutate(values)
+      const formData = new FormData()
+      formData.append('phone', `+234${values.phone}`)
+      formData.append('address', values.address)
+      formData.append('country', values.country)
+      formData.append('businessName', values.businessName)
+      formData.append('businessAddress', values.businessAddress)
+      formData.append('identificationType', values.identificationType)
+      formData.append('identificationNumber', values.identificationNumber)
+      formData.append('file', values.file)
+      return mutate(formData)
     }
   })
 
@@ -89,7 +142,8 @@ const CompleteRegistration = () => {
             </Text>
           </Box>
           <Divider mt='12px' mb='24px' w='full' />
-          <FormInput
+          <FormInputPhone
+            code='+234'
             h='50px'
             mb='20px'
             isRequired
@@ -112,7 +166,23 @@ const CompleteRegistration = () => {
             id='address'
             placeholder={'Your address'}
           />
-          <FormSelect
+
+          <SelectSearch
+            className='height_50'
+            isSearchable
+            options={countries}
+            // mb='20px'
+            isRequired
+            value={formik.values.country}
+            error={formik.errors.country}
+            onChange={option => formik.handleChange('country')(option.value)}
+            label={'Please select'}
+            id='country'
+            placeholder={formik.values.country || 'Country of residence'}
+
+          />
+
+          {/* <FormSelect
             options={countries}
             mb='20px'
             h='50px'
@@ -123,7 +193,7 @@ const CompleteRegistration = () => {
             label={'Please select'}
             id='country'
             placeholder={'Country of residence'}
-          />
+          /> */}
 
           <FormInput
             h='50px'
@@ -161,7 +231,7 @@ const CompleteRegistration = () => {
           />
           <FormInput
             h='50px'
-            // mb='20px'
+            mb='20px'
             isRequired
             // type='number'
             value={formik.values.identificationNumber}
@@ -171,6 +241,60 @@ const CompleteRegistration = () => {
             id='identificationNumber'
             placeholder={'Enter identification number'}
           />
+          <Text mb='30px' color='#A2A6AB'>Upload your identification document </Text>
+          <Center
+            mx='auto'
+            m={{ base: '15px', md: '35px' }}
+            w={{ base: '60px', md: '96px' }}
+            h={{ base: '60px', md: '96px' }}
+            {...getRootProps({ className: "dropzone" })}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <Text>Drop the files here</Text>
+            ) : (
+              <Flex
+                bgPosition={'center'}
+                bgSize={'contain'}
+                direction={'column'}
+                justify={'flex-end'}
+                align={'stretch'}
+                h={{ base: '100px', md: '140px' }}
+                w={{ base: '100px', md: '140px' }}
+                borderRadius={'4px'}
+                border='1px solid #C9C5C5'
+                flexDirection={'column'}
+              >
+                <Center
+                  h={{ base: '100px', md: '140px' }}
+                  w={{ base: '100px', md: '140px' }}
+                  borderRadius={'4px'}
+                  border='1px solid #C9C5C5'
+                  flexDirection={'column'}
+                  {...getRootProps({ className: "dropzone" })}
+                >
+                  <input {...getInputProps()} />
+                  <BiCamera size={25} />
+                  {isDragActive ? (
+                    <Text>Drop the files here</Text>
+                  ) : (
+                    <Text>Upload file</Text>
+                  )}
+                </Center>
+              </Flex>
+            )}
+          </Center>
+          {copyFile && <Image
+            mt='50px'
+            // bgPosition={'center'}
+            // bgSize={'contain'}
+            h={{ base: '250px', md: '390px' }}
+            w={{ base: '250px', md: '390px' }}
+            borderRadius={'4px'}
+            src={copyFile?.image}
+          />}
+
+
           <Button
             onClick={formik.handleSubmit}
             borderRadius='full' bg='#2B2D42'

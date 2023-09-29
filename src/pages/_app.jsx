@@ -8,12 +8,23 @@ import NoSSR from 'react-no-ssr'
 import Preloader from "@/components/preloader";
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
+import { useRouter } from "next/router";
+import ReviewModal from "@/components/reviewModal";
 
 TimeAgo.addDefaultLocale(en)
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  const isReviewOpen = true
+  // router.query.reviewOpen
+  const reviewId = router.query.reviewId
+
+  const onModalClose = () => {
+
+  }
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,6 +44,7 @@ function MyApp({ Component, pageProps }) {
           </Head>
           <NoSSR onSSR={<Preloader />}>
             <Component pageProps={pageProps} />
+            {/* <ReviewModal isOpen={false} onClose={onModalClose} /> */}
           </NoSSR>
         </Provider>
       </ChakraProvider>
