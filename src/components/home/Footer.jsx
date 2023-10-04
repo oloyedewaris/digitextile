@@ -59,30 +59,36 @@ const Footer = ({ isDark }) => {
         <Stack direction={{ base: 'column', md: 'row' }} align={{ base: 'flex-start', md: 'center' }} spacing='16px' w={{ base: 'full', md: 'auto' }}>
           <Text fontWeight={'600'} fontSize={{ base: '18px', md: '24px' }}>Follow Us</Text>
           <Flex gap={{ base: '12px', md: '16px' }}>
-            <Center
-              w={{ base: '30px', md: '50px' }}
-              h={{ base: '30px', md: '50px' }}
-              borderRadius={'full'}
-              border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
-            >
-              <FaFacebook size='17' />
-            </Center>
-            <Center
-              w={{ base: '30px', md: '50px' }}
-              h={{ base: '30px', md: '50px' }}
-              borderRadius={'full'}
-              border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
-            >
-              <FaInstagram size='17' />
-            </Center>
-            <Center
-              w={{ base: '30px', md: '50px' }}
-              h={{ base: '30px', md: '50px' }}
-              borderRadius={'full'}
-              border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
-            >
-              <FaTwitter size='17' />
-            </Center>
+            <a target='_blank' href={'https://www.facebook.com/profile.php?id=61551946743735'}>
+              <Center
+                w={{ base: '30px', md: '50px' }}
+                h={{ base: '30px', md: '50px' }}
+                borderRadius={'full'}
+                border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
+              >
+                <FaFacebook size='17' />
+              </Center>
+            </a>
+            <a target='_blank' href={'https://instagram.com/digitextile_ng?igshid=NGVhN2U2NjQ0Yg=='}>
+              <Center
+                w={{ base: '30px', md: '50px' }}
+                h={{ base: '30px', md: '50px' }}
+                borderRadius={'full'}
+                border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
+              >
+                <FaInstagram size='17' />
+              </Center>
+            </a>
+            <a target='_blank' href={'https://x.com/DigiTextile?t=njq-6lGdlHMuWCciCEFbrA&s=09'}>
+              <Center
+                w={{ base: '30px', md: '50px' }}
+                h={{ base: '30px', md: '50px' }}
+                borderRadius={'full'}
+                border={isDark ? '1.5px solid white' : '1.5px solid #9F9898'}
+              >
+                <FaTwitter size='17' />
+              </Center>
+            </a>
           </Flex>
         </Stack>
         <Stack direction={{ base: 'column', md: 'row' }} align={{ base: 'flex-start', md: 'center' }} spacing='16px' w={{ base: 'full', md: 'auto' }} mt={{ base: '30px', md: '0' }}>
