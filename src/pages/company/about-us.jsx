@@ -5,7 +5,7 @@ import React from "react";
 const AboutUs = () => {
     return (
         <LayoutView>
-            <Box pb='70px' px='70px'>
+            <Box pb='70px' px={{ base: '20px', md: '70px' }}>
                 <Heading my='20px'>About Us</Heading>
                 <Text my='20px'>
                     Digitextile is an application designed and implemented to create a digital ecosystem for all stakeholders in the fashion and textile industry in Nigeria.
