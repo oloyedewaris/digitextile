@@ -30,7 +30,7 @@ const Footer = ({ isDark }) => {
           </VStack>
           <VStack align='stretch' spacing='16px'>
             <Text fontWeight='600' color='#1C1D2C' mt={{ base: '35px', md: '0' }}>About</Text>
-            <Link href='/'><Text>About Us</Text></Link>
+            <Link href='/company/about-us'><Text>About Us</Text></Link>
             {/* <Link href='/'><Text>Careers</Text></Link> */}
             {/* <Link href='/'><Text>Press & News</Text></Link> */}
             <Link href='/'><Text>Privacy Policy</Text></Link>
