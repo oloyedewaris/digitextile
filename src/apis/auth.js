@@ -31,3 +31,12 @@ export const resendVerification = async (email) => {
     const res = await axiosInstance.get(`/auth/resend-verification?email=${email}`)
     return (res)
 }
+export const resetPassword = async (body) => {
+    const res = await axiosInstance.post(`/auth/reset-password`, body)
+    return (res)
+}
+
+export const updatePassword = async (body) => {
+    const res = await axiosInstance.patch(`/auth/reset-password/update`, body)
+    return (res)
+}
