@@ -142,7 +142,7 @@ const Login = () => {
             value={formik.values.password}
             error={formik.errors.password}
             onChange={formik.handleChange('password')}
-            label={'Create Password '}
+            label={'Enter Password '}
             id='password'
             placeholder={'Enter Password '}
           />

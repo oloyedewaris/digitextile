@@ -13,7 +13,7 @@ const DeleteModal = ({ deleteModal, onDelete }) => {
           <Box my='10%'>
             <Heading size='md' textAlign='center'>Are you sure you want to delete category?</Heading>
             <Flex justify={'space-between'} align='center' mt='30px'>
-              <Button w='45%' onClick={onDelete}>Yes</Button>
+              <Button w='45%' onClick={() => { onDelete(); deleteModal.onClose(); }}>Yes</Button>
               <Button w='45%' onClick={deleteModal?.onClose}>No</Button>
             </Flex>
           </Box>

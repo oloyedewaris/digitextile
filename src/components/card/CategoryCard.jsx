@@ -34,7 +34,7 @@ const Category = ({
       h={{ base: '80px', md: '120px' }}
       onClick={onClickCard}
       direction='row'
-      justify={'space-around'}
+      justify={'flex-start'}
       align={'center'}
       gap={{ base: '8px', md: '12px' }}
     >

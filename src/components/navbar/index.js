@@ -25,6 +25,8 @@ import EmptyState from '../empty-state';
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
   const loggedIn = authState.isAuthenticated
+  console.log('authState', authState?.user?.role);
+  const userRole = authState?.user?.role;
   const router = useRouter();
   const drawerModal = useDisclosure();
   const searchModal = useDisclosure()
@@ -39,7 +41,7 @@ const Navbar = ({ }) => {
     ["getMessageCount"],
     () => getMessageCount(),
     {
-      enabled: true,
+      enabled: loggedIn,
       refetchInterval: 30000,
       refetchIntervalInBackground: true,
       refetchOnWindowFocus: true,
@@ -64,7 +66,8 @@ const Navbar = ({ }) => {
       >
         <HStack spacing={'40px'}>
           <Menu>
-            <Link href='/'>
+            {console.log('userRole', userRole)}
+            <Link href={userRole === 'creator' ? '/store' : userRole === 'consumer' ? '/' : '/admin'}>
               <Image
                 cursor={'pointer'}
                 src={logo.src}

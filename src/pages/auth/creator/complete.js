@@ -1,4 +1,4 @@
-import { Box, Center, CircularProgress, Divider, Flex, Text, useToast } from '@chakra-ui/react'
+import { Box, Center, CircularProgress, Divider, Flex, Text, useToast, Image } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import AuthContainer from '../sections/authCon'
 import FormInput from '@/components/form/FormInput';
@@ -61,7 +61,7 @@ const CompleteRegistration = () => {
 
 
 
-  const { isLoading, mutate } = useMutation((values) => completeRegApi({ ...values, role: "creator" }), {
+  const { isLoading, mutate } = useMutation(completeRegApi, {
     onSuccess: (res) => {
       router.push('/auth/creator/registerCAC')
       return toast({
@@ -116,7 +116,9 @@ const CompleteRegistration = () => {
       formData.append('businessAddress', values.businessAddress)
       formData.append('identificationType', values.identificationType)
       formData.append('identificationNumber', values.identificationNumber)
+      formData.append('role', 'creator')
       formData.append('file', values.file)
+      console.log('values', values)
       return mutate(formData)
     }
   })

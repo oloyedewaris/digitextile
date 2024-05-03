@@ -1,15 +1,18 @@
 import LayoutView from '@/components/layout';
 import { Box, Flex, SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import ProductCard from '@/components/card/ProductCard';
 import FormSelect from '@/components/form/FromSelect';
 import { getFavourite, getProductsApi } from '@/apis/product';
 import { useQuery } from 'react-query';
 import EmptyState from '@/components/empty-state';
 import { formatAmount } from '@/utils/formatAmount';
+import { GlobalContext } from '@/context/Provider';
 
 const TopDeals = () => {
-  const { data, isError, error, isLoading, refetch, } = useQuery(["getFavourite"], () => getFavourite({ page: 1, limit: 8 }));
+  const { authState } = useContext(GlobalContext)
+  const loggedIn = authState.isAuthenticated
+  const { data, isError, error, isLoading, refetch, } = useQuery(["getFavourite"], () => getFavourite({ page: 1, limit: 8 }), { enabled: loggedIn });
   const favouriteData = data?.data?.data
 
   return (

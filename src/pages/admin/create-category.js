@@ -95,6 +95,7 @@ const Profile = () => {
 			formData.append('image', values?.image)
 			formData.append('name', values?.name)
 			formData.append('description', values?.description)
+			console.log('values', values)
 			mutate(formData)
 		}
 	})

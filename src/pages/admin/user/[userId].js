@@ -16,19 +16,13 @@ const User = () => {
   const userId = router.query.userId
   const { authState } = useContext(GlobalContext);
   const user = authState.user
-  const { data, isError, error, isLoading, refetch, } = useQuery(["getUserApi", userId], () => getUserApi(userId));
-
-  const [userData, setUserData] = useState(null)
-
-  useEffect(() => {
-    if (data?.data?.data)
-      setUserData(data?.data?.data)
-  }, [data?.data?.data])
+  const { data, refetch, } = useQuery(["getUserApi", userId], () => getUserApi(userId));
+  const userData = data?.data?.data;
 
 
   const { isLoading: toggling, mutate: toggleMutate } = useMutation(() => toggleActiveStateApi(userId), {
-    onSuccess: (res) => {
-      setUserData(res?.data?.data)
+    onSuccess: async (res) => {
+      await refetch();
       toast({
         title: `User active state changed`,
         status: "success",
@@ -50,8 +44,8 @@ const User = () => {
   })
 
   const { isLoading: approving, mutate: approveUser } = useMutation(() => approveCreatorApi(userId), {
-    onSuccess: (res) => {
-      setUserData(res?.data?.data)
+    onSuccess: async (res) => {
+      await refetch();
       toast({
         title: `User approved`,
         status: "success",
@@ -113,6 +107,7 @@ const User = () => {
                   Email verification status:
                   {userData?.isVerified ? <Text as='span' color='#009900'> Verified</Text> : <Text as='span' color='#EF233C'> Not Verified</Text>}
                 </Text>
+                {console.log('userData', userData)}
                 {userData?.role === 'creator' && (
                   <>
                     {userData?.isApproved ? (

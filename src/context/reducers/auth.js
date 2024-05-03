@@ -7,7 +7,9 @@ import {
 const auth = (state, action) => {
   switch (action.type) {
     case LOGIN_USER:
+      console.log('action.payload?.user?.role', action.payload?.user?.role)
       localStorage.setItem('accessToken', action.payload?.tokens?.accessToken)
+      localStorage.setItem('role', action.payload?.user?.role)
       localStorage.setItem('refreshToken', action.payload?.tokens?.refreshToken)
       return {
         ...state,

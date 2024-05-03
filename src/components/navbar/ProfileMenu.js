@@ -42,7 +42,7 @@ const ProfileMenu = () => {
           <Link href='/hot-drops/my-hot-drops'>
             <Flex gap={3} align='center' mb='15px'>
               <FaUsers size={'26px'} color='#919191' />
-              <Text style={{ color: '#919191', fontWeight: '400' }}> My Hot Drops</Text>
+              <Text style={{ color: '#919191', fontWeight: '400' }}> Create Hot Drops</Text>
             </Flex>
           </Link>
         </MenuItem>

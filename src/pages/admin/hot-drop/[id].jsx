@@ -92,7 +92,7 @@ const HotDropAdmin = () => {
           bg='white' borderRadius={{ base: '12px', md: '24px' }}
           p={{ base: '15px', md: '60px' }}
         >
-          <Image w='full' src={forumData?.image} h={{ base: '125px', md: '245px' }} borderRadius={{ base: '12px', md: '20px' }} />
+          <Image objectFit={'cover'} objectPosition={'top'} w='full' src={forumData?.image} h={{ base: '125px', md: '345px' }} borderRadius={{ base: '12px', md: '20px' }} />
 
           <HStack mt='30px' alignItems={'center'} w={"100%"} spacing={{ base: '6px', md: '14px' }} divider={<Box w='4px' h='4px' borderRadius={'full'} bg='#1565C0' />}>
             <Text fontSize={{ base: '13px', md: '18px' }} color={'#1565C0'} noOfLines={1}>{forumData?.category}</Text>

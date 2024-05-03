@@ -21,11 +21,11 @@ const Store = () => {
       component: <Dashboard />,
       icon: <BiGridAlt size={25} />
     },
-    {
-      tablist: "My Store",
-      component: <MyStore />,
-      icon: <BiStore size={25} />
-    },
+    // {
+    //   tablist: "My Store",
+    //   component: <MyStore />,
+    //   icon: <BiStore size={25} />
+    // },
     {
       tablist: "Listings",
       component: <Listings />,
@@ -35,11 +35,6 @@ const Store = () => {
       tablist: "Messages",
       component: <Messages />,
       icon: <BiEnvelope size={25} />
-    },
-    {
-      tablist: "Insight",
-      component: <Dashboard />,
-      icon: <BiChart size={25} />
     },
   ];
 

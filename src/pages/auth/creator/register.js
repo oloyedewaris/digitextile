@@ -157,7 +157,7 @@ const RegisterCreator = () => {
             )}
           </Button>
           <Divider my='30px' />
-          <Button
+          {/* <Button
             // onClick={() => router.push('/auth/creator/complete')}
             borderRadius='full' bg='transparent'
             w='full' h='55px' color='black' shadow='md'
@@ -167,7 +167,7 @@ const RegisterCreator = () => {
               <Text> Register Account</Text>
               <Box w='25px' />
             </Flex>
-          </Button>
+          </Button> */}
         </Box>
 
       </Flex >

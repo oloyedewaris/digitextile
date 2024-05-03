@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   HStack,
@@ -15,6 +15,7 @@ import { BiHeart } from "react-icons/bi";
 import Link from "next/link";
 import { useMutation, useQuery } from "react-query";
 import { addFavourite, checkFavourite, deleteFavourite } from "@/apis/product";
+import { GlobalContext } from "@/context/Provider";
 
 const ProductCard = ({
   title,
@@ -25,6 +26,8 @@ const ProductCard = ({
   price,
   id
 }) => {
+  const { authState } = useContext(GlobalContext)
+  const loggedIn = authState.isAuthenticated
   const toast = useToast()
   const addFavouriteMutation = useMutation(() => addFavourite(id), {
     onSuccess: async () => {
@@ -70,7 +73,7 @@ const ProductCard = ({
     }
   })
 
-  const { data, refetch } = useQuery(["checkFavourite", id], () => checkFavourite(id));
+  const { data, refetch } = useQuery(["checkFavourite", id], () => checkFavourite(id), { enabled: loggedIn });
 
   const status = data?.data?.data;
 

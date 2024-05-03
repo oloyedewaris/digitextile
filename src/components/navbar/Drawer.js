@@ -21,7 +21,7 @@ const DrawerComp = ({ modal }) => {
     ["getMessageCount"],
     () => getMessageCount(),
     {
-      enabled: true,
+      enabled: loggedIn,
       refetchInterval: 30000,
       refetchIntervalInBackground: true,
       refetchOnWindowFocus: true,

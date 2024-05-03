@@ -18,6 +18,7 @@ import { getReviewRequest } from '@/apis/reviews';
 // });
 const Chats = ({ sendMessageMutation, conversation, messagesQuery }) => {
   const messages = messagesQuery?.data?.data?.data;
+  console.log('messagesQuery?.data', messagesQuery?.data)
   const router = useRouter()
   const { authState: { user } } = useContext(GlobalContext)
   const [text, setText] = useState('');

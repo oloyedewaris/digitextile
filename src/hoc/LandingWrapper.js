@@ -7,10 +7,11 @@ function LandingAuth(Component) {
     const router = useRouter()
     const [checked, setChecked] = useState(false)
     const loggedIn = localStorage.getItem('accessToken');
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
       if (loggedIn) {
-        router.push('/dashboard')
+        router.push(role === 'admin' ? '/admin' : role === 'creator' ? '/store' : '/dashboard')
       } else {
         setChecked(true)
       }

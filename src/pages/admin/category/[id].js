@@ -116,6 +116,7 @@ const User = () => {
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
+                {console.log('userData', userData)}
                 {userData?.isApproved ? (
                   <Text color={'#009900'} fontWeight={500} mt={{ base: '17px', md: '35px' }} textAlign={'center'}>User Approved</Text>
                 ) : (

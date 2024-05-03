@@ -34,7 +34,8 @@ const Product = () => {
   const { data: reviewsData } = useQuery(["getProductReview", productId], () => getProductReview(productId));
   const reviews = reviewsData?.data?.data;
 
-  console.log('reviews', reviews)
+  const sellerId = product?.seller?._id
+  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
 
   const { data: favData, refetch } = useQuery(["checkFavourite", productId], () => checkFavourite(productId));
   const status = favData?.data?.data;
@@ -84,20 +85,36 @@ const Product = () => {
     }
   })
 
+
+  useEffect(() => {
+    if (!isChecking && !checkData?.data?.data?._id) {
+      console.log('isChecking && !checkData?.data?.data?._id', isChecking, checkData?.data?.data?._id)
+      startNewUserConversationMutation.mutate({
+        recipientId: sellerId,
+        content: text,
+        produdct: product?._id
+      })
+    }
+  }, [isChecking, checkData])
+
+
   const startNewUserConversationMutation = useMutation(
     createConversation,
     {
-      onSuccess: res => {
-        setText('')
-        setMsgReady(false)
-        toast({
-          title: `Sent`,
-          description: `Message delivered to seller`,
-          status: "success",
-          duration: 6000,
-          isClosable: true,
-          position: "top-right",
-        });
+      onSuccess: async res => {
+        console.log('created', res.data)
+        // sendMessageMutation.mutate({ content: text, product: productId })
+
+        // setText('')
+        // setMsgReady(false)
+        // toast({
+        //   title: `Sent`,
+        //   description: `Message delivered to seller`,
+        //   status: "success",
+        //   duration: 6000,
+        //   isClosable: true,
+        //   position: "top-right",
+        // });
       },
       onError: err => {
         toast({
@@ -111,6 +128,7 @@ const Product = () => {
       }
     }
   );
+
 
   const createReview = useMutation(
     () => createReviewApi({
@@ -141,8 +159,6 @@ const Product = () => {
     }
   })
 
-  const sellerId = product?.seller?._id
-  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
 
   const sendMessageMutation = useMutation(
     (data) => {
@@ -185,6 +201,7 @@ const Product = () => {
 
   const handleSendMessage = () => {
     if (text && !isChecking) {
+      console.log('checkData?.data?.data', checkData?.data?.data)
       if (!checkData?.data?.data) {
         startNewUserConversationMutation.mutate({
           recipientId: sellerId,
@@ -480,13 +497,13 @@ const Product = () => {
                   </Box>
                 )}
 
-                <Text
+                {/* <Text
                   textAlign={'center'}
                   color='#2B2D42' mt='12px'
                   cursor='pointer'
                   onClick={() => router.push(`/messages/${product?.seller?._id}`)}
                   fontSize={'14px'}
-                >Chat creator instead</Text>
+                >Chat creator instead</Text> */}
 
                 <Box display={{ base: 'block', md: 'none' }}>
                   {review()}
