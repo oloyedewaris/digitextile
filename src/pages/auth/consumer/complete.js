@@ -96,7 +96,7 @@ const CompleteRegistration = () => {
             value={formik.values.phone}
             error={formik.errors.phone}
             onChange={formik.handleChange('phone')}
-            label={'Your phone number'}
+            label={'Your phone number (without the begining "0")'}
             id='phone'
             placeholder={'Phone number'}
           />
