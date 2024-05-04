@@ -117,7 +117,7 @@ const CompleteRegistration = () => {
       formData.append('businessAddress', values.businessAddress)
       formData.append('identificationType', values.identificationType)
       formData.append('identificationNumber', values.identificationNumber)
-      formData.append('identificationDocument', values.file)
+      // formData.append('identificationDocument', values.file)
       formData.append('role', 'creator')
       formData.append('file', values.file)
       return mutate(formData)
