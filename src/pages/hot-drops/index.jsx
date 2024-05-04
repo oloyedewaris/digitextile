@@ -61,13 +61,14 @@ const HotDrops = () => {
 
 
           <Flex
-            mt={{ base: '20px', md: '40px' }}
+            mt={{ base: '20px', md: '120px' }}
             gap={{ base: '10px' }}
             align={{ base: 'flex-start', md: 'center' }}
             direction={{ base: 'column', md: 'row' }}
-            justify={'space-between'}
+            // justify={'space-between'}
+            justify={'flex-end'}
           >
-            <Flex gap={{ base: '6px', md: '16px' }}>
+            {/* <Flex gap={{ base: '6px', md: '16px' }}>
               <FormSelect
                 w='170px'
                 borderRadius='full'
@@ -79,7 +80,7 @@ const HotDrops = () => {
                 placeholder={'Date'}
                 options={[]}
               />
-            </Flex>
+            </Flex> */}
             <Link href='/create-hot-drop'>
               <Button
                 leftIcon={<BiPlus />}
@@ -90,6 +91,7 @@ const HotDrops = () => {
               </Button>
             </Link>
           </Flex>
+
 
 
           {searchText ? (

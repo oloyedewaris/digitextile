@@ -15,6 +15,7 @@ import { changeUserPassword, updateUserProfileApi, updateUserProfileImageApi } f
 import { useMutation } from 'react-query';
 import { useDropzone } from 'react-dropzone';
 import { authenticateUser } from '@/context/actions/auth';
+import FormInputPassword from '@/components/form/FormInputPassword';
 
 const Profile = () => {
   const toast = useToast()
@@ -25,11 +26,13 @@ const Profile = () => {
   const [DOB, setDOB] = useState({});
   const user = authState?.user;
 
+  const passwordDisclosure = useDisclosure();
 
   const passwordMutation = useMutation(
     changeUserPassword,
     {
       onSuccess: (res) => {
+        passwordDisclosure.onClose()
         return toast({
           title: "Password updated",
           description: `You have successfully updated your password`,
@@ -40,8 +43,8 @@ const Profile = () => {
         });
       },
       onError: (err) => {
+        console.log('err', err)
         toast({
-
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 3000,
@@ -57,10 +60,9 @@ const Profile = () => {
       newPassword: "",
     },
     onSubmit: (values) => {
-      passwordMutation(values)
+      passwordMutation.mutate(values)
     }
   })
-  const passwordDisclosure = useDisclosure();
 
   const addFile = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -465,6 +467,7 @@ const Profile = () => {
               </VStack>
               <Flex w='full' gap='12px' height={'full'} align={'flex-end'}>
                 <Text
+                  cursor={'pointer'}
                   onClick={passwordDisclosure.onOpen}
                   fontSize={{ base: '14px', md: '19px' }}
                   fontWeight={400} textDecoration={'underline'}
@@ -493,14 +496,14 @@ const Profile = () => {
           <ModalHeader>Change your password</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormInput
-              label={'Password'}
+            <FormInputPassword
+              h='50px' label={'Password'}
               value={passwordFormik.values.password}
               error={passwordFormik.errors.password}
               onChange={passwordFormik.handleChange('password')}
             />
-            <FormInput
-              label={'New Password'}
+            <FormInputPassword
+              h='50px' label={'New Password'}
               value={passwordFormik.values.newPassword}
               error={passwordFormik.errors.newPassword}
               onChange={passwordFormik.handleChange('newPassword')}
@@ -515,7 +518,7 @@ const Profile = () => {
               >Cancel</Button>
               <Button
                 isLoading={passwordMutation.isLoading}
-                onClick={passwordMutation.mutate}
+                onClick={passwordFormik.submitForm}
                 bg='#2B2D42' px='24px'
                 py='16px' borderRadius={'4px'}
                 color='white'

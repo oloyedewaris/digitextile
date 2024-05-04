@@ -65,7 +65,7 @@ const Navbar = ({ }) => {
       >
         <HStack spacing={'40px'}>
           <Menu>
-            <Link href={userRole === 'creator' ? '/store' : userRole === 'consumer' ? '/' : '/admin'}>
+            <Link href={'/'}>
               <Image
                 cursor={'pointer'}
                 src={logo.src}

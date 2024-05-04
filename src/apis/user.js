@@ -31,6 +31,6 @@ export const fetchCreatorProfile = async (id) => {
 }
 
 export const changeUserPassword = async (data) => {
-    const res = await axiosInstance.get(`/users/change-password`, data)
+    const res = await axiosInstance.post(`/users/change-password`, data)
     return (res)
 }

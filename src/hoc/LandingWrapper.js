@@ -11,7 +11,7 @@ function LandingAuth(Component) {
 
     useEffect(() => {
       if (loggedIn) {
-        router.push(role === 'admin' ? '/admin' : role === 'creator' ? '/store' : '/dashboard')
+        router.push('/dashboard')
       } else {
         setChecked(true)
       }

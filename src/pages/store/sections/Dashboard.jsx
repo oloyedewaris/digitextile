@@ -69,41 +69,40 @@ const Dashboard = () => {
           </Flex>
         </SimpleGrid>
 
-        <Text mt={{ base: '20px', md: '40px' }} color={'#1C1D2C'} fontSize={'24px'} fontWeight={600}>Recent Inquiries</Text>
-
-        {(!conversationQuery.isLoading && conversationsData?.length) ? (
-          <VStack
-            mt={{ base: '20px', md: '40px' }}
-            px={{ base: '20px', md: '40px' }}
-            py={{ base: '15px', md: '30px' }}
-            align={'stretch'} shadow='md'
-            borderRadius={{ base: '8px', md: '16px' }}
-            spacing={{ base: '20px', md: '32px' }} border='1px solid #9F9898'
-          >
-            {conversationsData?.map(conv => (
-              <Flex justify='space-between' align='center'>
-                <Flex gap={{ base: '10px', md: '16px' }} align={'center'} w='30%'>
-                  <Image src={conv?.recipient?.image || avatar.src} h={{ base: '25px', md: '40px' }} w={{ base: '25px', md: '40px' }} borderRadius={'full'} />
-                  <Text noOfLines={1}>{conv?.recipient?.fullname}</Text>
+        {(!conversationQuery.isLoading && conversationsData?.length) && (
+          <Box>
+            <Text mt={{ base: '20px', md: '40px' }} color={'#1C1D2C'} fontSize={'24px'} fontWeight={600}>Recent Inquiries</Text>
+            <VStack
+              mt={{ base: '20px', md: '40px' }}
+              px={{ base: '20px', md: '40px' }}
+              py={{ base: '15px', md: '30px' }}
+              align={'stretch'} shadow='md'
+              borderRadius={{ base: '8px', md: '16px' }}
+              spacing={{ base: '20px', md: '32px' }} border='1px solid #9F9898'
+            >
+              {conversationsData?.map(conv => (
+                <Flex justify='space-between' align='center'>
+                  <Flex gap={{ base: '10px', md: '16px' }} align={'center'} w='30%'>
+                    <Image src={conv?.recipient?.image || avatar.src} h={{ base: '25px', md: '40px' }} w={{ base: '25px', md: '40px' }} borderRadius={'full'} />
+                    <Text noOfLines={1}>{conv?.recipient?.fullname}</Text>
+                  </Flex>
+                  <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{conv?.lastMessageSent?.content || conv?.lastMessageSent}</Text>
+                  <Text
+                    cursor={'pointer'}
+                    onClick={() => router.push(`/messages`)}
+                    textDecoration={'underline'} color='#3F51B5'
+                    fontSize={{ base: '12px', md: '16px' }}
+                    fontWeight={500}
+                  >View</Text>
                 </Flex>
-                <Text w='50%' noOfLines={{ base: 1, md: 2 }}>{conv?.lastMessageSent?.content || conv?.lastMessageSent}</Text>
-                <Text
-                  cursor={'pointer'}
-                  onClick={() => router.push(`/messages`)}
-                  textDecoration={'underline'} color='#3F51B5'
-                  fontSize={{ base: '12px', md: '16px' }}
-                  fontWeight={500}
-                >View</Text>
-              </Flex>
-            ))}
-          </VStack>
-        ) : (
-          <EmptyState text={'No message yet'} height={'200px'} />
+              ))}
+            </VStack>
+          </Box>
         )}
 
         <Text mt={{ base: '20px', md: '40px' }} color={'#1C1D2C'} fontSize={'24px'} fontWeight={600}>My Listings</Text>
-        <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
-          <Flex gap={{ base: '6px', md: '16px' }}>
+        <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'flex-end'}>
+          {/* <Flex gap={{ base: '6px', md: '16px' }}>
             <FormSelect
               bg='#E4DFDA'
               placeholder={'Category'}
@@ -119,7 +118,7 @@ const Dashboard = () => {
               placeholder={'Date'}
               options={[]}
             />
-          </Flex>
+          </Flex> */}
           <Link href='/create-listing'>
             <Button
               leftIcon={<BiPlus />}

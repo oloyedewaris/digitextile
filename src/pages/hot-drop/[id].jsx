@@ -120,9 +120,10 @@ const HotDrop = () => {
             gap={{ base: '10px' }}
             align={{ base: 'flex-start', md: 'center' }}
             direction={{ base: 'column', md: 'row' }}
-            justify={'space-between'}
+            // justify={'space-between'}
+            justify={'flex-end'}
           >
-            <Flex gap={{ base: '6px', md: '16px' }}>
+            {/* <Flex gap={{ base: '6px', md: '16px' }}>
               <FormSelect
                 w='170px'
                 borderRadius='full'
@@ -134,7 +135,7 @@ const HotDrop = () => {
                 placeholder={'Date'}
                 options={[]}
               />
-            </Flex>
+            </Flex> */}
             <Link href='/create-hot-drop'>
               <Button
                 leftIcon={<BiPlus />}
