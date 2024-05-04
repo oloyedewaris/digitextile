@@ -47,7 +47,7 @@ const MyStore = () => {
       },
       onError: (err) => {
         toast({
-          title: `"Oops...`,
+
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 3000,
@@ -243,11 +243,11 @@ const MyStore = () => {
           </InputGroup>
 
           <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
-            <Flex gap={{ base: '6px', md: '16px' }}>
+            {/* <Flex gap={{ base: '6px', md: '16px' }}>
               <FilterCategory />
               <FilterSection />
               <FilterDate />
-            </Flex>
+            </Flex> */}
             <Link href='/create-listing'>
               <Button
                 leftIcon={<BiPlus />}

@@ -57,6 +57,11 @@ export const updateProductApi = async (id, data) => {
     return (res)
 }
 
+export const increaseProductViewsApi = async (id) => {
+    const res = await axiosInstance.get(`/products/views/${id}`)
+    return (res)
+}
+
 export const attachImageToProduct = async (id, data) => {
     const res = await axiosInstance.post(`/products/images/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } })
     return (res)
@@ -72,3 +77,4 @@ export const deleteProductApi = async (id) => {
     const res = await axiosInstance.delete(`/products/user/${id}`)
     return (res)
 }
+

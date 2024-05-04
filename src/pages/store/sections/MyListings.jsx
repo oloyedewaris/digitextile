@@ -43,11 +43,11 @@ const Listings = () => {
         </InputGroup>
 
         <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
-          <Flex flexDirection={{ base: 'column', md: 'row' }} gap={{ base: '6px', md: '16px' }}>
+          {/* <Flex flexDirection={{ base: 'column', md: 'row' }} gap={{ base: '6px', md: '16px' }}>
             <FilterCategory />
             <FilterSection />
             <FilterDate />
-          </Flex>
+          </Flex> */}
           <Link href='/create-listing'>
             <Button
               leftIcon={<BiPlus />}

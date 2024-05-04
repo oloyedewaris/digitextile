@@ -28,3 +28,8 @@ export const getMessageCount = async () => {
     const res = await axiosInstance.get(`/conversations/unread/count`)
     return (res)
 }
+export const readConversation = async (id) => {
+    const res = await axiosInstance.patch(`/conversations/read/${id}`)
+    return (res)
+}
+

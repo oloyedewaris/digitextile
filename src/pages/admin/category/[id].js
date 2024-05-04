@@ -38,7 +38,7 @@ const User = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -60,7 +60,7 @@ const User = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -110,13 +110,16 @@ const User = () => {
                 <Text my={{ base: '12px', md: '24px' }}>
                   Email verification status:
                   {userData?.isVerified ? <Text as='span' color='#009900'> Verified</Text> : <Text as='span' color='#EF233C'> Not Verified</Text>}
-
                 </Text>
+                <Text my={{ base: '12px', md: '24px' }}>
+                  User role:
+                  <Text color='#009900' as='span'> {userData?.role}</Text>
+                </Text>
+
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
                 <Text my={{ base: '12px', md: '24px' }}> {userData?.bio} </Text>
-                {console.log('userData', userData)}
                 {userData?.isApproved ? (
                   <Text color={'#009900'} fontWeight={500} mt={{ base: '17px', md: '35px' }} textAlign={'center'}>User Approved</Text>
                 ) : (

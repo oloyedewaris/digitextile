@@ -49,7 +49,7 @@ const MyListingCard = ({
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 3000,

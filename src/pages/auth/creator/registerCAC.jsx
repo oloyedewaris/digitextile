@@ -16,7 +16,6 @@ import { useDropzone } from 'react-dropzone';
 const RegisterCAC = () => {
   const toast = useToast()
   const router = useRouter()
-  const valuesGotten = router.query
   const [copyFile, setCopyFile] = useState(null)
 
   const addFile = useCallback((acceptedFiles) => {
@@ -73,7 +72,7 @@ const RegisterCAC = () => {
       },
       onError: (err) => {
         toast({
-          title: `"Oops...`,
+
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 5000,

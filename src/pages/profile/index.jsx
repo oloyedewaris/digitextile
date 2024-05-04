@@ -1,5 +1,5 @@
 import LayoutView from '@/components/layout'
-import { Box, Button, Center, CircularProgress, Divider, Flex, Image, SimpleGrid, Text, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, Center, CircularProgress, Divider, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Text, VStack, useDisclosure, useToast } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import avatar from '@/assets/images/avatar.png'
 import ProfileInput from '@/components/form/ProfileInput';
@@ -11,7 +11,7 @@ import statesData from '@/utils/states.json'
 import { GlobalContext } from '@/context/Provider';
 import { BiPencil } from 'react-icons/bi';
 import FormInput from '@/components/form/FormInput';
-import { updateUserProfileApi, updateUserProfileImageApi } from '@/apis/user';
+import { changeUserPassword, updateUserProfileApi, updateUserProfileImageApi } from '@/apis/user';
 import { useMutation } from 'react-query';
 import { useDropzone } from 'react-dropzone';
 import { authenticateUser } from '@/context/actions/auth';
@@ -21,8 +21,46 @@ const Profile = () => {
   const { authState, authDispatch } = useContext(GlobalContext)
   const [languageName, setLanguageName] = useState('');
   const [editingName, setEditingName] = useState(false);
+
   const [DOB, setDOB] = useState({});
   const user = authState?.user;
+
+
+  const passwordMutation = useMutation(
+    changeUserPassword,
+    {
+      onSuccess: (res) => {
+        return toast({
+          title: "Password updated",
+          description: `You have successfully updated your password`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+      onError: (err) => {
+        toast({
+
+          description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      },
+    })
+
+  const passwordFormik = useFormik({
+    initialValues: {
+      password: "",
+      newPassword: "",
+    },
+    onSubmit: (values) => {
+      passwordMutation(values)
+    }
+  })
+  const passwordDisclosure = useDisclosure();
 
   const addFile = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -31,7 +69,6 @@ const Profile = () => {
       mutateImage(formData)
     });
   })
-
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles, fileRejections } = useDropzone({
     accept: { "image/*": [], },
@@ -67,7 +104,7 @@ const Profile = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 3000,
@@ -91,7 +128,7 @@ const Profile = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 3000,
@@ -427,7 +464,11 @@ const Profile = () => {
                 <Text fontWeight={400} fontSize={{ base: '14px', md: '19px' }}>Change your password to a new one</Text>
               </VStack>
               <Flex w='full' gap='12px' height={'full'} align={'flex-end'}>
-                <Text fontSize={{ base: '14px', md: '19px' }} fontWeight={400} textDecoration={'underline'} color='#1565C0'>CHANGE PASSWORD</Text>
+                <Text
+                  onClick={passwordDisclosure.onOpen}
+                  fontSize={{ base: '14px', md: '19px' }}
+                  fontWeight={400} textDecoration={'underline'}
+                  color='#1565C0'>CHANGE PASSWORD</Text>
               </Flex>
             </SimpleGrid>
           </VStack>
@@ -445,6 +486,44 @@ const Profile = () => {
           </Flex>
         </Box>
       </Box>
+
+      <Modal isCentered isOpen={passwordDisclosure.isOpen} onClose={passwordDisclosure.onClose}>
+        <ModalOverlay />
+        <ModalContent px='20px' py='18px'>
+          <ModalHeader>Change your password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormInput
+              label={'Password'}
+              value={passwordFormik.values.password}
+              error={passwordFormik.errors.password}
+              onChange={passwordFormik.handleChange('password')}
+            />
+            <FormInput
+              label={'New Password'}
+              value={passwordFormik.values.newPassword}
+              error={passwordFormik.errors.newPassword}
+              onChange={passwordFormik.handleChange('newPassword')}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Flex justify={'flex-end'} align='center' gap='22px'>
+              <Button
+                onClick={passwordDisclosure.onClose}
+                bg='transparent' border=' 1px solid #999'
+                px='24px' py='16px' borderRadius={'4px'}
+              >Cancel</Button>
+              <Button
+                isLoading={passwordMutation.isLoading}
+                onClick={passwordMutation.mutate}
+                bg='#2B2D42' px='24px'
+                py='16px' borderRadius={'4px'}
+                color='white'
+              >Update</Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </LayoutView>
   )
 }

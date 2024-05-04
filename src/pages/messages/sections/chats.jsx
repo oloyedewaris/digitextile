@@ -6,24 +6,22 @@ import avatar from '@/assets/images/avatar.png';
 import { GlobalContext } from '@/context/Provider';
 import { FaPaperPlane } from 'react-icons/fa';
 import { scrollbarStyle } from '@/utils/constant';
-// import { css } from 'emotion';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { formatAmount } from '@/utils/formatAmount';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { getReviewRequest } from '@/apis/reviews';
+import { readConversation } from '@/apis/messaging';
 
-// const ROOT_CSS = css({
-//   height: 600,
-//   width: 400
-// });
+
 const Chats = ({ sendMessageMutation, conversation, messagesQuery }) => {
   const messages = messagesQuery?.data?.data?.data;
-  console.log('messagesQuery?.data', messagesQuery?.data)
   const router = useRouter()
   const { authState: { user } } = useContext(GlobalContext)
   const [text, setText] = useState('');
   const messagesEndRef = useRef(null);
   const toast = useToast();
+
+  const { data } = useQuery(['readConversation', conversation?._id], () => readConversation(conversation?._id))
 
   const inviteMutation = useMutation(
     () => conversation?._id && getReviewRequest(conversation?._id),

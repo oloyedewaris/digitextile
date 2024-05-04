@@ -4,7 +4,7 @@ import { Box, Center, Flex, HStack, Image, Input, InputGroup, InputLeftAddon, Sk
 import LayoutView from '@/components/layout';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import Button from '@/components/button';
-import { addFavourite, checkFavourite, deleteFavourite, deleteProductApi, getProductApi } from '@/apis/product';
+import { addFavourite, checkFavourite, deleteFavourite, deleteProductApi, getProductApi, increaseProductViewsApi } from '@/apis/product';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
 import Auth from '@/hoc/Auth';
@@ -30,12 +30,14 @@ const Product = () => {
 
   const { data } = useQuery(["getProductApi", productId], () => getProductApi(productId));
   const product = data?.data?.data;
+  const { data: increaseProductViewsData } = useQuery(["increaseProductViewsApi", productId], () => increaseProductViewsApi(productId));
+  const views = increaseProductViewsData?.data?.data;
 
-  const { data: reviewsData } = useQuery(["getProductReview", productId], () => getProductReview(productId));
+  const { data: reviewsData, refetch: refetchReview } = useQuery(["getProductReview", productId], () => getProductReview(productId));
   const reviews = reviewsData?.data?.data;
 
   const sellerId = product?.seller?._id
-  const { data: checkData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
+  const { data: conversationData, isLoading: isChecking } = useQuery(["checkConversation", sellerId], () => sellerId && checkConversation(sellerId));
 
   const { data: favData, refetch } = useQuery(["checkFavourite", productId], () => checkFavourite(productId));
   const status = favData?.data?.data;
@@ -85,40 +87,24 @@ const Product = () => {
     }
   })
 
-
-  useEffect(() => {
-    if (!isChecking && !checkData?.data?.data?._id) {
-      console.log('isChecking && !checkData?.data?.data?._id', isChecking, checkData?.data?.data?._id)
-      startNewUserConversationMutation.mutate({
-        recipientId: sellerId,
-        content: text,
-        produdct: product?._id
-      })
-    }
-  }, [isChecking, checkData])
-
-
   const startNewUserConversationMutation = useMutation(
     createConversation,
     {
       onSuccess: async res => {
-        console.log('created', res.data)
-        // sendMessageMutation.mutate({ content: text, product: productId })
-
-        // setText('')
-        // setMsgReady(false)
-        // toast({
-        //   title: `Sent`,
-        //   description: `Message delivered to seller`,
-        //   status: "success",
-        //   duration: 6000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
+        setText('')
+        setMsgReady(false)
+        toast({
+          title: `Sent`,
+          description: `Message delivered to seller`,
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+          position: "top-right",
+        });
       },
       onError: err => {
         toast({
-          title: `"Oops...`,
+
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 3000,
@@ -128,7 +114,6 @@ const Product = () => {
       }
     }
   );
-
 
   const createReview = useMutation(
     () => createReviewApi({
@@ -146,7 +131,7 @@ const Product = () => {
         isClosable: true,
         position: "top-right",
       });
-      await refetch()
+      await refetchReview();
     },
     onError: () => {
       toast({
@@ -159,19 +144,18 @@ const Product = () => {
     }
   })
 
-
   const sendMessageMutation = useMutation(
     (data) => {
-      if (!checkData?.data?.data?._id)
+      if (!conversationData?.data?.data?._id)
         return toast({
-          title: `"Oops...`,
+
           description: `Message cannot be sent, go to creator's DM instead`,
           status: "error",
           duration: 3000,
           isClosable: true,
           position: "top-right",
         });
-      return sendMessage(checkData?.data?.data?._id, data)
+      return sendMessage(conversationData?.data?.data?._id, data)
     },
     {
       onSuccess: res => {
@@ -188,7 +172,7 @@ const Product = () => {
       },
       onError: err => {
         toast({
-          title: `"Oops...`,
+
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 3000,
@@ -201,8 +185,7 @@ const Product = () => {
 
   const handleSendMessage = () => {
     if (text && !isChecking) {
-      console.log('checkData?.data?.data', checkData?.data?.data)
-      if (!checkData?.data?.data) {
+      if (!conversationData?.data?.data) {
         startNewUserConversationMutation.mutate({
           recipientId: sellerId,
           content: text,
@@ -452,8 +435,6 @@ const Product = () => {
                     <Button
                       mt='20px'
                       onClick={() => setMsgReady(!msgReady)}
-                      // isLoading={sendMessageMutation.isLoading}
-                      // disabled={sendMessageMutation.isLoading}
                       borderRadius='full' bg='#2B2D42'
                       w='full' h='55px' color='white'
                     >Message Creator</Button>

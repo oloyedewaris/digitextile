@@ -25,7 +25,6 @@ import EmptyState from '../empty-state';
 const Navbar = ({ }) => {
   const { authState } = useContext(GlobalContext)
   const loggedIn = authState.isAuthenticated
-  console.log('authState', authState?.user?.role);
   const userRole = authState?.user?.role;
   const router = useRouter();
   const drawerModal = useDisclosure();
@@ -66,7 +65,6 @@ const Navbar = ({ }) => {
       >
         <HStack spacing={'40px'}>
           <Menu>
-            {console.log('userRole', userRole)}
             <Link href={userRole === 'creator' ? '/store' : userRole === 'consumer' ? '/' : '/admin'}>
               <Image
                 cursor={'pointer'}

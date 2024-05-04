@@ -32,7 +32,7 @@ const RegisterConsumer = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -66,7 +66,7 @@ const RegisterConsumer = () => {
     onSubmit: values => {
       if (!formik.values.terms)
         return toast({
-          title: `"Oops...`,
+
           description: `Please agree to the terms and conditions`,
           status: "error",
           duration: 3000,

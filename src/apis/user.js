@@ -29,3 +29,8 @@ export const fetchCreatorProfile = async (id) => {
     const res = await axiosInstance.get(`/users/creator/profile/${id}`)
     return (res)
 }
+
+export const changeUserPassword = async (data) => {
+    const res = await axiosInstance.get(`/users/change-password`, data)
+    return (res)
+}

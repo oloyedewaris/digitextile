@@ -63,7 +63,7 @@ const Dashboard = () => {
           >
             <Flex justify={'space-between'} align={'center'} w='full'>
               <Text color='#1C1D2C' fontSize={'20px'} fontWeight={500}>Total Views</Text>
-              <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>NA</Text>
+              {/* <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>NA</Text> */}
             </Flex>
             <Text fontSize={'32px'} fontWeight={500} color='#1C1D2C'>{insightData?.viewsCount}</Text>
           </Flex>

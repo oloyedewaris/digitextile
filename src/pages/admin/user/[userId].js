@@ -33,7 +33,7 @@ const User = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -56,7 +56,7 @@ const User = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -107,7 +107,10 @@ const User = () => {
                   Email verification status:
                   {userData?.isVerified ? <Text as='span' color='#009900'> Verified</Text> : <Text as='span' color='#EF233C'> Not Verified</Text>}
                 </Text>
-                {console.log('userData', userData)}
+                <Text my={{ base: '12px', md: '24px' }}>
+                  User role:
+                  <Text color='#009900' as='span'> {userData?.role}</Text>
+                </Text>
                 {userData?.role === 'creator' && (
                   <>
                     {userData?.isApproved ? (
@@ -147,9 +150,12 @@ const User = () => {
 
             {userData?.business?.cacNumber && (
               <Box mx='auto'>
+                {console.log('userData', userData)}
                 <Text fontSize={{ base: '18px', md: '24px' }} fontWeight={500} mt={{ base: '15px', md: '20px' }}>Business Details</Text>
-                <Text my={{ base: '7px', md: '10px' }}><strong>Business Name:</strong> {userData?.business?.name} </Text>
-                <Text my={{ base: '7px', md: '10px' }}><strong>Business Address:</strong> {userData?.business?.address} </Text>
+                {/* <Text my={{ base: '7px', md: '10px' }}><strong>Business Name:</strong> {userData?.business?.name} </Text>
+                <Text my={{ base: '7px', md: '10px' }}><strong>Business Address:</strong> {userData?.business?.address} </Text> */}
+                <Text my={{ base: '7px', md: '10px' }}><strong>Identification Type:</strong> {userData?.identificationType}</Text>
+                <Text my={{ base: '7px', md: '10px' }}><strong>Identification Number:</strong> {userData?.identificationNumber}</Text>
                 <Text my={{ base: '7px', md: '10px' }}><strong>CAC Number:</strong> {userData?.business?.cacNumber}</Text>
                 <Text my={{ base: '7px', md: '10px' }}><strong>CAC certificate:</strong> </Text>
                 <Image

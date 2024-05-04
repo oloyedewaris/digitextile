@@ -75,7 +75,7 @@ const CompleteRegistration = () => {
     },
     onError: (err) => {
       toast({
-        title: `"Oops...`,
+
         description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
         status: "error",
         duration: 5000,
@@ -99,6 +99,7 @@ const CompleteRegistration = () => {
   const formik = useFormik({
     validationSchema: formSchema,
     initialValues: {
+      file: null,
       phone: '',
       address: '',
       country: '',
@@ -116,9 +117,9 @@ const CompleteRegistration = () => {
       formData.append('businessAddress', values.businessAddress)
       formData.append('identificationType', values.identificationType)
       formData.append('identificationNumber', values.identificationNumber)
+      formData.append('identificationDocument', values.file)
       formData.append('role', 'creator')
       formData.append('file', values.file)
-      console.log('values', values)
       return mutate(formData)
     }
   })

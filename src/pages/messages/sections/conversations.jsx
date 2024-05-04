@@ -1,16 +1,5 @@
-import { Box, Center, Divider, Flex, HStack, Image, Input, InputGroup, InputRightAddon, SimpleGrid, Skeleton, Spinner, Text, VStack } from '@chakra-ui/react'
-import React, { useContext } from 'react';
-import Button from '@/components/button';
-import { BiPlus } from 'react-icons/bi';
-import FormSelect from '@/components/form/FromSelect';
-import searchIcon from '@/assets/images/search-icon.png'
-import MyListingCard from '@/components/card/MyListingCard';
-import Link from 'next/link';
-import { useQuery } from 'react-query';
-import EmptyState from '@/components/empty-state';
-import { GlobalContext } from '@/context/Provider';
-import { extended } from '@/constant/messages';
-import { CheckIcon } from '@chakra-ui/icons';
+import { Box, Center, Divider, Flex, Image, Spinner, Text, VStack } from '@chakra-ui/react'
+import React from 'react';
 import avatar from '@/assets/images/avatar.png'
 import ReactTimeAgo from 'react-time-ago';
 import { useRouter } from 'next/router';

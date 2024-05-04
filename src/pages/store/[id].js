@@ -104,13 +104,13 @@ const MyStore = () => {
             </InputLeftAddon>
           </InputGroup>
 
-          <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
+          {/* <Flex my={{ base: '20px', md: '40px' }} gap={{ base: '10px' }} align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} justify={'space-between'}>
             <Flex gap={{ base: '6px', md: '16px' }}>
               <FilterCategory />
               <FilterSection />
               <FilterDate />
             </Flex>
-          </Flex>
+          </Flex> */}
 
           <Skeleton isLoaded={!creatorProfileQuery?.isLoading}>
             <SimpleGrid columns={{ base: '2', md: '3' }} columnGap={{ base: '10px', md: '10px' }} rowGap={{ base: '15px', md: '30px' }}>

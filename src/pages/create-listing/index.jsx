@@ -67,7 +67,7 @@ const CreateListing = () => {
       },
       onError: (err) => {
         toast({
-          title: `"Oops...`,
+
           description: `${err.response?.data?.message || 'Something went wrong, try again'}`,
           status: "error",
           duration: 3000,
@@ -450,6 +450,7 @@ const CreateListing = () => {
                   <Select
                     border={'none'}
                     _focus={{ border: 'none' }}
+                    placeholder='Please selecta categories for this listing'
                     onChange={(e) => formik.setFieldValue('categories', [...formik.values.categories, e.target.value])}
                   >
                     {fetchedCategories?.map(cat => (
