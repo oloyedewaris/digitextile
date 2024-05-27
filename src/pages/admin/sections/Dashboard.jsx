@@ -37,7 +37,7 @@ const AdminDashboard = () => {
             >
               <Flex justify={'space-between'} align={'center'} w='full'>
                 <Text color='#1C1D2C' fontSize={{ base: '13px', md: '20px' }} fontWeight={500}>All Users</Text>
-                <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>+12%</Text>
+                {/* <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>+12%</Text> */}
               </Flex>
               <Text fontSize={'32px'} fontWeight={500} color='#1C1D2C'>{users?.length}</Text>
             </Flex>
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
             >
               <Flex justify={'space-between'} align={'center'} w='full'>
                 <Text color='#1C1D2C' fontSize={'20px'} fontWeight={500}>Blocked Users</Text>
-                <Text fontSize={'12px'} fontWeight={500} color='#EF233C'>+12%</Text>
+                {/* <Text fontSize={'12px'} fontWeight={500} color='#EF233C'>+12%</Text> */}
               </Flex>
               <Text fontSize={'32px'} fontWeight={500} color='#1C1D2C'>{blockedUsers?.length}</Text>
             </Flex>
@@ -67,7 +67,7 @@ const AdminDashboard = () => {
             >
               <Flex justify={'space-between'} align={'center'} w='full'>
                 <Text color='#1C1D2C' fontSize={'20px'} fontWeight={500}>Verified Users</Text>
-                <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>+12%</Text>
+                {/* <Text fontSize={'12px'} fontWeight={500} color='#08AD36'>+12%</Text> */}
               </Flex>
               <Text fontSize={'32px'} fontWeight={500} color='#1C1D2C'>{verifiedUsers?.length}</Text>
             </Flex>
