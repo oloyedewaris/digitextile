@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const BACKEND_URL = 'https://0a84-196-27-128-5.ngrok-free.app';
-const BACKEND_URL = 'https://test-wb-1f446534f6a9.herokuapp.com/';
+const BACKEND_URL = 'https://dg-core-backend-production.up.railway.app/';
+// const BACKEND_URL = 'https://test-wb-1f446534f6a9.herokuapp.com/';
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
