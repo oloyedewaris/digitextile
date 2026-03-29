@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = "https://digitextile-backend-006562797094.herokuapp.com/";
+const BACKEND_URL = "https://digitextile-7ca9ac7f7cd0.herokuapp.com/";
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
